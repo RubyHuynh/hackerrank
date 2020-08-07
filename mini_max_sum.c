@@ -18,6 +18,7 @@ void miniMaxSum(int arr_count, int* arr) {
     uint64_t curRs = 0;
     int i = 0;
     int j = 0;
+    // O(n^2)
     for (i; i < arr_count; ++i) {
         curRs = 0;
         for (j = 0; j < arr_count; ++j) {
@@ -30,6 +31,20 @@ void miniMaxSum(int arr_count, int* arr) {
         }
         if (curRs < minRs) {
             minRs = curRs;
+        }
+    }
+    
+    // O(n)
+    for (i; i < arr_count; ++i) {
+        curRs += arr[i];
+    }
+    for (i = 0; i < arr_count; ++i) {
+        uint64_t temp = curRs - arr[i];
+        if (tempRs > maxRs) {
+            maxRs = tempRs;
+        }
+        if (tempRs < minRs) {
+            minRs = tempRs;
         }
     }
     printf("%lld %lld\n", minRs, maxRs);
