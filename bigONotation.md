@@ -1,3 +1,12 @@
+# Here is the formal mathematical definition of Big O.
+
+    Let T(n) and f(n) be two positive functions. We write T(n) ∊ O(f(n)), and say that T(n) has order of f(n), if there are positive constants M and n₀ such that T(n) ≤ M·f(n) for all n ≥ n₀. 
+
+In essence:
+
+    T(n) ∊ O(f(n)) means that T(n) doesn't grow faster than f(n). 
+
+
 # Key takeaways
 
 When analyzing algorithms you often come across the following time complexities.
