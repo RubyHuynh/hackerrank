@@ -21,6 +21,21 @@ Complexity
 Θ(n!) 	
 O(n log n) is really good
 
+```
+▪ A logarithmic algorithm – O(logn)
+Runtime grows logarithmically in proportion to n.
+▪ A linear algorithm – O(n)
+Runtime grows directly in proportion to n.
+▪ A superlinear algorithm – O(nlogn)
+Runtime grows in proportion to n.
+▪ A polynomial algorithm – O(nc)
+Runtime grows quicker than previous all based on n.
+▪ A exponential algorithm – O(cn)
+Runtime grows even faster than polynomial algorithm based on n.
+▪ A factorial algorithm – O(n!)
+Runtime grows the fastest and becomes quickly unusable for even
+small values of n. 
+```
 ## The first four complexities indicate an excellent algorithm. An algorithm with worst-case time complexity W(n) ∊ O(n log n) scales very well, since logarithms grow very slowly.
 
         log2 1,000 ≈ 10
@@ -53,3 +68,30 @@ T(n) = 3n3 + 2n + 7 ∊ Θ(n3)
     If n ≥ 1, then T(n) = 3n3 + 2n + 7 ≤ 3n3 + 2n3 + 7n3 = 12n3. Hence T(n) ∊ O(n3).
     On the other hand, T(n) = 3n3 + 2n + 7 > n3 for all positive n. Therefore T(n) ∊ Ω(n3).
     And consequently T(n) ∊ Θ(n3).
+    
+# Algorithmic Examples of Runtime Analysis:
+```
+Logarithmic algorithm – O(logn) – Binary Search.
+▪ Linear algorithm – O(n) – Linear Search.
+▪ Superlinear algorithm – O(nlogn) – Heap Sort, Merge Sort.
+▪ Polynomial algorithm – O(n^c) – Strassen’s Matrix Multiplication, Bubble Sort, Selection Sort, Insertion Sort, Bucket Sort.
+▪ Exponential algorithm – O(c^n) – Tower of Hanoi.
+▪ Factorial algorithm – O(n!) – Determinant Expansion by Minors, Brute force Search algorithm for Traveling Salesman Problem. 
+```
+```
+Ideal algorithm - O(1) - Linear Search, Binary Search,
+    Bubble Sort, Selection Sort, Insertion Sort, Heap Sort, Shell Sort.
+▪ Logarithmic algorithm - O(log n) - Merge Sort.
+▪ Linear algorithm - O(n) - Quick Sort.
+▪ Sub-linear algorithm - O(n+k) - Radix Sort.
+```
+## Math
+```
+If n = 10,                  If n=20,
+    log(10) = 1;                log(20) = 2.996;
+    10 = 10;                    20 = 20;
+    10log(10)=10;               20log(20)=59.9;
+    102=100;                    202=400;
+    210=1024;                    220=1048576;
+    10!=3628800;                20!=2.432902e+1818;
+```
