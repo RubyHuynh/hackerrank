@@ -95,3 +95,49 @@ If n = 10,                  If n=20,
     210=1024;                    220=1048576;
     10!=3628800;                20!=2.432902e+1818;
 ```
+
+# Sample
+```
+int g(int k) {
+  int i=0;
+
+  while(k>0) {
+    i += k;
+    k= k/2;
+  }
+
+  return i;
+}
+
+int f(int n) {
+  int m = 0;
+
+  for (int i=0; i<n; ++i) {
+    for (int j=i; j<n; ++j) {
+      m += g(j);
+    }
+  }
+
+  return m;
+}
+```
+As, the function g's complexity depends on the parameter k (logarithmic), you have to consider it while calling it from function f. In case, if g's worst case operation has constant time complexity, then you may not need to consider it explicitly.
+
+In this case, f's complexity is O(n2) & g's complexity is O(lg(n)), yielding an overall complexity of O(n2lg(n))
+
+
+# multi loops
+Nested loops means that the outer loop will execute the inner one completely for each iteration (of the outer). This means O(n^2) in your case, because for each i from 0 to n we do n operations.
+```
+i = 0 => inner loop runs n iterations
+i = 1 => inner loop runs n iterations
+...
+i = n - 1 => inner loop runs n iterations
+```
+n iterations n times means n^2 total iterations, so O(n^2).
+
+2 loops without nesting will each iterate n times, for a total of 2n times. Big-oh ignores constants, so 2n = O(n).
+
+Since they are not nested, the number of times each one runs will not depend on the other. So you add the number of iterations, not multiply them.
+
+
