@@ -140,4 +140,5 @@ n iterations n times means n^2 total iterations, so O(n^2).
 
 Since they are not nested, the number of times each one runs will not depend on the other. So you add the number of iterations, not multiply them.
 
-
+A nested loop followed by a non-nested loop
+= O(max(O(n), O(n^2)))
