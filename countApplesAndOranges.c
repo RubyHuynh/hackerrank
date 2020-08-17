@@ -17,18 +17,20 @@ void countApplesAndOranges(int s, int t, int a, int b, int apples_count, int* ap
     int aplCnt = 0;
     int orgCnt = 0;
 
-    for (i; i < apples_count; ++i) {
-        tmp = apples[i] + a;
-        if (s <= tmp && tmp <= t) {
-            ++aplCnt;
+    while (i < apples_count || i < oranges_count) {
+        if (i < apples_count) {
+            tmp = apples[i] + a;
+            if (s <= tmp && tmp <= t) {
+                ++aplCnt;
+            }
         }
-    }
-
-    for (i = 0; i < oranges_count; ++i) {
-        tmp = oranges[i] + b;
-        if (s <= tmp && tmp <= t) {
-            ++orgCnt;
+        if (i < oranges_count) {
+            tmp = oranges[i] + b;
+            if (s <= tmp && tmp <= t) {
+                ++orgCnt;
+            }
         }
+        ++i;
     }
     printf("%d\n%d\n", aplCnt, orgCnt);
 }
