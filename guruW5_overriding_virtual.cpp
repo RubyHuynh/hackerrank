@@ -42,6 +42,21 @@
         pb->g();
 
         delete pb; // partial destructor, ~base not virtual
+        
+        
+        // CONST playing
+        int a = 0;
+        int* const pa = &a; 
+        *pa = 7;
+        // cannot pa = NULL;
+        const int u = 0;
+        const int* pu = &u; 
+        pu = NULL;
+        //cannot *pu = 9;
+    
+        const int* const puu = &u; 
+        // cannot puu = NULL;
+        // cannot *puu = 9;
     }
     
     
