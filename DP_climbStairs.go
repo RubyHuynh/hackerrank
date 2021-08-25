@@ -44,4 +44,4 @@ func TestClimStairs(t *testing.T) {
     prog.go:35: [OK] (04 floors, 4) = 5 want 5
 --- PASS: TestClimStairs (0.00s)
 PASS
-*/
+*/ 
