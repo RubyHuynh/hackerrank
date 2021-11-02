@@ -1,0 +1,9 @@
+language: c
+sudo: false
+script:
+	- clang -coverage -O0 1.6_rotate_NxN_90o.c 
+	- ./a.out
+	- gcov 1.6_rotate_NxN_90o.c
+
+after_success:
+	- bash < (curl -s https://codecov.io.bash)
