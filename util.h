@@ -1,3 +1,11 @@
+/* compile debug log */
+#ifdef TEMO
+	#define DEBUG(X) X
+#else
+	#define DEBUG(X)
+#endif
+
+/* time measure */
 #define TM_INIT\
 	struct timeval time_start, time_end; double time_taken;
 
