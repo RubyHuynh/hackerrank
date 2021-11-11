@@ -5,9 +5,9 @@
  * O(n) time, O(n) space
  * O(n^2) time no space
  * */
-List* func1(List* list) {
-	List* p1 = NULL, *ret = NULL;
-	List* p2 = NULL, *tmp = NULL;
+Node* func1(Node* list) {
+	Node* p1 = NULL, *ret = NULL;
+	Node* p2 = NULL, *tmp = NULL;
 	int i = 0, cnt = 0;
 	TM_INIT
 	TM_START(__func__)
@@ -44,21 +44,21 @@ _done:
 
 int main() {
 	int i = 0, val = 0;
-	List* list = NULL, *list2 = NULL, *tmp = NULL;
+	Node* list = NULL, *list2 = NULL, *tmp = NULL;
 	srand(time(NULL));
 	while (i++ < 45) {
 		val = rand() % (300 + 1 - 0) + 0;
 		add(&list, val);
 	}
-	List* lo = (List*) malloc(sizeof(List));
+	Node* lo = (Node*) malloc(sizeof(Node));
 	lo->val = 1;
-	lo->next = (List*) malloc(sizeof(List));
+	lo->next = (Node*) malloc(sizeof(Node));
 	lo->next->val = 2;
-	lo->next->next =  (List*) malloc(sizeof(List));
+	lo->next->next =  (Node*) malloc(sizeof(Node));
 	lo->next->next->val = 3;
-	lo->next->next->next =  (List*) malloc(sizeof(List));
+	lo->next->next->next =  (Node*) malloc(sizeof(Node));
 	lo->next->next->next->val = 4;
-	lo->next->next->next->next =  (List*) malloc(sizeof(List));
+	lo->next->next->next->next =  (Node*) malloc(sizeof(Node));
 	lo->next->next->next->next->val = 5;
 	tmp = list->next;
 	list->next = lo;

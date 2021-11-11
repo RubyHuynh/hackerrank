@@ -1,6 +1,6 @@
 #include "../util.h"
 
-typedef struct _Tower {
+typedef struct Tower {
 	Stack		disks;
 	int 		id;
 	

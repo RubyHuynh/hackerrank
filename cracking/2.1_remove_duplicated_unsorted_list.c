@@ -5,8 +5,8 @@
  * O(n) given instant lookup on O(n) arr/hash space
  * O(n^2) when no space
  * */
-bool func1(List* list) {
-	List* cur, *tmp;
+bool func1(Node* list) {
+	Node* cur, *tmp;
 	int i = 0;
 	bool ret = false;
 	TM_INIT
@@ -37,8 +37,8 @@ _done:
 	return ret;
 }
 
-bool func2(List* list) {
-	List* cur, *tmp;
+bool func2(Node* list) {
+	Node* cur, *tmp;
 	int* arr = NULL;
 	int i = 0;
 	bool ret = false;
@@ -75,7 +75,7 @@ _done:
 
 int main() {
 	int i = 0, val = 0;
-	List* list = NULL, *list2 = NULL;
+	Node* list = NULL, *list2 = NULL;
 	srand(time(NULL));
 	while (i++ < 45) {
 		val = rand() % (300 + 1 - 0) + 0;

@@ -6,8 +6,8 @@
  * O(1n) + O(n) space as array
  * O(1n) create a gap, using 2 pointer 
  * */
-bool func1(List* list, int nth) {
-	List* cur, *tmp;
+bool func1(Node* list, int nth) {
+	Node* cur, *tmp;
 	int des = nth;
 	int i = 0;
 	bool ret = false;
@@ -38,8 +38,8 @@ _done:
 	return ret;
 }
 
-bool func2(List* list, int nth) {
-	List* cur, *tmp;
+bool func2(Node* list, int nth) {
+	Node* cur, *tmp;
 	int des = 0;
 	int n = 0;
 	int i = 0;
@@ -76,7 +76,7 @@ _done:
 
 int main() {
 	int i = 0, val = 0;
-	List* list = NULL, *list2 = NULL;
+	Node* list = NULL, *list2 = NULL;
 	srand(time(NULL));
 	while (i++ < 45) {
 		val = rand() % (300 + 1 - 0) + 0;
