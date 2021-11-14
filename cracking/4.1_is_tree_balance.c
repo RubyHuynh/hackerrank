@@ -15,6 +15,6 @@ int main() {
 	dumpLRC(tree, true);
 	printf("\nsearch:\n");
 	scanf("%d", &val);
-	dfs(tree, val);
 	bfs(tree, val);
+	isBalance(tree);
 }

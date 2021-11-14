@@ -199,6 +199,31 @@ Tree* bfs(Tree* tree, int val) {
 	return ret;
 }
 
+int max(int x, int y) {
+	return x > y ? x :y;
+}
+
+int min(int x, int y) {
+	return x < y ? x : y;
+}
+
+int mxDepth(Tree* tree) {
+	if (!tree) return 0;
+	return 1 + max(mxDepth(tree->left), mxDepth(tree->right));
+}
+
+int mnDepth(Tree* tree) {
+	if (!tree) return 0;
+	return 1 + min(mnDepth(tree->left), mnDepth(tree->right));
+}
+
+bool isBalance(Tree* tree) {
+	int mx = mxDepth(tree);
+	int mn = mnDepth(tree);
+	printf("\t%s mx(%d) mn(%d)\n", __func__, mx, mn);
+       	return mx - mn <= 1 ? true : false;
+}
+
 /* compile debug log */
 #ifdef TEMO
 	#define DEBUG(X) X
