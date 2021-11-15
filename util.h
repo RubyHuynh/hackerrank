@@ -224,6 +224,54 @@ bool isBalance(Tree* tree) {
        	return mx - mn <= 1 ? true : false;
 }
 
+/*         GRAPH       */
+void dumpGr(int *ar, int sz) {
+	int (*arr)[sz] = (int (*)[7])ar;
+	int i = 0, j;
+	while (i < sz) {
+		j = 0;
+		while (j < sz) {
+			printf("%d\t", arr[i][j]);
+			++j;
+		}
+		++i;
+		printf("\n");
+	}
+}
+
+typedef struct Point {
+	int 		x;
+	int 		y;
+} Point;
+
+int routeGr(int* ar, int sz, int s, int d) {
+	Stack paths = {};
+	int (*arr)[sz] = (int (*)[7])ar;
+	Node* item = NULL;
+	Point p = {d, d};
+	int weight = 0;
+	int j = 0;
+
+	queue(&paths, &p);
+	while ((item = pop(&paths))) {
+		Point* val = (Point*) item->p;
+		if (val->x == s && val->y == s) {
+			printf("found route with weight %d\n", weight);
+			return weight;
+		}
+		for (j = 0; j < val->x; ++j) {
+			if (arr[j][val->x] > 0) {
+				Point* tmp = (Point*) malloc (sizeof(Point));
+				tmp->x = tmp->y = j;
+				queue(&paths, tmp);
+				printf("\t can reach (%d) through (%d)\n", val->x, j);
+			}
+		}
+		printf("\n");
+	}
+	return 0;
+}
+
 /* compile debug log */
 #ifdef TEMO
 	#define DEBUG(X) X
