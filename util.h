@@ -1,3 +1,7 @@
+
+
+
+
 #include<stdlib.h>
 #include<stdio.h>
 #include<stdbool.h>
@@ -5,6 +9,14 @@
 #include<sys/time.h>
 #include<time.h>
 #include<math.h>
+
+void dumpArr(int* arr, int sz) {
+ 	int i = 0;
+	for (; i < sz; ++i) {
+		printf("%d \t", arr[i]);
+	}
+	printf("\n");
+}
 
 /* LINKED LIST */
 typedef struct _Node {
@@ -224,6 +236,14 @@ bool isBalance(Tree* tree) {
        	return mx - mn <= 1 ? true : false;
 }
 
+void buildTree(int* arr, int start, int stop, Tree* tree) {
+	int sz = stop + start;
+	int mid = sz/ 2;
+	if (start > stop) return;
+	insert(&tree, arr[mid]);
+	buildTree(arr, start, mid - 1, tree);
+	buildTree(arr, mid + 1, stop, tree);
+}
 /*         GRAPH       */
 void dumpGr(int *ar, int sz) {
 	int (*arr)[sz] = (int (*)[7])ar;
