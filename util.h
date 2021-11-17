@@ -115,6 +115,7 @@ typedef struct Tree {
 	int 			val;
 	struct Tree*		left;
 	struct Tree*		right;
+	struct Tree*		parent;
 } Tree;
 
 void insert(Tree** tree, int val) {
@@ -129,6 +130,7 @@ void insert(Tree** tree, int val) {
 				       tmp = tmp->left;
 			       	}
 		 		else {
+					item->parent = tmp;
 					tmp->left = item;
 					break;
 				}
@@ -138,6 +140,7 @@ void insert(Tree** tree, int val) {
 				       tmp = tmp->right;
 			       	}
 		 		else {
+					item->parent = tmp;
 					tmp->right = item;
 					break;
 				}
@@ -223,7 +226,7 @@ Tree* bfs(Tree* tree, int val) {
 		if (left) queue(&q, left);
 		if (right) queue(&q, right);
 	}
-	return ret;
+	return NULL;
 }
 
 int max(int x, int y) {
@@ -301,6 +304,44 @@ void buildList(Tree* tree, Node** ret) {
 		}
 		lvl++;
 	}
+
+}
+
+Tree* inorderSuccessor(Tree* tree, int val) {
+	Tree* node = bfs(tree, val);
+	Tree* tmp;
+	if (node) {
+
+		if (!node->parent || node->right) {
+			tmp = node->right;
+_mostLeft:
+			printf("\n\t to find most left\n");
+			while (tmp && tmp->left) {
+				tmp = tmp->left;
+			}
+_done:
+			if (tmp) {
+				printf("found %d\n", tmp->val);
+			}
+			else {
+				printf("not found any \n");
+			}
+			return tmp;
+		}
+
+		/* until node is not the right hand */
+		while ((tmp = node->parent)) {
+			printf("\n\tchecking parent left & right\n");
+			if (tmp->left == node) {
+				break;
+			}
+			printf("\n\tclimb up 1 lvl\n");
+			node = tmp; /* climb up */
+		}
+		goto _done;
+	}
+	printf("no such node\n");
+	return NULL;
 
 }
 /*         GRAPH       */
