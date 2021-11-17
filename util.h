@@ -26,6 +26,21 @@ typedef struct _Node {
         struct _Node*           next;
 } Node;
 
+void addP(Node** list, void* val) {
+        Node* tmp = *list;
+        Node* item = (Node*) calloc(1, sizeof(Node));
+        if (tmp) {
+                item->sz = tmp->sz;
+                item->next = tmp;
+        }
+        else {
+                item->sz = (int*) calloc(1, sizeof(int));
+        }
+        item->p = val;
+        (*(item->sz))++;
+        *list = item;
+}
+
 void add(Node** list, int val) {
         Node* tmp = *list;
         Node* item = (Node*) calloc(1, sizeof(Node));
@@ -243,6 +258,50 @@ void buildTree(int* arr, int start, int stop, Tree* tree) {
 	insert(&tree, arr[mid]);
 	buildTree(arr, start, mid - 1, tree);
 	buildTree(arr, mid + 1, stop, tree);
+}
+
+void buildList(Tree* tree, Node** ret) {
+	int lvl = 0;
+	
+	if (!tree) return;
+	printf("\nBuilding list[%d]\n\t%d\n", lvl, tree->val);
+	addP(&ret[lvl], tree);
+	while (1) {
+		int i = 0, j = 0;
+		bool next = false;
+		Node* maybe;
+		for (; i < (ret[lvl] ? *ret[lvl]->sz : 0); i++) {		
+			Node* cu = ret[lvl];
+			printf("\nBuilding list[%d]\n", lvl+1);
+			j = 0;
+			while (cu) {
+				if (i == j++){
+					printf("\t i=%d:", i);
+					break;
+				}
+				cu = cu->next;
+			}
+			if (cu) {
+				Tree* cur = (Tree*) cu->p;
+				if (cur->left) {
+					addP(&ret[lvl+1], cur->left);
+					printf("\t%d \t", cur->left->val);
+				}
+				if (cur->right) {
+					addP(&ret[lvl+1], cur->right);
+					printf("\t %d \t", cur->right->val);
+				} 
+				next = true;
+
+			}
+		}
+		if (!next) {
+			printf("finished\n");
+			break;
+		}
+		lvl++;
+	}
+
 }
 /*         GRAPH       */
 void dumpGr(int *ar, int sz) {
