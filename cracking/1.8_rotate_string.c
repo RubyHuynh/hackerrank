@@ -25,7 +25,7 @@ bool func1(char* ss1, char* ss2) {
 	if (!strstr(s1, s2)) goto _done;
 	ret = true;	
 _done:
-	TM_END(__func__)
+	TM_STOP(__func__)
 	printf("\t %s\n", ret ? "YES" : "NO");
 	return ret;
 }
@@ -50,7 +50,7 @@ bool func2(char* ss1, char* ss2) {
 	s2[start-ss2] = '\0';
 	if (strstr(ss1,start) && strstr(ss1, s2)) ret = true;
 _done:
-	TM_END(__func__)
+	TM_STOP(__func__)
 	printf("\t %s\n", ret ? "YES" : "NO");
 	return ret;
 }

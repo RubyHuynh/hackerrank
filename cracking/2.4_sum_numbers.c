@@ -34,7 +34,7 @@ Node* func1(Node* list1, Node* list2) {
 		sum/=10;
 	}
 _done:
-	TM_END(__func__)
+	TM_STOP(__func__)
 	dump(ret);
 	return ret;
 }
@@ -57,7 +57,7 @@ Node* func2(Node* list1, Node* list2) {
 		list2 = list2 ? list2->next : NULL;
 	}
 _done:
-	TM_END(__func__)
+	TM_STOP(__func__)
 	dump(ret);
 	return ret;
 }
@@ -76,7 +76,7 @@ int func3(Node* list1, Node* list2, Node** ret, int carry) {
 	carry = sum / 10;
 	add(ret, val);
 	dump(*ret);
-	TM_END(__func__)
+	TM_STOP(__func__)
 	return func3(list1 ? list1->next : NULL, list2 ? list2->next : NULL, ret, carry);
 }
 
@@ -94,7 +94,7 @@ int main() {
 		TM_INIT
 		TM_START("RECURSIVE")
 		func3(list, list2, &ret, 0);
-		TM_END("RECURSIVE")
+		TM_STOP("RECURSIVE")
 	}
 	return 0;
 }

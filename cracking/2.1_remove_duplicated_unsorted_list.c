@@ -31,7 +31,7 @@ bool func1(Node* list) {
 		i++;
 	}
 _done:
-	TM_END(__func__)
+	TM_STOP(__func__)
 	dump(list);
 	printf("\t %s\n", ret ? "FOUND" : "NOT FOUND");
 	return ret;
@@ -67,7 +67,7 @@ bool func2(Node* list) {
 		cur = cur->next;
 	}
 _done:
-	TM_END(__func__)
+	TM_STOP(__func__)
 	dump(list);
 	printf("\t %s\n", ret ? "FOUND" : "NOT FOUND");
 	return ret;

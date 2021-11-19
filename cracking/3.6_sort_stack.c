@@ -19,7 +19,7 @@ void sort(Stack* stack) {
 		push(&sorted, tmp->val);
 				
 	}
-	TM_END(" ")
+	TM_STOP(" ")
 	dumpStack(&sorted);		
 }
 

@@ -31,7 +31,7 @@ bool is_unique(char* s) {
 	ret = true;
 	printf("\tYES total=%d\n", total);
 _done:
-	TM_END(__func__)
+	TM_STOP(__func__)
 	return ret;
 }
 
@@ -58,7 +58,7 @@ bool is_unique1(char* s) {
 	TM_INIT
 	TM_START(__func__)
 	tmp = sort(s);
-	TM_END(__func__)
+	TM_STOP(__func__)
 	TM_START(__func__)
 	while (i < len) {
 		if (tmp[i] == tmp[i-1]) {
@@ -71,7 +71,7 @@ bool is_unique1(char* s) {
 _done:
 	free(tmp);
 	printf("\tYES\n");
-	TM_END(__func__)
+	TM_STOP(__func__)
 	return ret;
 }
 

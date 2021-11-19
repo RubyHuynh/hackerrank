@@ -10,6 +10,27 @@
 #include<time.h>
 #include<math.h>
 
+/* compile debug log */
+#ifdef TEMO
+	#define DEBUG(X) X
+#else
+	#define DEBUG(X)
+#endif
+
+/* time measure */
+#define TM_INIT\
+	struct timeval time_start, time_end; double time_taken;
+
+#define TM_START(_log)\
+	gettimeofday(&time_start, NULL); \
+	printf("%s ...\n", _log);
+
+#define TM_STOP(_log)\
+	gettimeofday(&time_end, NULL); \
+	time_taken = (time_end.tv_sec - time_start.tv_sec) * 1e6; \
+	time_taken = (time_taken + (time_end.tv_usec - time_start.tv_usec)) * 1e-6; \
+	printf("%s took(%f)\n", _log, time_taken);
+
 void dumpArr(int* arr, int sz) {
  	int i = 0;
 	for (; i < sz; ++i) {
@@ -342,8 +363,131 @@ _done:
 	}
 	printf("no such node\n");
 	return NULL;
-
 }
+
+/* attemp 1: using parent until intersect */
+Tree* commonAncestor(Tree* tree, int v1, int v2) {
+	Tree* node1 = bfs(tree, v1), *p1;
+	Tree* node2 = bfs(tree, v2), *p2;
+
+	if (!node1 || !node2) { 
+		printf("no such node %d or node %d\n", v1, v2);
+		return NULL;
+	}
+	TM_INIT
+	TM_START(__func__)
+	/* cheat: must find depth instead */
+	p1 = node1->parent;
+	p2 = node2->parent;
+	while (p1 && p2) {
+		if (p1 == p2) {
+			printf("found %d\n", p1->val);
+			TM_STOP(__func__)
+			return p1;
+		}
+		else {
+			if (p1 == tree || p2 == tree) {
+				printf("found root %d\n", tree->val);
+				TM_STOP(__func__)
+				return tree;
+			}
+			else if (p1->left == p2 || p1->right == p2) {
+				printf("p2 is child of p1, found p1 %d\n", p1->val);
+				TM_STOP(__func__)
+				return p1;
+			}
+			else if (p2->left == p1 || p2->right == p1) {
+				printf("p1 is child of p2, found p2 %d\n", p2->val);
+				TM_STOP(__func__)
+				return p2;
+			}
+		}
+		p1 = p1->parent;
+		p2 = p2->parent;
+	}
+	printf("not found\n");
+	TM_STOP(__func__)
+	return NULL;
+}
+
+
+/* attemp 2: same side or different side, FASTER 0.000005 vs attempt1 0.000023 */
+bool covers(Tree* tree, Tree* node) {
+	if (!tree) return false;
+	if (tree == node) return true;
+	return covers(tree->left, node) || covers(tree->right, node);
+}
+
+Tree* _commonAncestor1(Tree* tree, Tree* node1, Tree* node2) {
+	if (covers(tree->left, node1) && covers(tree->left, node2)) {
+		return _commonAncestor1(tree->left, node1, node2);
+	}
+	if (covers(tree->right, node1) && covers(tree->right, node2)) {
+		return _commonAncestor1(tree->right, node1, node2);
+	}
+	return tree;
+}
+
+Tree* commonAncestor1(Tree* tree, int v1, int v2) {
+	Tree* node1 = bfs(tree, v1), *p1;
+	Tree* node2 = bfs(tree, v2), *p2;
+	Tree* ret = NULL;
+
+	if (!node1 || !node2) { 
+		printf("no such node %d or node %d\n", v1, v2);
+		return NULL;
+	}
+	TM_INIT
+	TM_START(__func__)
+	ret = _commonAncestor1(tree, node1, node2);
+	TM_STOP(__func__)
+	return ret;
+}
+
+
+/* attempt 2 */
+
+bool matchTree(Tree* r1, Tree* r2) {
+	if (!r2 && !r1) {
+		printf("\t\t%s nothing left in the subtree \n", __func__);
+		return true;
+	}
+	if (!r1 || !r2) {
+		printf("\t\t%s big tree is empty and not found subtree yet\n", __func__);
+		return false;
+	}
+	if (r1->val != r2->val) {
+		printf("\t\t%s data doesn't match\n", __func__);
+		return false;
+	}
+	printf("\t\t%s ok t1=%d vs t2=%d\n", __func__, r1->val, r2->val);
+	return (matchTree(r1->left, r2->left) && matchTree(r1->right, r2->right));
+}
+
+bool subTree(Tree* r1, Tree* r2) {
+	if (!r1) {
+		printf("\t%s big tree is empty\n", __func__);
+		return false;
+	}
+	if (r1->val == r2->val) {
+		if (matchTree(r1, r2)) {
+			printf("\t%s matched %d\n", __func__, r1->val);
+			return true;
+		}
+	}
+	return (subTree(r1->left, r2) || subTree(r1->right, r2));
+}
+
+bool containTree(Tree* t1, Tree* t2) {
+	if (!t2) {
+		printf("%s empty tree is always subtree\n", __func__);
+		return true;
+	}
+	printf("%s t1=%d t2=%d\n", __func__, t1->val, t2 ? t2->val : -1);
+	return subTree(t1, t2);
+}
+
+
 /*         GRAPH       */
 void dumpGr(int *ar, int sz) {
 	int (*arr)[sz] = (int (*)[7])ar;
@@ -392,23 +536,3 @@ int routeGr(int* ar, int sz, int s, int d) {
 	return 0;
 }
 
-/* compile debug log */
-#ifdef TEMO
-	#define DEBUG(X) X
-#else
-	#define DEBUG(X)
-#endif
-
-/* time measure */
-#define TM_INIT\
-	struct timeval time_start, time_end; double time_taken;
-
-#define TM_START(_log)\
-	gettimeofday(&time_start, NULL); \
-	printf("%s ...\n", _log);
-
-#define TM_END(_log)\
-	gettimeofday(&time_end, NULL); \
-	time_taken = (time_end.tv_sec - time_start.tv_sec) * 1e6; \
-	time_taken = (time_taken + (time_end.tv_usec - time_start.tv_usec)) * 1e-6; \
-	printf("%s took(%f)\n", _log, time_taken);

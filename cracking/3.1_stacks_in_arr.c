@@ -82,7 +82,7 @@ Node* func1(Node* list) {
 			
 	printf("\t %p(%d)\n", ret, ret->val);
 _done:
-	TM_END(__func__)
+	TM_STOP(__func__)
 	printf("\t %s\n", ret ? "FOUND" : "NOT FOUND");
 	return ret;
 }

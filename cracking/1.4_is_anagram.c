@@ -31,7 +31,7 @@ bool func1(char* ss, char* ss1) {
 	}
 	ret = true;
 _done:
-	TM_END(__func__)
+	TM_STOP(__func__)
 	printf("\t%s\n", ret ? "YES" : "NO");
 	return s;
 }
@@ -66,7 +66,7 @@ char* func2(char* ss) {
 	}
 	s[n] = '\0';
 _done:
-	TM_END(__func__)
+	TM_STOP(__func__)
 	printf("\t%s\n", s);
 	return s;
 }

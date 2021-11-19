@@ -38,7 +38,7 @@ char* func1(char* ss) {
 	}
 	s[j] = '\0';
 _done:
-	TM_END(__func__)
+	TM_STOP(__func__)
 	printf("\t%s\n", s);
 	return s;
 }
@@ -72,7 +72,7 @@ char* func2(char* ss) {
 		printf("\t\t %d %s\n", i, ss);
 	}
 _done:
-	TM_END(__func__)
+	TM_STOP(__func__)
 	printf("\t%s\n", ss);
 	return ss;
 }

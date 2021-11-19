@@ -36,7 +36,7 @@ void func1(int arr[5][5], int n) {
 		}
 	}
 _done:
-	TM_END(__func__)
+	TM_STOP(__func__)
 	dump(*ret, n);
 }
 
@@ -72,7 +72,7 @@ void func2(int arr[5][5], int n) {
 		}
 	}
 _done:
-	TM_END(__func__)
+	TM_STOP(__func__)
 	dump(arr, n);
 }
 

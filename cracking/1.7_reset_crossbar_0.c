@@ -49,7 +49,7 @@ void func1(int arr[][5], int m, int n) {
 		}
 	}
 _done:
-	TM_END(__func__)
+	TM_STOP(__func__)
 	dump(arr, m, n);
 }
 
