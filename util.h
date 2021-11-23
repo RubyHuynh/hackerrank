@@ -541,14 +541,23 @@ int routeGr(int* ar, int sz, int s, int d) {
 void dumpBits(size_t const sz, void const * const ptr) {
 	unsigned char* tmp = (unsigned char*) ptr;
 	unsigned char byte;
-	int i, j;
+	int i, j, cnt = 0;
 
 	printf("%s\n", __func__);
+	/*
+	for (i = sz - 1; i >= 0; i--) {
+		for (j = 7; j >= 0; j--) {
+			printf ("%d", j);
+		}
+		printf(" ");
+	}
+	printf("\n");*/
 	for (i = sz - 1; i >= 0; i--) {
 		for (j = 7; j >= 0; j--) {
 			byte = (tmp[i] >> j) & 1;
 			printf ("%u", byte);
 		}
+		printf(" ");
 	}
 	printf("\n");
 }
