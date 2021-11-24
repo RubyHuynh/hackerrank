@@ -72,6 +72,7 @@ int bitSwapCnt(int a, int b) {
 	return cnt;
 }
 
+/* 5.6 */
 int swapOddEven(int x) {
 	int swOdd = x & 0xaaaaaaaa;
 	int swEven = x & 0x55555555;
@@ -93,7 +94,43 @@ int swapOddEven(int x) {
 }
 
 
+/* 5.7 find missing num */
+int getMissingNo(int a[], int n) {
+	int i, total;
 
+	printf("%s\n", __func__);
+	/*n*n+1/g*/
+	total = (n + 1) * (n + 2) / 2;
+	for (i = 0; i < n; i++) {
+		printf("\t arr[%d] %d, total %d\n", i, a[i], total);
+		total -= a[i];
+	}
+	printf("ret = %d\n", total);
+	return total;
+}
+
+/* getMissingNo takes array and size of array as arguments*/
+int getMissingNo1(int a[], int n)
+{
+	int i;
+	int x1 = a[0]; /* For xor of all the elements in array */
+	int x2 = 1; /* For xor of all the elements from 1 to n+1 */
+
+	printf("%s\n", __func__);
+	printf("round1\n");
+	for (i = 1; i < n; i++) {
+		dumpBits(sizeof(x1), &x1);
+		x1 = x1 ^ a[i];
+	}
+	printf("round2\n");
+	for (i = 2; i <= n + 1; i++) {
+		dumpBits(sizeof(x2), &x2);
+		x2 = x2 ^ i;
+	}
+
+	return (x1 ^ x2);
+
+}
 int main() {
 	int x = 1;
 	if(*(char *)&x == 1) {
@@ -109,4 +146,11 @@ int main() {
 	bitSwapCnt(3, 4519);
 
 	swapOddEven(1219231);
+
+	{
+		int a[] = { 1, 2, 4, 5, 6 };
+		int miss = getMissingNo(a, 5);
+		int miss1 = getMissingNo1(a, 5);
+		printf("ret2 %d\n", miss1);
+	}
 }
