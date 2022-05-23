@@ -46,11 +46,19 @@ int parse_int(char*);
  */
 char* caesarCipher(char* s, int k) {
     int i = 0;
-    #define ROTATE(_BEGIN, _END) \
+    int u = k;
+    /* method 1: */
+    #define ROTATE1(_BEGIN, _END) \
         if (s[i] >= _BEGIN && s[i] <= _END) { \
             s[i] = _BEGIN + ((s[i] + k - _BEGIN)%26); \
         }
-        
+       
+    /* method 2: */
+    u = k%26;
+    #define ROTATE(_BEGIN, _END) \
+        if (s[i] >= _BEGIN && s[i] <= _END) { \
+            s[i] = s[i] + u > _END ? s[i] + u - 26 : s[i] + u; \
+        } 
     for (i = 0; i < strlen(s); i++) {
         ROTATE('a', 'z')
         ROTATE('A', 'Z')
