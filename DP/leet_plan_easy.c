@@ -19,6 +19,11 @@ int* countBits(int n, int* returnSize) {
     for(i = 1; i <= n; ++i) {
         rs[i] = rs[i&i-1] + 1;
     }
+ 
+    /* or */
+    /* for(int i = 1; i<=n; ++i)
+            t[i] = t[i/2] + i%2;
+    */
     *returnSize = n+1;
     return rs;
 }
