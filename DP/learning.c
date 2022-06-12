@@ -1,11 +1,30 @@
 #include<stdlib.h>
 #include<stdio.h>
 #include<string.h>
+#include<stdbool.h>
 
 #define LOG(_X) printf("%d\n", _X);
 #define MAX_MAX (5000000 * sizeof(int))
 
 int* _arr;
+
+bool canSum(int target, int* arr, int n, int* memo) {
+	int i;
+	if (target == 0) return true;
+	if (target < 0) return false;
+	if (memo[target]) return memo[target];
+	for (i = 0; i < n; i++) {
+		int remainder = target - arr[i];
+		if (canSum(remainder, arr, n, memo)) {
+			printf("\t %d\n", arr[i]);
+			memo[arr[i]] = true;
+			return true;
+		}
+	}
+ 	memo[target] = false;
+	return false;
+}
+
 
 /*top-down*/
 int fibo(int n, int* memo) {
@@ -60,6 +79,11 @@ int main() {
 	LOG(fibo0(30, _arr));
 	LOG(fibo1(30));
 
-
+	printf("===\n");
+	{
+		int arr[] = {3, 4,5, 25, 1};
+		memset(_arr, 0, MAX_MAX);
+		LOG(canSum(100, arr, 5, _arr))
+	}
 	return 0;
 }
