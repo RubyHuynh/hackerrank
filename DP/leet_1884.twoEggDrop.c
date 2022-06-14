@@ -1,6 +1,31 @@
+#include<limits.h>
 //Egg Drop With 2 Eggs and N Floors
 
-// int twoEggDrop(int n)
+int max(int a, int b) {
+    return a > b ? a : b;
+}
+int _maxFloor = 0;
+
+int eggDrop(int k, int n) {
+    int min = INT_MAX, x, tmp, i;
+
+    if (k == 1|| k == 0) return k;
+    
+    if (n == 1) return k;
+    
+    for (i = 1; i <= k; ++i) {
+        tmp = max(eggDrop(i-1, n-1), eggDrop(k-i, n));
+        if (tmp < min) min = tmp;
+    }
+    
+    return min + 1;
+}
+
+int twoEggDrop(int k) {
+	return eggDrop(k, 2);
+}
+
+// int eggDrop(int n)
 // {
 // 	vector m{0};
 // 	for(auto i{1}; i<=n; ++i) 
@@ -14,7 +39,7 @@
 // }
 // If you change variables j=i-j you can get arguably simpler formula
 
-// int twoEggDrop(int n)
+// int eggDrop(int n)
 // {
 // 	vector m{0};
 // 	for(auto i{1}; i<=n; ++i) 
@@ -25,9 +50,9 @@
 // 		m.push_back(out);
 // 	}
 // 	return m.back();    
-// }
+// }i
 
-// int twoEggDrop(int n)
+// int eggDrop(int n)
 // {
 //     int i = 0;
 // 	int out = 0;
@@ -36,7 +61,7 @@
 // }
 // or maybe like this
 
-// int twoEggDrop(int n)
+// int eggDrop(int n)
 // {
 // 	auto out{0};
 // 	for(auto i{0}; n; --n)
@@ -52,13 +77,20 @@
 
 // image
 
-int twoEggDrop(int n)
-{
-	return (1+sqrt(8.0*n-7))/2;    
-}
+//int eggDrop(int n)
+//{
+//	return (1+sqrt(8.0*n-7))/2;    
+//}
 // also you can use this formula
 
-// int twoEggDrop(int n)
+// int eggDrop(int n)
 // {
 // 	return floor(sqrt(2.0*n) + 0.5);    
 // }
+
+int main() {
+	printf("\n====\n%d floors, %d trials\n", 1, twoEggDrop(1));
+	printf("\n====\n%d floors, %d trials\n", 2, twoEggDrop(2));
+	printf("\n====\n%d floors, %d trials\n", 2, twoEggDrop(3));
+	return 0;
+}
