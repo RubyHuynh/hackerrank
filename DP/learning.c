@@ -2,11 +2,25 @@
 #include<stdio.h>
 #include<string.h>
 #include<stdbool.h>
+#include"../hash.c"
 
 #define LOG(_X) printf("%d\n", _X);
 #define MAX_MAX (5000000 * sizeof(int))
 
 int* _arr;
+char** _arrStr;
+
+
+bool canCompose(const char* target, char** arr, int n) {
+	int i = 0;
+	int idx = hash(target);
+
+	for (i = 0; i < n; i++) {
+		printf("%s-->%d\n", arr[i], jenkins(arr[i], strlen(arr[i])));
+	}
+	return false;
+}
+
 
 int tabGridTraveler(int n, int m) {
 	int table[n+1][m+1];
@@ -127,6 +141,12 @@ int main() {
 		int arr[] = {3, 4,5, 25, 1};
 		memset(_arr, 0, MAX_MAX);
 		LOG(tabCanSum(100, arr, 5))
+	}
+
+	printf("======\n");
+	{
+		char* arr[] = {"ii", "i", "h", "hiff", "ie"};
+		canCompose("hiffie", arr, 5);
 	}
 	return 0;
 }
