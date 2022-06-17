@@ -12,11 +12,40 @@ char** _arrStr;
 
 
 bool canCompose(const char* target, char** arr, int n) {
-	int i = 0;
+	int i = 0, j, k;
 	int idx = hash(target);
-
+	printf("\n");
 	for (i = 0; i < n; i++) {
 		printf("%s-->%d\n", arr[i], jenkins(arr[i], strlen(arr[i])));
+	}
+
+	// tabu
+	{
+		int tabuN = strlen(target) + 1;
+		bool tabu[tabuN];
+		char tmp[tabuN];
+		memset(tabu, 0, sizeof(tabu));
+		tabu[0] = true;
+		for (i = 0; i < tabuN - 1; i++) {
+			printf("\t working on %s\n", &target[i]);
+			if (tabu[i]) {
+				for (j = 0; j < n; j++) {
+					memset(tmp, 0, sizeof(tmp));
+					strncpy(tmp, target + i, strlen(arr[j]));
+					printf("\t\t comparing to %s(%p), rs=%s(%p)\n", arr[j], arr[j], tmp, tmp);
+					if (!strcasecmp(tmp, arr[j])) {
+						tabu[i+strlen(arr[j])] = true;
+						printf("\t\tOK %d", i + strlen(arr[j]));
+						
+					}
+				}
+			}
+		}
+		printf("\t finished\n");
+		for (i = 0; i < tabuN; i++) {
+			printf("%d\t", tabu[i]);
+		}
+		return tabu[tabuN-1];
 	}
 	return false;
 }
@@ -145,8 +174,12 @@ int main() {
 
 	printf("======\n");
 	{
-		char* arr[] = {"ii", "i", "h", "hiff", "ie"};
-		canCompose("hiffie", arr, 5);
+		char* arr[] = {"ab", "abc", "cd", "def", "abcf"};
+		canCompose("abcdef", arr, 5);
+	}
+	{
+		char* arr[] = {"bo", "rd", "ate", "t", "ska", "sk", "boar"};
+		canCompose("skateboard", arr, sizeof(arr)/sizeof(arr[0]));
 	}
 	return 0;
 }

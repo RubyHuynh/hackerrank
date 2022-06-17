@@ -15,7 +15,8 @@ int eggDrop(int k, int n) {
     int eggFloor[n + 1][k + 1];
     int res;
     int i, j, x;
- 
+
+    memset(eggFloor, 0, sizeof(eggFloor)); 
     // We need one trial for one floor and 0
     // trials for 0 floors
     for (i = 1; i <= n; i++) {
@@ -42,7 +43,12 @@ int eggDrop(int k, int n) {
             }
         }
     }
- 
+    for (i = 0; i <= n; i++) {
+	for (j= 0; j<=k; j++) {
+		printf("%d\t", eggFloor[i][j]);
+	}
+	printf("\n");
+    }
     // eggFloor[n][k] holds the result
     return eggFloor[n][k];
 }
@@ -65,6 +71,7 @@ int eggDrop1(int k, int n) {
 int twoEggDrop(int k) {
 	return eggDrop(k, 2);
 }
+
 
 // int eggDrop(int n)
 // {
@@ -133,5 +140,6 @@ int main() {
 	printf("\n====\n%d floors, %d trials\n", 1, twoEggDrop(1));
 	printf("\n====\n%d floors, %d trials\n", 2, twoEggDrop(2));
 	printf("\n====\n%d floors, %d trials\n", 2, twoEggDrop(3));
+	printf("\n====\n%d floors, %d trials\n", 4, eggDrop(4, 4));
 	return 0;
 }
