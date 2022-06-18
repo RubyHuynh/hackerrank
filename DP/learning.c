@@ -10,6 +10,13 @@
 int* _arr;
 char** _arrStr;
 
+/*
+char** bestContruct(const char* target, char** arr, int n) {
+	for (i = 0 ; i < n; i++) {
+		if (
+	}
+}
+*/
 
 bool canCompose(const char* target, char** arr, int n) {
 	int i = 0, j, k;
@@ -19,8 +26,7 @@ bool canCompose(const char* target, char** arr, int n) {
 		printf("%s-->%d\n", arr[i], jenkins(arr[i], strlen(arr[i])));
 	}
 
-	// tabu
-	{
+	if (1) {
 		int tabuN = strlen(target) + 1;
 		bool tabu[tabuN];
 		char tmp[tabuN];
@@ -47,6 +53,7 @@ bool canCompose(const char* target, char** arr, int n) {
 		}
 		return tabu[tabuN-1];
 	}
+	
 	return false;
 }
 
@@ -66,6 +73,74 @@ int tabGridTraveler(int n, int m) {
 	}
 	return table[n][m];
 }
+typedef struct Info {
+	int* arr;
+	int n;
+} Info;
+
+void append(Info* info1, Info* item) {
+	int i;
+	for (i = 0; i < item->n; i++, info1->n++) {
+		info1->arr[info1->n] = item->arr[i];
+//		printf("%s [%d]=%d", __func__, info1->n, info1->arr[info1->n]);
+	}
+	
+}
+
+void append1(Info* info1, int item) {
+	info1->arr[info1->n++] = item;
+}
+
+void clone(Info* info1, Info* item) {
+	int i;
+	
+	//memset(info1->arr, 0, sizeof(int)*info1->n);
+	info1->n=0;
+	
+	for (i = 0; i < item->n; i++, info1->n++) {
+		info1->arr[info1->n] = item->arr[i];
+	}
+}
+void bestSum(int target, int* arr, int n) {
+	Info* tabu[target+1];
+	Info tmp;
+	int i, j,k;
+	
+	memset(tabu, 0, sizeof(tabu));
+	tabu[0] = calloc(1, sizeof(Info));
+	
+	for(i = 0; i < target; i++) {
+		for (j = 0; j < n; j++) {
+			if (tabu[i] != NULL && (i+arr[j]) <= target) {
+				memset(&tmp, 0, sizeof(tmp));
+				tmp.arr = calloc(1, sizeof(int)*target);
+				append(&tmp, tabu[i]);
+				append1(&tmp, arr[j]);
+				if (!tabu[i+arr[j]]) {
+					tabu[i+arr[j]] = calloc(1, sizeof(Info));
+					tabu[i+arr[j]]->arr = calloc(1, sizeof(int)*target);
+					clone(tabu[i+arr[j]], &tmp);
+					printf("\t fresh clone\n");
+				}
+				else {
+					if (tabu[i+arr[j]]->n < tmp.n) {
+						printf("\tshorter, do nothing\n");
+					}
+					else {
+						clone(tabu[i+arr[j]], &tmp);
+						printf("\t wipe clone\n");
+					}
+				}
+			}	
+		}
+	}
+	printf("\tResult is\n\t");
+	for (i =0; i < tabu[target]->n; i++) {
+		printf("%d ", tabu[target]->arr[i]);
+	}
+	return tabu[target];
+}
+
 
 bool tabCanSum(int target, int *arr, int n) {
 	int i, j;
@@ -161,6 +236,7 @@ int main() {
 		int arr[] = {3, 4,5, 25, 1};
 		memset(_arr, 0, MAX_MAX);
 		LOG(canSum(100, arr, 5, _arr))
+		bestSum(100, arr, 5);
 	}
 	printf("=======\n");
 	LOG(tabGridTraveler(5,3))
