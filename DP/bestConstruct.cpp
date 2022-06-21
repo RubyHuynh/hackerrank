@@ -10,7 +10,8 @@ using namespace std;
 
 vector<char*>* howConstruct2(const string target, vector<char*>& arr) {
 	vector<char*>* tabu[target.size() + 1];
-	tabu[0] = new vector<char*>;
+	memset(tabu, 0, sizeof(tabu));
+	tabu[0] = new vector<char*>{};
 
 	for (int i = 0; i < target.size()  + 1; i++) {
 		if (tabu[i]) {
