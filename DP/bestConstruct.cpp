@@ -8,6 +8,29 @@
 using namespace std;
 
 
+
+vector<char*>* bestConstruct(const string target, vector<char*>& arr) {
+	vector<char*>* tabu[target.size() + 1];
+	memset(tabu, 0, sizeof(tabu));
+	tabu[0] = new vector<char*>{};
+
+	for (int i = 0; i < target.size()  + 1; i++) {
+		if (tabu[i]) {
+			for (int j = 0; j < arr.size(); j++) {
+				if (!((target.substr(i)).find(arr[j]))
+					&& (i + strlen(arr[j])) <= target.size()) {
+					if (tabu[i+strlen(arr[j])] && tabu[i+strlen(arr[j])]->size() < (tabu[i]->size() + 1)) {
+						cout << "\tI'm better than you\n";
+						continue;
+					}
+					tabu[i+strlen(arr[j])] = new vector<char*>(*tabu[i]);
+					tabu[i+strlen(arr[j])]->push_back(arr[j]);
+				}
+			}
+		}
+	}
+	return tabu[target.size()];
+}
 vector<char*>* howConstruct2(const string target, vector<char*>& arr) {
 	vector<char*>* tabu[target.size() + 1];
 	memset(tabu, 0, sizeof(tabu));
@@ -114,13 +137,17 @@ bool canConstruct(string& target, vector<char*>& arr) {
 int main() {
 	string target{"abcdef"};
 	vector<char*> arr;
+	arr.push_back("ab");
+	arr.push_back("a");
+	arr.push_back("bcd");
+	arr.push_back("bd");
+	arr.push_back("b");
+	arr.push_back("d");
 	arr.push_back("abcd");
 	arr.push_back("abcd");
-	arr.push_back("abcd");
-	arr.push_back("abcd");
-	arr.push_back("abcd");
-	arr.push_back("abcd");
-	arr.push_back("cdef");
+	arr.push_back("ab");
+	arr.push_back("cd");
+	arr.push_back("c");
 	arr.push_back("ef");
 	arr.push_back("f");
 	
@@ -146,6 +173,13 @@ int main() {
 		cout << "\n\nHOW = ";
 		auto howdy2 = howConstruct2(target, arr);
 		for (auto it = howdy2->begin(); it != howdy2->end(); it++) {
+			cout << *it << " ";
+		}
+
+		
+		cout << "\n\nBEST = ";
+		auto best = bestConstruct(target, arr);
+		for (auto it = best->begin(); it != best->end(); it++) {
 			cout << *it << " ";
 		}
 	}	
