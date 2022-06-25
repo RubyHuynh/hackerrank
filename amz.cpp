@@ -1,8 +1,21 @@
 #include<iostream>
 #include<ostream>
 #include<vector>
+#include<unordered_map>
 
 using namespace std;
+
+bool sumTwo(vector<int> &arr, int n) {
+	unordered_map<int, int> map;
+	for (int i = 0; i < arr.size(); i++) {
+		if (arr[i] == map[n - arr[i]]) {
+			cout << "\t "<< arr[i] << "+" << n -arr[i] << "\n";
+			return true;
+		}
+		map[arr[i]] =  n - arr[i];
+	}
+	return false;
+}
 
 // runtime O(n), space O(1)
 int findMissingNo1(vector<int> &arr, int n) {
@@ -37,5 +50,6 @@ int main() {
 	
 	cout << "findMissingNo(8) " << findMissingNo(arr, 8) << "\n";
 	cout << "findMissingNo1(8) " << findMissingNo1(arr, 8) << "\n";
+	cout << "sumTwo(9) " << sumTwo(arr, 9) << "\n";
 	return 0;
 }
