@@ -3,6 +3,7 @@
 #include<vector>
 #include<list>
 #include<unordered_map>
+#include<queue>
 
 using namespace std;
 
@@ -28,6 +29,53 @@ struct Node {
 	}
 };
 
+struct Tree {
+	int 	val;
+	struct Tree *left;
+	struct Tree *right;
+
+	Tree(int v) : val(v), left(NULL), right(NULL) {};
+
+};
+
+int height(Tree *root) {
+	if (!root) return 0;
+	int lHeight = height(root->left);
+	int rHeight = height(root->right);
+	return lHeight > rHeight ? lHeight + 1 : rHeight + 1;
+}
+
+// O(n), space O(n)
+void _dumpByLvl(Tree *root, int lvl) {
+	if (!root) return;
+	if (lvl == 1) std::cout << root->val << " ";
+	else if (lvl > 1) {
+		_dumpByLvl(root->left, lvl - 1);
+		_dumpByLvl(root->right, lvl - 1);
+	}
+}
+
+// 5. O(n^2)
+void dumpBfs(Tree* root) {
+	int h = height(root);
+	for (int i = 0; i <= h; i++) {
+		_dumpByLvl(root, i);
+	}
+}
+
+// 5. O(n), O(n)
+void dumpBfs1(Tree* root) {
+	queue<Tree*> todo;
+	while (root) {
+		cout << root->val << " ";
+		if (root->left) todo.push(root->left);
+		if (root->right) todo.push(root->right);
+		root = todo.front();
+		todo.pop();
+	}
+}
+
+// 4.
 // TODO reverse
 // O(n)
 Node* deepCopy(Node *list) {
@@ -164,5 +212,20 @@ int main() {
 		cout << cloned->val << " (" << cloned->arbitrary  << ") ";
 		cloned = cloned->next;
 	}
+
+	// 5. BFS tree
+	{
+		cout << "5.Level Order Binary Tree Traversal\n";
+		Tree* root = new Tree(1);
+		root->left = new Tree(2);
+		root->right = new Tree(3);
+		root->left->left = new Tree(4);
+		root->left->right = new Tree(5);
+		dumpBfs(root);
+		cout << "\nanother try\n";
+		dumpBfs1(root);
+	}
+
+	
 	return 0;
 }
