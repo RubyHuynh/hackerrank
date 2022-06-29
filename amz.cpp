@@ -46,6 +46,18 @@ int height(Tree *root) {
 	return lHeight > rHeight ? lHeight + 1 : rHeight + 1;
 }
 
+bool isBst1(Tree *root) {
+	static Tree* prev = NULL;
+	if (root) {
+		if (!isBst1(root->left)) return false;
+		if (prev && root->val <= prev->val) return false;
+		prev = root;
+		return isBst1(root->right);
+	}
+	return true;
+}
+
+
 // O(n) O(n)
 bool isBst(Tree *root, int min, int max) {
 	if (!root) return true;
@@ -238,6 +250,7 @@ int main() {
 	// 6. isbinary serach tree
 		cout << "6. Determine if a binary tree is a binary search tree\n";
 		cout << "\t" << isBst(root, -INT_MAX, INT_MAX) << "\n";
+		cout << "\t" << isBst1(root) << "\n";
 	}
 
 	
