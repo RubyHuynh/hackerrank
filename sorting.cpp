@@ -2,6 +2,7 @@
 #include<ostream>
 #include<stack>
 #include<list>
+#include<vector>
 
 
 class Graph {
@@ -60,7 +61,24 @@ public:
 				
 	}
 };
-
+template<typename T>
+void dump(T &arr) {
+	std::cout << "\n" << __PRETTY_FUNCTION__ << "\n";
+	for (auto it = arr.begin(); it != arr.end(); it++) {
+		std::cout << *it << ", ";
+	}
+}
+// O(n^2), O(1)
+void bubble(std::vector<int> &arr) {
+	std::cout << __func__ << "\n";
+	for (int i = 0; i < arr.size(); i++) {
+		for (int j = i; j < arr.size(); j++) {
+			if (arr[i] > arr[j]) {
+				std::swap(arr[i], arr[j]);
+			}
+		}
+	}
+}
 int main() {
 	Graph g(6);
 	g.addEdge(5, 2);
@@ -71,5 +89,11 @@ int main() {
 	g.addEdge(3, 1);
 	std::cout << "Topological sorting of the given Graph: \n\t";
 	g.topologicalSort();
+
+	std::cout << "\nbubble sort\n";
+	std::vector<int> arr{100,2,4,21,4,12,31, 5};
+	dump(arr);
+	bubble(arr);
+	dump(arr);
 	return 0;
 }
