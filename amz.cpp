@@ -4,6 +4,7 @@
 #include<list>
 #include<unordered_map>
 #include<queue>
+#include<limits.h>
 
 using namespace std;
 
@@ -43,6 +44,15 @@ int height(Tree *root) {
 	int lHeight = height(root->left);
 	int rHeight = height(root->right);
 	return lHeight > rHeight ? lHeight + 1 : rHeight + 1;
+}
+
+// O(n) O(n)
+bool isBst(Tree *root, int min, int max) {
+	if (!root) return true;
+
+	if (root->val < min || root->val > max) return false;
+	
+	return isBst(root->left, min, root->val) && isBst(root->right, root->val, max);
 }
 
 // O(n), space O(n)
@@ -216,14 +226,18 @@ int main() {
 	// 5. BFS tree
 	{
 		cout << "5.Level Order Binary Tree Traversal\n";
-		Tree* root = new Tree(1);
-		root->left = new Tree(2);
-		root->right = new Tree(3);
-		root->left->left = new Tree(4);
+		Tree* root = new Tree(100);
+		root->left = new Tree(4);
+		root->right = new Tree(203);
+		root->left->left = new Tree(2);
 		root->left->right = new Tree(5);
 		dumpBfs(root);
 		cout << "\nanother try\n";
 		dumpBfs1(root);
+
+	// 6. isbinary serach tree
+		cout << "6. Determine if a binary tree is a binary search tree\n";
+		cout << "\t" << isBst(root, -INT_MAX, INT_MAX) << "\n";
 	}
 
 	
