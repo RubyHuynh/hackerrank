@@ -9,6 +9,73 @@
 using namespace std;
 
 
+// 7. O(n^2*m), O(n)
+bool wordBreak(string s, vector<string>& arr) {
+        vector<bool> tabu(s.size() + 1, false);
+        
+        tabu[0] = true;
+        
+        for (int i = 0; i <= s.size(); i++) {
+            for (int j = 0; j < i; j++) {
+                if (tabu[j] 
+                    && find(arr.begin(), arr.end(), s.substr(j, i-j)) != arr.end()) {
+                    tabu[i] = true;
+                    break;
+                }
+                    
+            }
+        }
+        return tabu.back(); 
+}
+
+// 7. memo
+/*
+    unordered_map<string, bool> memo;
+    
+    bool wordBreakHelp(string word, unordered_map<string, bool>& dict)
+    {
+        //if present in dict
+        if(dict.find(word) != dict.end())
+            return true;
+        
+        //if present in memo, no need to call 
+        if(memo.find(word) != memo.end())
+            return memo[word];
+        
+        
+        for(int i=0; i<word.length(); i++)
+        {
+            string left = word.substr(0, i+1); //always starts from beginning
+            string right = word.substr(i+1); //remaining string till the last letter;
+            
+            if(dict.find(left) != dict.end())
+            {
+                bool ros = wordBreakHelp(right, dict); //rest of the string is recursed
+                
+                if(ros == true)
+                {
+                    memo[word] = true; //entire word exists
+                    return true;
+                }
+            }
+        }
+        
+        //if no prefix is found to be matching, word does not exist
+        memo[word] = false;
+        return false;
+          
+    }
+    
+    bool wordBreak(string s, vector<string>& wordDict) 
+    {
+        unordered_map<string, bool> dict;
+        
+        for(string s : wordDict)
+            dict[s] = true;
+        
+        return wordBreakHelp(s, dict);
+    }
+*/
 struct Node {
 	int val;
 	Node *tail;
@@ -253,6 +320,15 @@ int main() {
 		cout << "\t" << isBst1(root) << "\n";
 	}
 
-	
+	// 7.
+	{
+		std::vector<std::string> bank{"leet", "code"};
+		std::vector<std::string> bank2{"cats","dog","sand","and","cat"};
+		std::string s{"leetcode"};
+		std::string s2{"catsandogs"};
+		cout << "7. String segmentation\n";
+		cout << "\t" << wordBreak(s, bank) << "\n";
+		cout << "\t" << wordBreak(s2, bank2) << "\n";
+	}	
 	return 0;
 }
