@@ -3,6 +3,7 @@
 #include<stack>
 #include<list>
 #include<vector>
+#include<algorithm>
 
 
 class Graph {
@@ -69,6 +70,27 @@ void dump(T &arr) {
 	}
 }
 
+
+//
+void bucket(std::vector<float> &arr) {
+	std::vector<float> bucket[arr.size()];
+	for (int i = 0; i < arr.size(); i++) {
+		int index = arr.size() * arr[i];
+		std::cout <<"\t\t index of " << arr[i] << " is " << index << "\n";
+		bucket[index].emplace_back(arr[i]);
+	}
+
+	for (int i = 0; i < arr.size(); i++) {
+		sort(bucket[i].begin(), bucket[i].end());
+	}
+
+	int index = 0;
+	for (int i = 0; i < arr.size(); i++) {
+		for (int j = 0; j < bucket[i].size(); j++) {
+			arr[index++] = bucket[i][j];
+		}
+	}
+}
 
 void mergeArr(std::vector<int> &arr, int l, int m, int r) {
 	int i, j, k;
@@ -150,5 +172,13 @@ int main() {
 	dump(arr2);
 	merge(arr2, 0, arr2.size() -1);
 	dump(arr2);
+
+	std::cout << "\nbucket sort\n";
+	std::vector<float> arr3{0.897, 0.565, 0.656, 0.1234, 0.665, 0.3434};
+	dump(arr3);
+	bucket(arr3);
+	dump(arr3);
+
+	std::cout << "\n";
 	return 0;
 }
