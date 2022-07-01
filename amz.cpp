@@ -9,6 +9,28 @@
 
 using namespace std;
 
+// 8. Reverse Words in a Sentence
+// O(n), O(n)
+void reverse(std::string &s) {
+	std::vector<string> tmp;
+	std::string str("");
+
+	for (int i = 0; i < s.size(); i++) {
+		if (s[i] == ' ') {
+			tmp.emplace_back(str);
+			str = "";
+		}
+		else {
+			str += s[i];
+		}
+	}
+
+	tmp.emplace_back(str);
+
+	for (int i = tmp.size() - 1; i >= 0; i--) {
+		std::cout << tmp[i] << " ";
+	}
+}
 
 // 7. O(n^2*m), O(n)
 bool wordBreak(string s, vector<string>& arr) {
@@ -82,6 +104,8 @@ bool wordBreak(string s, vector<string>& arr) {
 */
 struct Node {
 	int val;
+	Node *prev;
+	Node* child;
 	Node *tail;
 	Node *next;
 	Node *arbitrary;
@@ -102,6 +126,29 @@ struct Node {
 
 	
 };
+
+void newTail(Node** tail, Node *child) {
+	Node *cur;
+
+	(*tail)->next = child;
+	child->prev = *tail;
+	
+	for (cur = child; cur->next; cur = cur->next);
+	*tail = cur;
+}
+
+void flattenList(Node *head, Node **tail) {
+	Node * cur = head;
+
+	while (cur) {
+		if (cur->child) {
+			newTail(tail, cur->child);
+		}
+		cur = cur->next;
+	}
+}
+
+
 	auto findFromLast(Node* head, int m) -> Node* {
 		Node *cur, *behind;
 		int i;
@@ -359,5 +406,8 @@ int main() {
 	Node* mmm = findFromLast(node1, 1);
 	cout << "\t last from m: " << (mmm ? mmm->val : -1) << "\n";
 
+	//8.
+	std::string s("Stuying with the cat above my head, literally");
+	reverse(s);
 	return 0;
 }
