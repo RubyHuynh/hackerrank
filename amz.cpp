@@ -5,6 +5,7 @@
 #include<unordered_map>
 #include<queue>
 #include<limits.h>
+#include<algorithm>
 
 using namespace std;
 
@@ -16,10 +17,13 @@ bool wordBreak(string s, vector<string>& arr) {
         tabu[0] = true;
         
         for (int i = 0; i <= s.size(); i++) {
+	    std::cout << "\t\t working on " << s[i] << "\n";
             for (int j = 0; j < i; j++) {
+	    	std::cout << "\t\t\t comparing with " << s.substr(j, i-j) << "\n";
                 if (tabu[j] 
                     && find(arr.begin(), arr.end(), s.substr(j, i-j)) != arr.end()) {
                     tabu[i] = true;
+		    std::cout << "\t\t\t break " << i << "\n";
                     break;
                 }
                     
@@ -95,7 +99,26 @@ struct Node {
 		item->next = this;
 		return item;
 	}
+
+	
 };
+	auto findFromLast(Node* head, int m) -> Node* {
+		Node *cur, *behind;
+		int i;
+
+		cur = head;
+		for (int i = 0; i < m; i++) {
+			if (cur->next) cur = cur->next;
+			else return NULL;
+		}
+
+		behind = head;
+		while (cur->next) {
+			cur = cur->next;
+			behind = behind->next;
+		}
+		return behind;
+	}
 
 struct Tree {
 	int 	val;
@@ -295,6 +318,7 @@ int main() {
 	Node* node1 = new Node(1);
 	node1 = node1->add(2);
 	node1 = node1->add(3);
+	node1 = node1->add(4);
 	Node* cloned = deepCopy(node1);
 	cout << "\n";
 	while (cloned) {
@@ -330,5 +354,10 @@ int main() {
 		cout << "\t" << wordBreak(s, bank) << "\n";
 		cout << "\t" << wordBreak(s2, bank2) << "\n";
 	}	
+	
+	// book, find m from last
+	Node* mmm = findFromLast(node1, 1);
+	cout << "\t last from m: " << (mmm ? mmm->val : -1) << "\n";
+
 	return 0;
 }
