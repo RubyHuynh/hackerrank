@@ -7,8 +7,23 @@
 #include<limits.h>
 #include<algorithm>
 #include<string.h>
+#include<math.h>
 
 using namespace std;
+
+// 11. Find all subsets of a given set of integers
+void  subset(std::vector<int> &arr) {
+	unsigned int n = pow(2, arr.size());
+
+	for (int i = 0; i < n ; i++) {
+		std::cout <<"\n";
+		for (int j = 0; j < arr.size(); j++) {
+			if (i & (1<<j)) {
+				std::cout << "," << arr[j];
+			}
+		}
+	}
+}
 
 
 // 10. Find Kth permutation
@@ -626,6 +641,9 @@ int main() {
 	// 10. Kth permutaion
 	getKPermutation(4, 17);
 
+	// 11. find all subsets
+	std::vector<int> sasa{2,3,4};
+	subset(sasa);
      	cout<< "\n";
 	return 0;
 }
