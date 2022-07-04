@@ -12,6 +12,40 @@ using namespace std;
 
 
 // 10. Find Kth permutation
+// O(n^2), O(n)
+std::string getKPermutation(int n, int k) {
+	int fact = 1;
+	vector<int> numbers;
+	std::cout << "\n " << __func__ << " n = " << n  << " k =  " << k;	
+	for (int i = 1; i < n; i++) {
+		std::cout<< " " << i;
+		fact *= i;
+		numbers.emplace_back(i);
+	}
+	std::cout << "\n\t factorial of " << n-1 << " is " << fact;	
+	numbers.emplace_back(n);
+	std::string rs("");
+	k -= 1;
+	
+	while (1) {
+		std::cout << "\n\t fact is " << fact;
+		std::cout << "\n\t k is " << k;
+		std::cout << "\n\t sz is " << numbers.size();
+		std::cout << "\n\t saving at index " << k/fact;
+		rs += std::to_string(numbers[k/fact]);
+		numbers.erase(numbers.begin() + k/fact);
+		if (!numbers.size()) {
+			break;
+		}
+		k %= fact;
+		fact /= numbers.size();
+	}
+	std::cout << "\n\t result is " << rs;
+	return rs;
+
+}
+
+/*
 // Function to find the index of number
 // at first position of
 // kth sequence of set of size n
@@ -85,7 +119,7 @@ string findKthPermutation(int n, int k)
     }
     return ans;
 }
-
+*/
 
 // 9. How many ways can you make change with coins and a total amount
 // O(mn), O(n);
@@ -588,6 +622,9 @@ int main() {
 	        cout << "\n\t" << coin(arr, m, 4);
 
 	}
+
+	// 10. Kth permutaion
+	getKPermutation(4, 17);
 
      	cout<< "\n";
 	return 0;
