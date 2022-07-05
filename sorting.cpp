@@ -4,6 +4,7 @@
 #include<list>
 #include<vector>
 #include<algorithm>
+#include<string.h>
 
 
 class Graph {
@@ -70,6 +71,31 @@ void dump(T &arr) {
 	}
 }
 
+
+#define RANGE 255
+template<typename T>
+void counting(std::vector<T> &arr) {
+	T rs[arr.size()];
+	
+	T count[RANGE];
+	memset(count, 0, sizeof(count));
+
+	for (int i = 0; i < arr.size(); i++) {
+		++count[arr[i]];
+	}
+
+	for (int i = 1; i <= RANGE; i++) {
+		count[i] += count[i-1];
+	}
+
+	for (int i = 0; i < arr.size(); i++) {
+		rs[count[arr[i]]-1] = arr[i];
+		--count[arr[i]];
+	}
+	for (int i = 0; i < arr.size(); i++) {
+		arr[i] = rs[i];
+	}
+}
 
 //
 void bucket(std::vector<float> &arr) {
@@ -179,6 +205,12 @@ int main() {
 	bucket(arr3);
 	dump(arr3);
 
+
+	std::cout << "counting sort\n";
+	std::vector<char> arr4{'a','e','d','g', 'z', 's'};
+	dump(arr4);
+	counting(arr4);
+	dump(arr4);
 	std::cout << "\n";
 	return 0;
 }
