@@ -340,9 +340,24 @@ struct Node {
 		item->next = this;
 		return item;
 	}
-
 	
 };
+
+// chasing rabbit :v
+bool isCyclic(Node* head) {
+	Node *fast, *slow;
+
+	if (!head) return false;
+
+	slow = head;
+	fast = head->next;
+	while (1) {
+		if (!fast || !fast->next) return false;
+		if (fast == slow || fast->next == slow) return true;
+		slow = slow->next;
+		fast = fast->next->next;
+	}
+}
 
 void newTail(Node** tail, Node *child) {
 	Node *cur;
@@ -644,6 +659,11 @@ int main() {
 	// 11. find all subsets
 	std::vector<int> sasa{2,3,4};
 	subset(sasa);
+
+
+	// book. is cyclic or acylic
+	cout << "\nIs the list cyclic? "<< isCyclic(node1);
+
      	cout<< "\n";
 	return 0;
 }
