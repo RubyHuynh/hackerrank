@@ -408,6 +408,27 @@ struct Tree {
 
 };
 
+void dumpPre(Tree *root) {
+	if (!root) return;
+	std::cout << " " << root->val;
+	dumpPre(root->left);
+	dumpPre(root->right);
+}
+
+
+void dumpIn(Tree *root) {
+	if (!root) return;
+	dumpIn(root->left);
+	std::cout << " " << root->val;
+	dumpIn(root->right);
+}
+void dumpPost(Tree *root) {
+	if (!root) return;
+	dumpPost(root->left);
+	dumpPost(root->right);
+	std::cout << " " << root->val;
+}
+
 int height(Tree *root) {
 	if (!root) return 0;
 	int lHeight = height(root->left);
@@ -424,6 +445,21 @@ bool isBst1(Tree *root) {
 		return isBst1(root->right);
 	}
 	return true;
+}
+
+Tree* findTree(Tree *root, int val) {
+	if (!root) return NULL;
+	if (isBst1(root)) {
+		while (root) {
+			if (root->val == val) break;
+			else if (root->val > val) root = root->left;
+			else root = root->right;
+		}
+	}
+	else {
+			// TODO
+	}
+	return root; 
 }
 
 
@@ -621,6 +657,12 @@ int main() {
 		cout << "6. Determine if a binary tree is a binary search tree\n";
 		cout << "\t" << isBst(root, -INT_MAX, INT_MAX) << "\n";
 		cout << "\t" << isBst1(root) << "\n";
+
+	// Book: traversals
+		std::cout << "\nPre-order:"; dumpPre(root);
+		std::cout << "\nIn-order:"; dumpIn(root);
+		std::cout << "\nPost-order:"; dumpPost(root);
+		std::cout <<"\n";
 	}
 
 	// 7.
