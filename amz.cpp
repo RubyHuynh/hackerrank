@@ -11,6 +11,39 @@
 
 using namespace std;
 
+// 12. Print balanced brace combinations
+// O(2^n), O(n)
+std::vector<std::string> generateParenthesis(int n) {
+	std::vector<std::string> tmp;
+	std::vector<std::string> rs;
+	
+	if (n == 1) {
+		tmp.emplace_back("{}");
+		return tmp;
+	}
+	if (n == 2) {
+		tmp.emplace_back("{{}}");
+		tmp.emplace_back("{}{}");
+		return tmp;
+	}
+
+	tmp = generateParenthesis(n-1);
+
+	for (int i = 0; i < tmp.size(); i++) {
+		std::string t1 = "{", t2 = "{", t3 = "{";
+		t1 = t1 + tmp[i] + "}";
+		t2 = t2 + "}" + tmp[i];
+		t3 = tmp[i] + t3 + "}";
+		rs.push_back(t1);
+		rs.push_back(t2);
+		rs.push_back(t3);
+	}
+	rs.pop_back();
+
+	return rs;
+}
+
+
 // 11. Find all subsets of a given set of integers
 void  subset(std::vector<int> &arr) {
 	unsigned int n = pow(2, arr.size());
@@ -705,7 +738,14 @@ int main() {
 
 	// book. is cyclic or acylic
 	cout << "\nIs the list cyclic? "<< isCyclic(node1);
-
+	
+	// 12. 
+	std::cout << "\n12. find all parenthesis" << 4;
+	vector<string> thesis1 = generateParenthesis(4);
+	std::cout << "\n\t rs=" << thesis1.size() << "\n\t";
+	for (auto i : thesis1) {
+		std::cout << " " << i;
+	}
      	cout<< "\n";
 	return 0;
 }
