@@ -3,6 +3,7 @@
 #include<stack>
 #include<list>
 #include<vector>
+#include<queue>
 #include<algorithm>
 #include<string.h>
 
@@ -61,6 +62,28 @@ public:
 			rs.pop();
 		}
 				
+	}
+
+	std::vector<int> bfs(int idx) {
+		std::vector<int> rs;
+		std::vector<bool> visited(this->v, false);
+
+		std::queue<int> q;
+		visited[idx] = true;
+		q.push(idx);
+		std::cout << "\n" << __func__;
+		while (!q.empty()) {
+			idx = q.front();
+			rs.push_back(idx);
+			q.pop();
+			for (auto it : this->adj[idx]) {
+				if (!visited[it]) {
+					visited[it] = true;
+					q.push(it);
+				}
+			}
+		}
+		return rs;
 	}
 };
 template<typename T>
@@ -185,6 +208,8 @@ int main() {
 	g.addEdge(3, 1);
 	std::cout << "Topological sorting of the given Graph: \n\t";
 	g.topologicalSort();
+	auto bbb = g.bfs(5);
+	dump(bbb);
 
 	std::cout << "\nbubble sort\n";
 	std::vector<int> arr{100,2,4,21,4,12,31, 5};
