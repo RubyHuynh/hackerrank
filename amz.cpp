@@ -11,6 +11,54 @@
 
 using namespace std;
 
+// 14. Find Low/High Index
+std::vector<int> lowHigh(std::vector<int> &arr, int val) {
+	std::vector<int> rs{INT_MAX, INT_MIN};
+	int l = 0;
+	int r = arr.size();
+	int mid = (l + r)/2;
+	bool found = false;
+
+	if (r == 1 && arr[0] == val) {
+_first:
+		rs[0] = rs[1] = mid;
+		return rs;
+	}
+	
+	while (mid && mid < arr.size()-1) {
+		if (arr[mid] > val) {
+			r = mid;
+			mid = (l + mid) / 2;
+		}
+		else if (arr[mid] < val) {
+			l = mid;
+			mid = (mid + r) /2;
+		}
+		else {
+			found = true;
+			int i, j;
+			for (i = mid, j = mid; i >= 0 && j < arr.size(); i--, j++) {
+				if (arr[i] == val) {
+					if (rs[0] > i) rs[0] = i;
+				}
+				if (arr[j] == val) {
+					if (rs[1] < j) rs[1] = j;
+				}
+			}
+			break;
+		}
+	}
+	if (!found) {
+		if (arr[mid] == val) {
+			goto _first;
+		}
+	}
+	if (rs[0] == INT_MAX) rs[0] = rs[1] = -1;
+	return rs;
+}
+
+
+
 // 12. Print balanced brace combinations
 // O(2^n), O(n)
 std::vector<std::string> generateParenthesis(int n) {
@@ -747,5 +795,21 @@ int main() {
 		std::cout << " " << i;
 	}
      	cout<< "\n";
+
+
+	std::cout << "\n14. find low high indices";
+	std::vector<int> arr5{1, 2, 5,5,5,5,5,5,5,5,20};
+	
+	for (auto it : arr5) {
+		auto rs = lowHigh(arr5, it);
+		std::cout << "\n\t " << it;
+		std::cout << "\n\t\t {" << rs[0] << ", "<< rs[1] << "}";
+	}
+
+	auto lh = lowHigh(arr5, 9032);
+	std::cout << "\n\t " << 9032;
+	std::cout << "\n\t\t {" << lh[0] << ", "<< lh[1] << "}";
+     	cout<< "\n";
+
 	return 0;
 }
