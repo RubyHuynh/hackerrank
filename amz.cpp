@@ -11,6 +11,27 @@
 
 using namespace std;
 
+//15. Search Rotated Array
+int findInRotated(std::vector<int> &arr, int l, int h, int val) {
+	std::cout << "\n\t" << __func__ << " " << l << " " << h << " " << val;
+	if (l > h) return -1;
+	int m = (l + h) / 2;
+	if (arr[m] == val) return m;
+	if (arr[l] <= arr[m]) {
+		if (val >= arr[l] && val <= arr[m]) {
+			//return findInRotated(arr, l, m-1, val);
+			return findInRotated(arr, l, m, val);
+		}
+		return findInRotated(arr, m + 1, h, val);
+	}
+	if (val >= arr[m] && val <= arr[h]) {
+		//return findInRotated(arr, m+1, h, val);
+		return findInRotated(arr, m, h, val);
+	}
+	return findInRotated(arr, l, m-1, val);
+}
+
+
 // 14. Find Low/High Index
 std::vector<int> lowHigh(std::vector<int> &arr, int val) {
 	std::vector<int> rs{INT_MAX, INT_MIN};
@@ -811,5 +832,12 @@ int main() {
 	std::cout << "\n\t\t {" << lh[0] << ", "<< lh[1] << "}";
      	cout<< "\n";
 
+
+	// 15. find in sorted rotated x times
+	std::vector<int> arr15{ 4, 5, 6, 7, 8, 9, 1, 2, 3 };
+	std::cout << "\n rs = " << findInRotated(arr15, 0, arr15.size()-1, 8);
+	std::cout << "\n rs = " << findInRotated(arr15, 0, arr15.size()-1, 3);
+	std::cout << "\n rs = " << findInRotated(arr15, 0, arr15.size()-1, 121);
+	
 	return 0;
 }
