@@ -7,9 +7,32 @@
 #include<algorithm>
 #include<string.h>
 
-// https://leetcode.com/problems/median-of-two-sorted-arrays/submissions/
+
 class Solution {
 public:
+
+   // https://leetcode.com/problems/trapping-rain-water/submissions/
+   int trap(vector<int>& A) {
+        int n = A.size();
+        int left=0; int right=n-1;
+        int res=0;
+        int maxleft=0, maxright=0;
+        while(left<=right){
+            if(A[left]<=A[right]){
+                if(A[left]>=maxleft) maxleft=A[left];
+                else res+=maxleft-A[left];
+                left++;
+            }
+            else{
+                if(A[right]>=maxright) maxright= A[right];
+                else res+=maxright-A[right];
+                right--;
+            }
+        }
+        return res;
+    }
+	
+   // https://leetcode.com/problems/median-of-two-sorted-arrays/submissions/
    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
     int N1 = nums1.size();
     int N2 = nums2.size();
