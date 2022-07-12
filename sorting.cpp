@@ -11,6 +11,16 @@
 class Solution {
 public:
 
+    // https://leetcode.com/problems/poor-pigs/submissions/
+    int poorPigs(int buckets, int minutesToDie, int minutesToTest) {
+        
+        // min_pig_count determined by equation: buckets =max_sub_job_load ** min_pig_count
+		// max_sub_job_load  = minutesToTest / minutesToDie + 1
+        // min_pig_count = ceil(log(buckets) / log(minutesToTest / minutesToDie + 1));
+        return ceil(log(buckets) / log(minutesToTest / minutesToDie + 1));
+    }
+
+
    // https://leetcode.com/problems/trapping-rain-water/submissions/
    int trap(vector<int>& A) {
         int n = A.size();
