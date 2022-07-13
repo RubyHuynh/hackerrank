@@ -85,7 +85,35 @@ public:
 		}
 		return rs;
 	}
+	// 13. Clone a Directed Graph
+	Graph* clone() {
+		Graph* rs = new Graph(this->v);
+
+		std::vector<int> visited(this->v, false);
+		std::queue<int> q;
+		visited[0] = true;
+		q.push(0);
+		while (!q.empty()) {
+			int idx = q.front();
+			//rs->addEdge(idx, this->adj[idx]);
+			q.pop();
+			for (auto it : this->adj[idx]) {
+				if (!visited[it]) {
+					visited[it] = true;
+					q.push(it);
+				}
+			}
+		}
+		return rs;
+	}
 };
+template<typename T>
+void swap(T *a, T *b) {
+	std::cout << "\n\t\t\t swapping " << *a << "<->" << *b;
+	T c = *a;
+	*a = *b;
+	*b = c;
+}
 template<typename T>
 void dump(T &arr) {
 	std::cout << "\n" << __PRETTY_FUNCTION__ << "\n";
@@ -94,7 +122,75 @@ void dump(T &arr) {
 	}
 }
 
+template<typename T>
+void dump(T *arr) {
+	std::cout << "\n" << __PRETTY_FUNCTION__ << "\n";
+	for (auto it = arr->begin(); it != arr->end(); it++) {
+		std::cout << *it << ", ";
+	}
+}
 
+// max heap
+void buildMaxHeap(std::vector<int> &arr) {
+	std::cout << "\n\t" << __func__;
+	for (int i = 1; i < arr.size(); i++) {
+		if (arr[i] > arr[(i-1)/2]) {
+			int j = i;
+			while (arr[j] > arr[(j-1)/2]) {
+				swap(&arr[i], &arr[(j-1)/2]);
+				j = (j-1)/2;
+			}
+		}
+	}
+}
+
+void heapSort(std::vector<int> &arr) {
+	std::cout << "\n\t" << __func__;
+	buildMaxHeap(arr);
+	dump(arr);
+	for (int i = arr.size() - 1; i > 0; i--) {
+		swap(&arr[0], &arr[i]);
+		int j = 0, idx;
+		do {
+			idx = 2*j + 1;
+			if (arr[idx] < arr[idx +1] && idx < (i -1)) {
+				idx++;
+			}
+
+			if (arr[j] < arr[idx] && idx < i) {
+				swap(&arr[j], &arr[idx]);
+			}
+			j = idx;
+		}
+		while (idx < i);
+	}
+}
+
+// quick sort
+int partition(std::vector<int> &arr, int low, int high) {
+	int pivot = arr[high];
+	int i = low - 1;
+
+	for (int j = low; j <= high; j++) {
+		if (arr[i] < pivot) {
+			i++;
+			swap(&arr[i], &arr[j]);
+		}
+	}
+	swap(&arr[i + 1], &arr[high]);
+	return i + 1;
+}
+
+void quick(std::vector<int> arr, int low, int high) {
+	if (low < high) {
+		int pivot = partition(arr, low, high);
+		quick(arr, low, pivot - 1);
+		quick(arr, pivot + 1, high);
+	}
+}
+
+
+//
 #define RANGE 255
 template<typename T>
 void counting(std::vector<T> &arr) {
@@ -210,6 +306,7 @@ int main() {
 	g.topologicalSort();
 	auto bbb = g.bfs(5);
 	dump(bbb);
+	auto ccc = g.clone();
 
 	std::cout << "\nbubble sort\n";
 	std::vector<int> arr{100,2,4,21,4,12,31, 5};
@@ -237,5 +334,19 @@ int main() {
 	counting(arr4);
 	dump(arr4);
 	std::cout << "\n";
+
+	
+	std::cout << "\nquick sort\n";
+	std::vector<int> arr5{100,2,4,21,4,12,31, 5};
+	dump(arr5);
+	quick(arr5, 0, arr5.size()-1);
+	dump(arr5);
+
+
+	std::cout << "\nmax heap sort\n";
+	std::vector<int> arr6{100,2,4,21,4,12,31, 5};
+	dump(arr6);
+	heapSort(arr6);
+	dump(arr6);
 	return 0;
 }
