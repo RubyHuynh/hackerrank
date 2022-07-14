@@ -6,7 +6,9 @@
 #include<queue>
 #include<algorithm>
 #include<string.h>
+#include<limits.h>
 
+using namespace std;
 
 class Solution {
 public:
@@ -164,6 +166,8 @@ public:
 		}
 		return rs;
 	}
+
+	
 };
 template<typename T>
 void swap(T *a, T *b) {
@@ -186,6 +190,52 @@ void dump(T *arr) {
 	for (auto it = arr->begin(); it != arr->end(); it++) {
 		std::cout << *it << ", ";
 	}
+}
+#define V 5
+int dump(int parent[], int graph[V][V]) {
+	std::cout << "\n" << __PRETTY_FUNCTION__ << "\n";
+	for (int i = 0; i < V; i++) {
+		std::cout << "\n\t" << parent[i] << "-" << i << "=" << graph[i][parent[i]];
+	} 
+}
+
+// prim
+int minKey(int n, int key[], bool mstSet[]) {
+	int min = INT_MAX;
+	int minIdx;
+	for (int i = 0; i < n; i++) {
+		if (!mstSet[i] && key[i] < min) {
+			min = key[i];
+			minIdx = i;
+		}
+	}
+	return minIdx;
+}
+
+void primMST(int graph[V][V]) {
+	int parent[V];
+	int key[V];
+	bool mstSet[V];
+
+	for (int i = 0; i < V; i++) {
+		key[i] = INT_MAX;
+		mstSet[i] = false;
+	}
+
+	key[0] = 0;
+	parent[0] = -1;
+	
+	for (int i = 0; i < V -1; i++) {
+		int u = minKey(V, key, mstSet);
+		mstSet[u] = true;
+		for (int j = 0; j < V; j++) {
+			if (graph[u][j] && !mstSet[j] && graph[u][j] < key[j]) {
+				parent[j] = u;
+				key[j]= graph[u][j];
+			}
+		}
+	}
+	dump(parent, graph);
 }
 
 // max heap
@@ -406,5 +456,26 @@ int main() {
 	dump(arr6);
 	heapSort(arr6);
 	dump(arr6);
+
+
+	std::cout << "\nprim undirected weighted graph\n";
+	/* Let us create the following graph 
+        2 3 
+    (0)--(1)--(2) 
+    | / \ | 
+    6| 8/ \5 |7 
+    | / \ | 
+    (3)-------(4) 
+            9     */
+	int graph[V][V] = { { 0, 2, 0, 6, 0 }, 
+                        { 2, 0, 3, 8, 5 }, 
+                        { 0, 3, 0, 0, 7 }, 
+                        { 6, 8, 0, 0, 9 }, 
+                        { 0, 5, 7, 9, 0 } }; 
+  
+        primMST(graph); 
+
+
+	std::cout <<"\n";
 	return 0;
 }
