@@ -19,14 +19,14 @@ int findInRotated(std::vector<int> &arr, int l, int h, int val) {
 	if (arr[m] == val) return m;
 	if (arr[l] <= arr[m]) {
 		if (val >= arr[l] && val <= arr[m]) {
-			//return findInRotated(arr, l, m-1, val);
-			return findInRotated(arr, l, m, val);
+			return findInRotated(arr, l, m-1, val);
+			//return findInRotated(arr, l, m, val);
 		}
 		return findInRotated(arr, m + 1, h, val);
 	}
 	if (val >= arr[m] && val <= arr[h]) {
-		//return findInRotated(arr, m+1, h, val);
-		return findInRotated(arr, m, h, val);
+		return findInRotated(arr, m+1, h, val);
+		//return findInRotated(arr, m, h, val);
 	}
 	return findInRotated(arr, l, m-1, val);
 }
@@ -834,6 +834,7 @@ int main() {
 
 
 	// 15. find in sorted rotated x times
+	std::cout <<"\n" << "15. Search Rotated Array";
 	std::vector<int> arr15{ 4, 5, 6, 7, 8, 9, 1, 2, 3 };
 	std::cout << "\n rs = " << findInRotated(arr15, 0, arr15.size()-1, 8);
 	std::cout << "\n rs = " << findInRotated(arr15, 0, arr15.size()-1, 3);
