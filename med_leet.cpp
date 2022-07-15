@@ -4,6 +4,94 @@
 #include<limits.h>
 using namespace std;
 
+//30. Substring with Concatenation of All Words
+//https://leetcode.com/problems/substring-with-concatenation-of-all-words/
+class Solution {
+public:
+    struct Node {
+        Node *w[26];
+        int i;
+        Node() {memset(w, 0, sizeof(w)); i = -1;}
+    };
+	//insert word in to Trie
+    void insert(Node *h, string word, int id)
+    {
+        Node *p = h;
+        for (int i = 0; i < word.length(); i ++)
+        {
+            if (p->w[word[i]-'a'] == NULL) p->w[word[i]-'a'] = new Node();
+            p = p->w[word[i]-'a'];
+        }
+        p->i = id;
+    }
+	//find word in Trie
+    int find(Node *h, string &s, int a, int L)
+    {
+        Node *p = h;
+        for (int i = a; i < a + L && i < s.length(); i ++)
+            if (p->w[s[i]-'a']) p = p->w[s[i]-'a'];
+            else break;
+        return p->i;
+    }
+    vector<int> findSubstring(string s, vector<string>& words) {
+		//sort array to avoid duplicate word
+        sort(words.begin(), words.end());
+        Node *head = new Node();
+        int num[5001] = {0};
+        int k = 0;
+		//insert words into Trie and count number of each word
+        for (int i = 0; i < words.size(); i ++)
+            if (i == 0 || words[i-1] != words[i])
+            {
+                insert(head, words[i], i);
+                k = i;
+                num[k] = 1;
+            }
+            else num[k] ++;
+        vector<int> res;
+        if (words.size() == 0) return res;
+        int L = words[0].length();
+		//i = start point of search
+        for (int i = 0; i < L; i ++)
+        {
+            int x = i; //start position of result string
+            int has[5001] = {0};
+            queue<int> qu;
+            int n = 0; //number of confirmed words
+			//search every L-lenths word
+            for (int j = i; j < s.length(); j += L)
+            {
+                int id = find(head, s, j, L);
+                //if not found, move x to next position, clear flags
+                if (id == -1)
+                {
+                    x = j + L;
+                    memset(has, 0, sizeof(has));
+                    while (!qu.empty()) qu.pop();
+                    n = 0;
+                }
+                //if found
+                else
+                {
+                    //no words[id] left, slide x position, until removed one words[id] flag 
+                    while (x <= j && has[id] >= num[id])
+                    {
+                        int t = qu.front();
+                        qu.pop();
+                        has[t] --; n --;
+                        x += L;
+                    }
+					//count words[id]
+                    n ++; has[id] ++;
+                    qu.push(id);
+                    //found one result
+                    if (n == words.size()) res.push_back(x);
+                }
+            }
+        }
+        return res;
+    }
+};
 
 //https://leetcode.com/problems/string-to-integer-atoi/
 //8. String to Integer (atoi)
