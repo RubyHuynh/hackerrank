@@ -4,10 +4,72 @@
 #include<limits.h>
 using namespace std;
 
+
+//79. Word Search
+//https://leetcode.com/problems/word-search/
+bool wordSearch(int i,int j,int idx ,vector<vector<char>>& board, string word, vector<vector<int>>&used)
+    {
+        //This condition can only occur when the given word exists in the matrix
+        if(idx==word.length())
+            return true;
+        
+        //Checking boundary conditions
+        if(i<0 || i>=board.size() || j<0 || j>=board[0].size())
+            return false;
+        
+        //If the letter at the current cell doesnt match the letter at idx index of the word OR if we have already used the cell before then return false
+        if(word[idx]!=board[i][j] || used[i][j]==1)
+            return false;
+        
+        //Mark the cell as visited
+        used[i][j]=1;
+        
+        //Search horizontally and vertically neighbouring cells for the next letter
+        bool left = wordSearch(i,j-1,idx+1,board,word,used);
+        bool right = wordSearch(i,j+1,idx+1,board,word,used);
+        bool up = wordSearch(i-1,j,idx+1,board,word,used);
+        bool down = wordSearch(i+1,j,idx+1,board,word,used);
+        
+        //Backtrack
+        used[i][j]=0;
+        
+        //Returning true if any one of them is true
+        return (left || right || up || down);
+        
+    }
+    bool exist(vector<vector<char>>& board, string word) {
+        int n = board.size();
+        int m = board[0].size();
+        
+        //Since we cannot use the same cell more than once, if the length of the word is more than the number of elements in the matrix then we return false
+        if(word.length()>n*m)
+            return false;
+        
+        //Declaring another matrix of the same dimension to track the cells used
+        vector<vector<int>>used(n,vector<int>(m,0));
+        
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                //if the letter in ith row and jth column of the matrix is equal to the first letter of the word
+                if(board[i][j]==word[0])
+                {
+                    if( wordSearch(i,j,0,board,word,used))
+                        return true;
+                }
+            }
+        }     
+        return false; 
+    }
+
+
 //30. Substring with Concatenation of All Words
 //https://leetcode.com/problems/substring-with-concatenation-of-all-words/
 class Solution {
 public:
+	
+	
     struct Node {
         Node *w[26];
         int i;
