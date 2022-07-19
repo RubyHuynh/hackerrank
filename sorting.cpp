@@ -10,6 +10,39 @@
 
 using namespace std;
 
+// ANKI fenwich tree
+int getSumBIT(std::vector<int> &arr, int index) {
+	int sum = 0;
+	index += 1;
+
+	while (index > 0) {
+		sum += arr[index];
+		index -= index & (-index);
+	}
+	return sum;
+}
+
+void updateBIT(std::vector<int> &arr, int index, int val) {
+	index += 1;
+	while (index <= arr.size()) {
+		arr[index] += val;
+		index += index & (-index);
+	}
+}
+
+std::vector<int> &constructBITree(std::vector<int> &arr) {
+	static std::vector<int> rs(arr.size() + 1);
+	for (int i = 0; i <= arr.size(); i++) {
+		rs[i] = 0;
+	}
+
+	for (int i = 0; i < arr.size(); i++) {
+		updateBIT(rs, i, arr[i]);
+	}
+	return rs;
+}
+
+
 class Solution {
 public:
 
@@ -475,7 +508,15 @@ int main() {
   
         primMST(graph); 
 
-
+	// ANKI fenwich tree
+	std::vector<int> freq {2, 1, 1, 3, 2, 3, 4, 5, 6, 7, 8, 9};
+    	std::vector<int> &BITree = constructBITree(freq);
+	cout << "\nSum of elements in arr[0..5] is "<< getSumBIT(BITree, 5); 
+	// Let use test the update operation 
+	freq[3] += 6; 
+	updateBIT(BITree, 3, 6); //Update BIT for above change in arr[]   
+	cout << "\nSum of elements in arr[0..5] after update is " << getSumBIT(BITree, 5);
+  
 	std::cout <<"\n";
 	return 0;
 }
