@@ -5,6 +5,156 @@
 using namespace std;
 
 
+//79. Word Search
+//https://leetcode.com/problems/word-search/
+bool wordSearch(int i,int j,int idx ,vector<vector<char>>& board, string word, vector<vector<int>>&used)
+    {
+        //This condition can only occur when the given word exists in the matrix
+        if(idx==word.length())
+            return true;
+        
+        //Checking boundary conditions
+        if(i<0 || i>=board.size() || j<0 || j>=board[0].size())
+            return false;
+        
+        //If the letter at the current cell doesnt match the letter at idx index of the word OR if we have already used the cell before then return false
+        if(word[idx]!=board[i][j] || used[i][j]==1)
+            return false;
+        
+        //Mark the cell as visited
+        used[i][j]=1;
+        
+        //Search horizontally and vertically neighbouring cells for the next letter
+        bool left = wordSearch(i,j-1,idx+1,board,word,used);
+        bool right = wordSearch(i,j+1,idx+1,board,word,used);
+        bool up = wordSearch(i-1,j,idx+1,board,word,used);
+        bool down = wordSearch(i+1,j,idx+1,board,word,used);
+        
+        //Backtrack
+        used[i][j]=0;
+        
+        //Returning true if any one of them is true
+        return (left || right || up || down);
+        
+    }
+    bool exist(vector<vector<char>>& board, string word) {
+        int n = board.size();
+        int m = board[0].size();
+        
+        //Since we cannot use the same cell more than once, if the length of the word is more than the number of elements in the matrix then we return false
+        if(word.length()>n*m)
+            return false;
+        
+        //Declaring another matrix of the same dimension to track the cells used
+        vector<vector<int>>used(n,vector<int>(m,0));
+        
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                //if the letter in ith row and jth column of the matrix is equal to the first letter of the word
+                if(board[i][j]==word[0])
+                {
+                    if( wordSearch(i,j,0,board,word,used))
+                        return true;
+                }
+            }
+        }     
+        return false; 
+    }
+
+
+//30. Substring with Concatenation of All Words
+//https://leetcode.com/problems/substring-with-concatenation-of-all-words/
+class Solution {
+public:
+	
+	
+    struct Node {
+        Node *w[26];
+        int i;
+        Node() {memset(w, 0, sizeof(w)); i = -1;}
+    };
+	//insert word in to Trie
+    void insert(Node *h, string word, int id)
+    {
+        Node *p = h;
+        for (int i = 0; i < word.length(); i ++)
+        {
+            if (p->w[word[i]-'a'] == NULL) p->w[word[i]-'a'] = new Node();
+            p = p->w[word[i]-'a'];
+        }
+        p->i = id;
+    }
+	//find word in Trie
+    int find(Node *h, string &s, int a, int L)
+    {
+        Node *p = h;
+        for (int i = a; i < a + L && i < s.length(); i ++)
+            if (p->w[s[i]-'a']) p = p->w[s[i]-'a'];
+            else break;
+        return p->i;
+    }
+    vector<int> findSubstring(string s, vector<string>& words) {
+		//sort array to avoid duplicate word
+        sort(words.begin(), words.end());
+        Node *head = new Node();
+        int num[5001] = {0};
+        int k = 0;
+		//insert words into Trie and count number of each word
+        for (int i = 0; i < words.size(); i ++)
+            if (i == 0 || words[i-1] != words[i])
+            {
+                insert(head, words[i], i);
+                k = i;
+                num[k] = 1;
+            }
+            else num[k] ++;
+        vector<int> res;
+        if (words.size() == 0) return res;
+        int L = words[0].length();
+		//i = start point of search
+        for (int i = 0; i < L; i ++)
+        {
+            int x = i; //start position of result string
+            int has[5001] = {0};
+            queue<int> qu;
+            int n = 0; //number of confirmed words
+			//search every L-lenths word
+            for (int j = i; j < s.length(); j += L)
+            {
+                int id = find(head, s, j, L);
+                //if not found, move x to next position, clear flags
+                if (id == -1)
+                {
+                    x = j + L;
+                    memset(has, 0, sizeof(has));
+                    while (!qu.empty()) qu.pop();
+                    n = 0;
+                }
+                //if found
+                else
+                {
+                    //no words[id] left, slide x position, until removed one words[id] flag 
+                    while (x <= j && has[id] >= num[id])
+                    {
+                        int t = qu.front();
+                        qu.pop();
+                        has[t] --; n --;
+                        x += L;
+                    }
+					//count words[id]
+                    n ++; has[id] ++;
+                    qu.push(id);
+                    //found one result
+                    if (n == words.size()) res.push_back(x);
+                }
+            }
+        }
+        return res;
+    }
+};
+
 //https://leetcode.com/problems/string-to-integer-atoi/
 //8. String to Integer (atoi)
     bool isDigit(char ch){
