@@ -4,6 +4,142 @@
 #include<limits.h>
 using namespace std;
 
+//93. Restore IP Addresses
+//https://leetcode.com/problems/restore-ip-addresses/submissions/
+vector<string> restoreIpAddresses(string s) {
+        if(s.length()<4 ||s.length()>12) return {};
+        vector<string> ans;
+        backtrackDFS(s, "", 0, 0, ans);
+        return ans;
+    }
+    void backtrackDFS(string s, string curr, int idx, int count, vector<string>& ans){
+        if(idx == s.length()){
+            if(count == 4){
+                curr.pop_back(); //remove last "."
+                ans.push_back(curr);
+            }
+            return;
+        }
+        int len = s.length();
+        int bound = min(len, idx+3);
+        string str = "";
+        for(int i=idx; i<bound; i++){
+            if(i>idx && s[idx]=='0') continue; //start with 0 but not 0
+            str += s[i];
+            if(stoi(str) >=0 && stoi(str)<=255)
+                backtrackDFS(s, curr+str+".", i+1, count+1, ans);
+        }
+    }
+
+class Solution {
+public:
+    bool isValid(string temp)
+    {
+        if(temp[0] == '0')
+            return false;
+        int m = stoi(temp);
+        return m<=255;
+    }
+    void solve(string s, int n, int curr, int par, string str, vector<string>&res)
+    {
+        if(curr >= n || par == 4)
+        {
+            if(n == curr && par == 4)
+                res.push_back(str.substr(0, str.length()-1));
+            return;
+        }
+        solve(s, n, curr+1, par+1, str+s[curr]+".", res);
+        if(n>=curr+2 && isValid(s.substr(curr, 2)))
+            solve(s, n, curr+2, par+1, str+s.substr(curr, 2)+".", res);
+        if(n>=curr+3 && isValid(s.substr(curr, 3)))
+            solve(s, n, curr+3, par+1, str+s.substr(curr, 3)+".", res);
+    }
+    vector<string> restoreIpAddresses(string s) {
+        vector<string>res;
+        int n = s.length();
+        solve(s, n, 0, 0, "", res);
+        return res;
+    }
+};
+
+
+class Solution {
+public:
+
+    vector<string>All_Combinations ;
+    
+    bool isValid(string &s)
+    {
+        
+    string temp = "";
+    for (int i = 0; i < s.size(); i++)
+    {
+        if (s[i] == '.' or i == s.size() - 1 )
+        {
+            if (i == s.size() - 1)
+                temp.push_back(s[i]);
+
+if (i + 1 < s.size() and s[i + 1] == '0' and i+2<s.size() and s[i+2] != '.')  //(Check I)
+                return 0;
+
+       if(temp[0]=='0' and temp.size()!=1) return 0 ; //(Check III)
+            
+            int val = stoi(temp);
+            if (val > 255) // (Check IV) 
+                return 0;
+            temp.clear();
+        }
+        else if (isdigit(s[i]))
+            temp.push_back(s[i]);
+
+        else
+            return 0;
+    }
+    return 1;
+}
+
+void solve(string &s, int j, int p)
+{ 
+// p = No. of points we need to insert
+// j = Index at which we need to insert point  .
+
+    if (p == 0)
+    {
+        All_Combinations.push_back(s);
+        return;
+    }
+
+    for (int i = j; i < s.size()-1; i++)
+    {
+        string p1 = s.substr(0, i + 1);
+        string p2 = s.substr(i + 1);
+        p1.push_back('.');
+
+        s = p1 + p2;
+
+        solve(s, i + 2, p - 1);
+
+        p1.pop_back();
+        s = p1 + p2;
+    }
+    return;
+}
+
+
+    
+    vector<string> restoreIpAddresses(string s) {
+if(s.size()>12) return {} ; 
+    solve(s, 0, 3);
+        
+        vector<string>ValidIPs={} ;
+    for (auto x : All_Combinations)
+    {
+        if (isValid(x))
+            ValidIPs.push_back(x) ; 
+    }
+   return ValidIPs ;
+    }
+};
 
 //79. Word Search
 //https://leetcode.com/problems/word-search/
