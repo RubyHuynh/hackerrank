@@ -7,6 +7,46 @@ using namespace std;
 //86. Partition List
 class Solution {
 public:
+    ListNode* partition(ListNode* head, int x) {
+        
+        ListNode* last = nullptr;
+        ListNode* prev = nullptr;
+        auto node = head;
+        while(node) {
+            if(node->val < x) {
+                
+                if(!prev) {
+                    last = node;
+                    node = node->next;    
+                    continue;
+                }
+                
+                prev->next = node->next;
+                
+                auto nextNode = node->next;
+                if(last) {
+                    node->next = last->next;    
+                    last->next = node;
+                } else {
+                    node->next = head;
+                    head = node;
+                }
+                
+                last = node;
+                node = nextNode;
+                
+            } else {
+                prev = node;
+                node = node->next;    
+            }
+        }
+        
+        return head;
+    }
+};
+
+class Solution {
+public:
     
     ListNode* partition(ListNode* head, int x) {
         
