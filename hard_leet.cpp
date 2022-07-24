@@ -1,4 +1,109 @@
 
+
+// 51. N-Queens
+// backtrackin
+
+  //Request you to Plaese upvote so that more people can learn backtreking
+  
+  //Hint
+  
+  //Create safe state function for row and back 2 diagonal
+  //Create string with n times'.' and insert in each cell on board
+  //Pass col=0 in recursive fun
+  //In recursive function create loop for row and apply if backtreking
+  //Thats it bro
+  
+  //Different forms of this question
+  
+  //Find matrix, Find integer array, Find This type of string
+  `
+  
+  class Solution 
+  {
+   bool isSafe(vector<string> &board,int row,int col,int n)
+    {
+        int i=row;
+        int j=col;  //Lets check first for row
+        while(j>=0)
+        {
+            if(board[i][j]=='Q')
+            {
+                return false;
+            }
+            j--;
+        }
+        //No need to check for colum as we only add 1 queens in each colum
+        //Lets check for diagonal
+        //For diagonal only check backward up and down diagonal
+        //backward up diagonal
+       i=row;
+       j=col;
+        while(i>=0 && j>=0)
+        {
+            if(board[i][j]=='Q')
+            {
+                return false;
+            }
+            j--;
+            i--;
+        }
+        
+        //backward down diagonal
+        i=row;
+        j=col;
+        while(j>=0 && i<n)
+        {
+            if(board[i][j]=='Q')
+            {
+                return false;
+            }
+            j--;
+            i++;
+        }
+        
+        //If all conditions is clear
+        return true;
+    }
+    
+void board_config(vector<string> &board,vector<vector<string>> &ans,int col,int n)
+    {
+        //Base condition
+        if(col==n)
+        {
+          ans.push_back(board);
+            return;
+        }
+        
+        //Now think about only 1 case for 1st colum
+        //Put each raw of 1st colum
+        for(int row=0;row<n;row++) //Here row is for row
+        {
+            if(isSafe(board,row,col,n))
+            {
+                board[row][col]='Q';  //First put queen
+                board_config(board,ans,col+1,n);  //Rest will handle by recursive function by col+1
+                board[row][col]='.';  // This is called backtreking
+            }
+        }
+    }
+public:
+    vector<vector<string>> solveNQueens(int n) 
+    {
+      vector<vector<string>>ans;
+      string str="";
+        for(int i=0;i<n;i++)
+        {
+            str+='.';   //Insert n times . in str string
+        }
+        vector<string>board(n,str);   //in eachcell it stores n time "."
+        board_config(board,ans,0,n);      
+        return ans;
+        
+    }
+}; 
+
+
+
 void swapp(int *a, int *b) {
     int c= *a;
     *a = *b;
