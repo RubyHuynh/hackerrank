@@ -1,4 +1,119 @@
 
+//37. Sudoku Solver
+class Solution {
+public:
+    bool rowCheck[9][10] = {false,}; //in ith row, j is used.
+    bool colCheck[9][10] = {false, }; //in ith col, num j is used
+    bool boxCheck[3][3][10] = {false,}; //in (i,j)th box num k is used
+    bool rowChecker(int row, int num){
+        return !rowCheck[row][num];
+    }
+    bool colChecker(int col, int num){
+       return !colCheck[col][num];
+    }
+    bool boxChecker(int row, int col, int num){
+        return !boxCheck[row/3][col/3][num];
+    }
+    
+    bool solve(vector<vector<char>>& board, vector<pair<int,int>> &leftOver, int curIndex){
+        if(leftOver.size() == curIndex){
+            return true;
+        }
+        
+        pair<int,int> curPos = leftOver[curIndex];
+        bool isSolved = false;
+        for(int i = 1; i <= 9; i++){
+            if(rowChecker(curPos.first, i) && 
+              colChecker(curPos.second, i) &&
+              boxChecker(curPos.first, curPos.second, i)){
+                
+                board[curPos.first][curPos.second] = i +'0';
+                rowCheck[curPos.first][i] = true;
+                colCheck[curPos.second][i] = true;
+                boxCheck[curPos.first/3][curPos.second/3][i] = true;
+                
+                isSolved = solve(board, leftOver, curIndex+1);
+                
+                rowCheck[curPos.first][i] = false;
+                colCheck[curPos.second][i] = false;
+                boxCheck[curPos.first/3][curPos.second/3][i] = false;
+            }
+            if(isSolved)
+                return true;
+            
+            board[curPos.first][curPos.second] = '.';
+        }
+        return false;
+    }
+    void solveSudoku(vector<vector<char>>& board) {
+        vector<pair<int,int>> leftOver;
+        
+        for(int i = 0; i < board.size(); i++){
+            for(int j = 0; j < board[i].size(); j++){
+                if(board[i][j] == '.'){
+                    leftOver.push_back({i,j});
+                }else{
+                    int num = board[i][j]-'0';
+                    rowCheck[i][num] = true;
+                    colCheck[j][num] = true;
+                    boxCheck[i/3][j/3][num] = true;
+                }
+            }
+        }
+        
+        solve(board, leftOver, 0);
+        
+    }
+};
+
+	bool isValid(vector<vector<char>>& board, int row, int col, char c){
+
+		for(int i=0 ; i<9 ; i++){
+
+			//First Condition
+			if(board[i][col] == c)
+				return false;
+
+			//Second Condition
+			if(board[row][i] == c)
+				return false;
+
+			//Third Condition
+			if(board[3*(row/3) + i/3][3*(col/3) + i%3] == c)
+				return false;
+		}
+		return true;
+	}
+
+	bool solve(vector<vector<char>>& board){
+
+		for(int i=0 ; i<board.size() ; i++){
+			for(int j=0 ; j<board[0].size() ; j++){
+
+				if(board[i][j] == '.'){
+
+					for(char c='1' ; c<='9' ; c++){
+						if(isValid(board, i, j, c)){
+							board[i][j] = c;
+
+							if(solve(board) == true){
+								return true;
+							}
+							else{
+								board[i][j] = '.';
+							}
+						}
+					}
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	void solveSudoku(vector<vector<char>>& board) {
+		solve(board);
+	}
 
 // 51. N-Queens
 // backtrackin
