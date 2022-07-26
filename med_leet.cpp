@@ -4,6 +4,35 @@
 #include<limits.h>
 using namespace std;
 
+
+// 46. Permutations
+class Solution {
+public:
+    
+    void bt(vector<int> &nums, vector<int> &candidate, vector<vector<int> > &rs, vector<bool> &used) {
+        if (candidate.size() == nums.size()) {
+            rs.push_back(candidate);
+            return;
+        }
+        for (int i = 0; i < nums.size(); i++) {
+            if (!used[i]) {
+                used[i] = true;
+                candidate.push_back(nums[i]);
+                bt(nums, candidate, rs, used);
+                used[i] = false;
+                candidate.pop_back();
+            }
+        }
+    }
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<int> candidate;
+        vector<vector<int>> rs;
+        vector<bool> used(nums.size(), false);
+        
+        bt(nums, candidate, rs, used);
+        return rs;
+    }
+};
 //86. Partition List
 class Solution {
 public:
