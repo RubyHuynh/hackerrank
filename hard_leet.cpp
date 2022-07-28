@@ -1,3 +1,80 @@
+//60. Permutation Sequence
+class Solution {
+public:
+    string getPermutation(int n, int k) {
+        string str="",ans="";
+        k--;
+        for(int i=1;i<=n;i++)
+            str+=('0'+i);
+        int val=1;
+        for(int i=2;i<=n;i++)
+            val*=i;
+        while(val>1){
+            int slb=val/n;
+            int index=k/slb;
+            ans+=str[index];
+            k=k%slb;
+            str=str.substr(0,index)+str.substr(index+1,n-index);
+            val=val/n;
+            n--;
+        }
+        ans+=str[0];
+        return ans;
+    }
+};
+
+The Logic:
+
+For the given n , we can generate a vector which would consist of all numbers from 1 to n.
+Now, for every n, we get a total number of n!/n numbers in each group that start with each number in n. (This can be found by listing out some smaller test cases)
+As we are interested in kth permutation, we first figure out that out of all groups, kth permutation lies in which group by k/gs (gs is group size). Now, as here we have passed k-1 in function parameter because kth permutation is actually (k-1)th permutation for us since the members of group are in the vector from 0 to n-1.
+We add that element to a string, and remove it from the vector to keep our index-based logic intact. Next, we recur for the remaining elements. Here k=k%gs, since now that we had already found the group, we need to find the (k%gs)th permutation from the remaining elements, and our problem gets smaller everytime.
+A dry run for the first test case will be more helpful in case of confusions. ;-)
+
+class Solution {
+    public:
+    int getfactorial(int n)
+    {
+        if(n<1) return 0;
+        int s=1;
+        for(int i=1; i<=n; i++)
+        {
+            s=s*i;
+        }
+        return s;
+    }
+public:
+    string solve(string str,vector<int> &v, int n, int k)
+        
+    { 
+        if(n==0)//base condition
+        {
+            return str;
+        }
+        //gs is size of each sub-group
+         int gs=getfactorial(n)/n;
+        int ele=(k/gs);
+        
+        str+=to_string(v[ele]);
+        auto i = v.begin()+ele;
+        v.erase(i);
+        k=k%gs;
+        n--;
+        str=solve(str,v,n,k);
+        return str;
+    }
+
+public:
+    string getPermutation(int n, int k) {
+         
+        vector<int> v(n+1,0);
+        for(int i=1; i<=n; i++)
+            v[i-1]=i;
+        return solve("",v,n,k-1);
+    }
+};
+
+
 // 52. N-Queens II
 /*
 We first create a ( n X n ) chess board and assign 0 to every index.
