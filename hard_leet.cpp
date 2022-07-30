@@ -1,3 +1,36 @@
+//65. Valid Number ? hard? no?
+/* The error conditions are:
+
+1 More than one exponent character ('e'/'E'), or seeing an 'e'/'E' when a number has not yet been seen.
+2 More than one sign, or a sign appearing after a decimal or number have been seen. This gets reset when passing an 'e'/'E'.
+3 More than one decimal, or a decimal appearing after an 'e'/'E' has been seen.
+4 Any other non-number character appearing.
+5 Reaching the end of S without an active number.
+To help with this process, we can set up some boolean flags for the different things of which we're keeping track (num, exp, sign, dec). We'll also need to remember to reset all flags except exp when we find an 'e'/'E', as we're starting a new integer expression.
+
+Time Complexity: O(N) where N is the number of characters in S
+Space Complexity: O(1)
+    */
+    
+    
+   bool isNumber(string S) {
+        bool num = false, exp = false, sign = false, dec = false;
+        for (auto c : S)
+            if (c >= '0' && c <= '9') num = true ;    
+            else if (c == 'e' || c == 'E')
+                if (exp || !num) return false;
+                else exp = true, sign = false, num = false, dec = false;
+            else if (c == '+' || c == '-')
+                if (sign || num || dec) return false;
+                else sign = true;
+            else if (c == '.')
+                if (dec || exp) return false;
+                else dec = true;
+            else return false;
+        return num;
+    }
+
+
 //60. Permutation Sequence
 class Solution {
 public:
