@@ -5,6 +5,57 @@
 using namespace std;
 
 
+// 424. Longest Repeating Character Replacement
+/*
+If we want to replace the characters in a substring and make it into the longest repeating, then we definitely want to find the character with maximum frequency and then replace all the other characters by this one, hence in this way, we can minimize the number of replacement.
+
+Hence, with such idea within mind, when we build a sliding window [start, end], we want this window to have this property: (the length of the window) - (the maximum frequency of the character in this window) > k. Then we can see that [start, end-1] can be fit into k replacement.
+
+If we can find such a sliding window, then how to we move this window? We can simply shift the start to start+1, since in this way this window will no longer hold the property (the length of the window) - (the maximum frequency of the character in this window) > k, and then we can keep moving end to end+1 to see if we have a longer window.
+
+Below, we use localMaxFreq to record the maximum frequency seen so far in the current window.
+
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        int size = s.size(); int ret = 0;
+        vector<int> count(26, 0);
+        int start = 0; int end = 0; int localMaxFreq = 0; 
+        for(; end<size; end++){
+            count[s[end]-'A'] += 1;
+            localMaxFreq = max(localMaxFreq, count[s[end]-'A']);
+            if((end-start+1)-localMaxFreq > k) {
+                ret = max(ret, (end-start));
+                count[s[start]-'A'] -= 1;
+                start += 1;
+                localMaxFreq = *(max_element(count.begin(), count.end()));
+            }
+        }
+        return max(ret, end-start);
+    }
+};
+The above code uses localMaxFreq to keep track the maximum frequency of each current window. However, if we think carefully, we can find that if localMaxFreq of window A >= localMaxFreq of window B, then the A window must have longer length than the B window, this is because since both window A and window B hold this property (the length of the window) - (the maximum frequency of the character in this window) > k, and if localMaxFreq of window A >= localMaxFreq of window B, then (the length of the window A) >= (the length of the window B) by simple algebra .
+
+Hence, we only need to keep track of a globalMaxFreq to record the globally maximum frequency of each window what has been seen so far.
+*/
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        int size = s.size(); int ret = 0;
+        vector<int> count(26, 0);
+        int start = 0; int end = 0; int globalMaxFreq = 0; 
+        for(; end<size; end++){
+            count[s[end]-'A'] += 1;
+            globalMaxFreq = max(globalMaxFreq, count[s[end]-'A']);
+            if((end-start+1)-globalMaxFreq > k) {
+                ret = max(ret, (end-start));
+                count[s[start]-'A'] -= 1;
+                start += 1;
+            }
+        }
+        return max(ret, end-start);
+    }
+};
 // 46. Permutations
 class Solution {
 public:
