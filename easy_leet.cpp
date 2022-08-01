@@ -1,3 +1,21 @@
+// 70. Climbing Stairs
+class Solution {
+public:
+    int climbStairs(int n) {
+        int rs = 1;
+        int step1 = 1;
+        int step2 = 1;
+        
+        for (int i = 2; i <= n; i++) {
+            rs = step1 + step2;
+            step2 = step1;
+            step1 = rs;
+        }
+        return rs;
+    }
+};
+
+
 //121. Best Time to Buy and Sell Stock
 class Solution {
 public:
