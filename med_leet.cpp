@@ -4,6 +4,81 @@
 #include<limits.h>
 using namespace std;
 
+
+// 213. House Robber II
+// class Solution {
+// public:
+//     int rob(vector<int>& nums) {
+//         vector<int> loots(nums.size()+1);
+//         bool useFirst = false;
+//         if (nums.size() == 0) return 0;
+//         loots[0] = 0;
+//         loots[1] = nums[0];
+//         for (int i = 1; i < nums.size(); i++) {
+//             if (loots[i-1]+nums[i] > loots[i]) {
+//                 if (i - 1 == 0) useFirst = true;
+                
+//             }
+//             if (i == nums.size() && useFirst) {
+//                     loots[i+1] = loots[i];
+//                     break;
+//                 }
+//             loots[i+1] = max(loots[i-1]+nums[i], loots[i]);
+//         }
+//         return loots[nums.size()];
+//     }
+// };
+class Solution {
+public:
+
+//     int robOriginal(vector<int>& nums) {
+//         int a = 0, b = 0, res = 0;
+        
+//         for(int i = 0; i < nums.size(); ++i){
+//             res = max(b + nums[i], a);
+//             b = a;
+//             a = res;
+//         }
+        
+//         return res;
+//     }
+
+//     int rob(vector<int>& nums) {
+//         if(nums.empty()) return 0;
+//         if(nums.size() == 1) return nums[0];
+        
+//         vector<int> numsA(nums.begin() + 1, nums.end());
+//         vector<int> numsB(nums.begin(), nums.end()-1);
+        
+//         return max(robOriginal(numsA), robOriginal(numsB));
+//     }
+    int rob(vector<int>& nums)
+	{
+	    if(nums.size() == 0)
+		return 0;
+	    if(nums.size() == 1)
+		return nums[0];
+
+	    int pre1 = 0, cur1 = 0;
+	    for(int i = 0; i < nums.size() - 1; ++ i)
+	    {
+		int temp = pre1;
+		pre1 = cur1;
+		cur1 = max(temp + nums[i], pre1);
+	    }
+
+	    int pre2 = 0, cur2 = 0;
+	    for(int i = 1; i < nums.size(); ++ i)
+	    {
+		int temp = pre2;
+		pre2 = cur2;
+		cur2 = max(temp + nums[i], pre2);
+	    }
+
+	    return max(cur1, cur2);
+	}
+};
+
 // 198. House Robber
  int rob(vector<int>& nums) {
         if (nums.size() == 0) return 0;
