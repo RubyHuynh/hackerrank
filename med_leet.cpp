@@ -4,6 +4,64 @@
 #include<limits.h>
 using namespace std;
 
+//200. Number of Islands
+class Solution {
+public:
+    int numIslands(vector<vector<char>>& grid) {
+        int rs = 0;
+        
+        for (int i = 0; i < grid.size(); i++) {
+            for (int j = 0; j < grid[i].size(); j++) {
+                if (grid[i][j] == '1') {
+                    rs++;
+                    maskConnected(grid, i, j);
+                }
+            }
+        }
+        return rs;
+    }
+    
+private:
+    void maskConnected(vector<vector<char>>& grid, int i, int j) {
+        if (i < 0 || i >= grid.size() || j < 0 || j >= grid[i].size()
+            || grid[i][j] == '0') return;
+        grid[i][j] = '0';
+        maskConnected(grid, i-1, j);
+        maskConnected(grid, i+1, j);
+        maskConnected(grid, i, j-1);
+        maskConnected(grid, i, j+1);
+    }
+};
+
+/*
+Runtime: 48 ms, faster than 66.36% of C++ online submissions for Number of Islands.
+Memory Usage: 12.3 MB, less than 83.09% of C++ online submissions for Number of Islands.
+*/
+int numIslands(vector<vector<char>>& grid) {
+        int m = grid.size(), n = m ? grid[0].size() : 0, islands = 0, offsets[] = {0, 1, 0, -1, 0};
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == '1') {
+                    islands++;
+                    grid[i][j] = '0';
+                    queue<pair<int, int>> todo;
+                    todo.push({i, j});
+                    while (!todo.empty()) {
+                        pair<int, int> p = todo.front();
+                        todo.pop();
+                        for (int k = 0; k < 4; k++) {
+                            int r = p.first + offsets[k], c = p.second + offsets[k + 1];
+                            if (r >= 0 && r < m && c >= 0 && c < n && grid[r][c] == '1') {
+                                grid[r][c] = '0';
+                                todo.push({r, c});
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return islands;
+    }
 
 // 213. House Robber II
 // class Solution {
