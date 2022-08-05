@@ -1,3 +1,50 @@
+// 118. Pascal's Triangle
+class Solution {
+public:
+    vector<vector<int> > generate(int numRows) {
+        vector<vector<int>> r(numRows);
+
+        for (int i = 0; i < numRows; i++) {
+            r[i].resize(i + 1);
+            r[i][0] = r[i][i] = 1;
+  
+            for (int j = 1; j < i; j++)
+                r[i][j] = r[i - 1][j - 1] + r[i - 1][j];
+        }
+        
+        return r;
+    }
+    /*
+    Runtime: 0 ms, faster than 100.00% of C++ online submissions for Pascal's Triangle.
+    Memory Usage: 6.3 MB, less than 99.37% of C++ online submissions for Pascal's Triangle.
+    */
+//     vector<vector<int>> generate(int numRows) {
+//         vector<vector<int>> rs;
+//         vector<int> first;
+        
+//         if (numRows == 0) return rs;
+        
+//         first.push_back(1);
+//         rs.push_back(first);
+        
+//         for (int i = 1; i < numRows; i++) {
+//             auto prevRow = rs[i-1];
+//             vector<int> newRow;
+//             newRow.push_back(1);
+//             for (int j = 1; j < i; j++) {
+//                 newRow.push_back(prevRow[j-1] + prevRow[j]);
+//             }
+//             newRow.push_back(1);
+//             rs.push_back(newRow);
+//         }
+//         return rs;
+//     }
+    /*
+    Runtime: 3 ms, faster than 39.24% of C++ online submissions for Pascal's Triangle.
+    Memory Usage: 6.6 MB, less than 32.60% of C++ online submissions for Pascal's Triangle.
+    */
+};
+
 //746. Min Cost Climbing Stairs
 class Solution {
 public:
