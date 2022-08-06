@@ -1,3 +1,23 @@
+//206. Reverse Linked List
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        ListNode* prev = NULL;
+        
+        while (head) {
+            ListNode* next = head->next;
+            head->next = prev;
+            prev = head;
+            head = next;
+        }
+        return prev;
+    }
+};
+
+/*Success
+Details 
+Runtime: 3 ms, faster than 98.41% of C++ online submissions for Reverse Linked List.
+Memory Usage: 8.3 MB, less than 79.70% of C++ online submissions for Reverse Linked List.*/
 
 //217. Contains Duplicate
 class Solution {
