@@ -1,3 +1,139 @@
+
+//297. Serialize and Deserialize Binary Tree
+// Encodes a tree to a single string.
+string serialize(TreeNode* root) {
+    string ans = "";
+    if (root == NULL) return ans;
+    
+    queue<TreeNode*> q;
+    q.push(root);
+    while (!q.empty()){
+        TreeNode* currNode = q.front();
+        q.pop();
+        if (currNode == NULL){
+            ans.append("#,");
+        } 
+        else {
+            ans.append(to_string(currNode->val) + ',');
+        }
+        
+        if (currNode != NULL){
+            q.push(currNode->left);
+            q.push(currNode->right);
+        }
+    }
+    cout << ans << "\n";
+    return ans;
+}
+
+// Decodes your encoded data to tree.
+TreeNode* deserialize(string data) {
+    if (data.size() == 0) return NULL;
+    stringstream s(data);
+    string str;
+    getline(s, str, ',');
+    TreeNode *root = new TreeNode(stoi(str));
+    queue<TreeNode*> q;
+    q.push(root);
+    
+    while (!q.empty()){
+        TreeNode *node = q.front();
+        q.pop();
+        
+        //for left subtree
+        getline(s, str, ',');
+        if (str == "#"){
+            node->left = NULL;
+        }
+        else {
+            TreeNode *leftNode = new TreeNode(stoi(str));
+            node->left = leftNode;
+            q.push(leftNode);
+        }
+        
+        //for right subtree
+        getline(s, str, ',');
+        if (str == "#"){
+            node->right = NULL;
+        }
+        else {
+            TreeNode *rightNode = new TreeNode(stoi(str));
+            node->right = rightNode;
+            q.push(rightNode);
+        } 
+    }
+    return root;
+}
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Codec {
+public:
+
+	void serialize_helper(TreeNode* root , string &s){
+		if(root == NULL){
+			s.push_back('/');
+			s.push_back(',');
+			return;
+		}
+
+		string t = to_string(root -> val);
+		int i = 0;
+		while(i < t.size()){
+			s.push_back(t[i++]);
+		}
+		s.push_back(',');
+
+		serialize_helper(root -> left , s);
+		serialize_helper(root -> right , s);
+	}
+
+	// Encodes a tree to a single string.
+	string serialize(TreeNode* root) {
+		 string s = "";
+		 serialize_helper(root , s);
+		 return s;
+	}
+
+	int idx =  0;
+	TreeNode* deserialize_helper(string data){
+
+		string t;
+		while(idx < data.size() && data[idx] != ','){
+			t.push_back(data[idx++]);
+		}
+
+		if(idx >= data.size() || t == "/"){
+			idx++;
+			return NULL;
+		}
+
+		TreeNode* root = new TreeNode(stoi(t));
+		idx++;
+		root -> left  = deserialize_helper(data);
+		root -> right = deserialize_helper(data);
+		return root;
+	}
+
+	// Decodes your encoded data to tree.
+	TreeNode* deserialize(string data){
+		return deserialize_helper(data);
+	}
+};
+
+// Your Codec object will be instantiated and called as such:
+// Codec ser, deser;
+// TreeNode* ans = deser.deserialize(ser.serialize(root));
+
+
+
 // 149. Max Points on a Line
 // class Solution{
 // public :
