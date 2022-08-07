@@ -1,3 +1,72 @@
+// 132. Palindrome Partitioning II
+// class Solution {
+//     public:
+//     int minCut(string s) {
+//         return minCutFrom(s, 0, s.length() - 1);
+//     }
+    
+//     int minCutFrom(string s, int start, int end) {
+//         if (start == end || isPalindrome(s, start, end)) {
+//             return 0;
+//         }
+//         int minCut = s.length() - 1;
+//         for (int i = start; i <= end; i++) {
+//             if (isPalindrome(s, start, i)) {
+//                 minCut = min(minCut, 1 + minCutFrom(s, i + 1, end));
+//             }
+//         }
+//         return minCut;
+//     }
+    
+//     bool isPalindrome(string s, int x, int y) {
+//         while (x < y) {
+//             if (s[x++] != s[y--])
+//                 return false;
+//         }
+//         return true;
+//     }
+// };
+
+// // Time Limit Exceeded
+// // "fifgbeajcacehiicccfecbfhhgfiiecdcjjffbghdidbhbdbfbfjccgbbdcjheccfbhafehieabbdfeigbiaggchaeghaijfbjhi"
+
+
+/*
+Took me a while to understand. I'd like to help further explain it.
+
+The definition of 'cut' array is the minimum number of cuts of a sub string. More specifically, cut[n] stores the cut number of string s[0, n-1].
+
+Here is the basic idea of the solution:
+
+Initialize the 'cut' array: For a string with n characters s[0, n-1], it needs at most n-1 cut. Therefore, the 'cut' array is initialized as cut[i] = i-1
+
+Use two variables in two loops to represent a palindrome:
+The external loop variable 'i' represents the center of the palindrome. The internal loop variable 'j' represents the 'radius' of the palindrome. Apparently, j <= i is a must.
+This palindrome can then be represented as s[i-j, i+j]. If this string is indeed a palindrome, then one possible value of cut[i+j] is cut[i-j] + 1, where cut[i-j] corresponds to s[0, i-j-1] and 1 correspond to the palindrome s[i-j, i+j];
+
+When the loops finish, you'll get the answer at cut[s.length]
+
+*/
+class Solution {
+public:
+    int minCut(string s) {
+        int n = s.size();
+        vector<int> cut(n+1, 0);  // number of cuts for the first k characters
+        for (int i = 0; i <= n; i++) cut[i] = i-1;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; i-j >= 0 && i+j < n && s[i-j]==s[i+j] ; j++) // odd length palindrome
+                cut[i+j+1] = min(cut[i+j+1],1+cut[i-j]);
+
+            for (int j = 1; i-j+1 >= 0 && i+j < n && s[i-j+1] == s[i+j]; j++) // even length palindrome
+                cut[i+j+1] = min(cut[i+j+1],1+cut[i-j+1]);
+        }
+        return cut[n];
+    }
+};
+
+/*Runtime: 13 ms, faster than 97.94% of C++ online submissions for Palindrome Partitioning II.
+Memory Usage: 6.4 MB, less than 97.25% of C++ online submissions for Palindrome Partitioning II.*/
+
 
 //297. Serialize and Deserialize Binary Tree
 // Encodes a tree to a single string.
