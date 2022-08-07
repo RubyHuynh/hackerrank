@@ -1,3 +1,50 @@
+//167. Two Sum II - Input Array Is Sorted
+class Solution {
+public:
+   vector<int> twoSum(vector<int>& nums, int target) {
+        int N = nums.size();
+        for(int i=0;i<N-1;i++){
+            int lo = i+1;
+            int hi = N;
+            while(lo<hi){
+                int mid = lo + (hi-lo)/2;
+                if(nums[mid]==target-nums[i]) return {i+1,mid+1};
+                else if(nums[mid]>=target-nums[i]) hi=mid;
+                else lo = mid+1;
+            }
+            if(lo!=nums.size() && nums[lo]==target-nums[i]) return {i+1,lo+1};
+        }
+        return {}; // not found
+    }
+    
+//     vector<int> twoSum(vector<int>& numbers, int target) {
+//         int a = 0;
+//         int b = numbers.size() - 1;
+//         vector<int> rs;
+        
+//         if (b < 0)  return rs;
+        
+//         while (a <= b) {
+//             if (numbers[a] + numbers[b] > target) {
+//                 b--;
+//             }
+//             else if (numbers[a] + numbers[b] < target) {
+//                 a++;
+//             }
+//             else {
+//                 rs.push_back(a+1);
+//                 rs.push_back(b+1);
+//                 break;
+//             }
+//         }
+//         return rs;
+//     }
+    /*Runtime: 22 ms, faster than 46.56% of C++ online submissions for Two Sum II - Input Array Is Sorted.
+    Memory Usage: 15.6 MB, less than 43.13% of C++ online submissions for Two Sum II - Input Array Is Sorted.
+    */
+};
+
+
 //206. Reverse Linked List
 class Solution {
 public:
