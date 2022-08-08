@@ -1,3 +1,71 @@
+//590. N-ary Tree Postorder Traversal
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> children;
+
+    Node() {}
+
+    Node(int _val) {
+        val = _val;
+    }
+
+    Node(int _val, vector<Node*> _children) {
+        val = _val;
+        children = _children;
+    }
+};
+*/
+
+class Solution {
+public:
+    vector<int> postorder(Node* root) {
+        stack<Node*> stack;
+        vector<int> rs;
+        
+        if (!root) return rs;
+        
+        stack.push(root);
+        while (stack.size()) {
+            Node* cur = stack.top();
+            stack.pop();
+            rs.push_back(cur->val);
+            for (auto child : cur->children) {
+                stack.push(child);
+            }
+        }
+        std::reverse(rs.begin(), rs.end());
+        return rs;
+    }
+    /*Runtime: 24 ms, faster than 87.32% of C++ online submissions for N-ary Tree Postorder Traversal.
+Memory Usage: 11.2 MB, less than 55.79% of C++ online submissions for N-ary Tree Postorder Traversal.*/
+    
+    
+//     vector<int> postorder(Node* root) {
+//         stack<Node*> stack;
+//         vector<int> rs;
+        
+//         if (!root) return rs;
+        
+//         stack.push(root);
+//         while (stack.size()) {
+//             Node* cur = stack.top();
+//             stack.pop();
+//             rs.insert(rs.begin(), 1, cur->val); // bad here, reallocation and coppying data
+//             for (auto child : cur->children) {
+//                 stack.push(child);
+//             }
+//         }
+//         return rs;
+//     }
+    
+/*Runtime: 82 ms, faster than 5.19% of C++ online submissions for N-ary Tree Postorder Traversal.
+Memory Usage: 11 MB, less than 93.11% of C++ online submissions for N-ary Tree Postorder Traversal.*/
+};
+
+
 // 234. Palindrome Linked List
 /**
  * Definition for singly-linked list.
