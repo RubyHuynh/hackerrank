@@ -4,6 +4,93 @@
 #include<limits.h>
 using namespace std;
 
+
+//15. 3Sum
+class Solution {
+public:
+    
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        sort(nums.begin() , nums.end());     //Sorted Array
+        if(nums.size() < 3){                // Base Case 1
+            return {};
+        }
+        if(nums[0] > 0){                    // Base Case 2
+            return {};
+        }
+        unordered_map<int , int> hashMap;
+        for(int i = 0 ; i < nums.size() ; ++i){     //Hashing of Indices
+            hashMap[nums[i]] = i;
+        }
+        vector<vector<int>> answer;
+        for(int i = 0 ; i < nums.size() - 2 ; ++i){     //Traversing the array to fix the number.
+            if(nums[i] > 0){     //If number fixed is +ve, stop there because we can't make it zero by searching after it.
+                break;
+            }
+            for(int j = i + 1 ; j < nums.size() - 1 ; ++j){     //Fixing another number after first number
+                int required = -1*(nums[i] + nums[j]);    //To make sum 0, we would require the -ve sum of both fixed numbers.
+                if(hashMap.count(required) && hashMap.find(required)->second > j){ //If it exists in hashmap and its last occurrence index > 2nd fixed index, we found our triplet.
+                    answer.push_back({nums[i] , nums[j] , required});
+                }
+                j = hashMap.find(nums[j])->second; //Update j to last occurence of 2nd fixed number to avoid duplicate triplets.
+            }
+            i = hashMap.find(nums[i])->second;     //Update i to last occurence of 1st fixed number to avoid duplicate triplets.
+        }
+        return answer;  //Return answer vector.
+    }
+    /*Runtime: 340 ms, faster than 20.07% of C++ online submissions for 3Sum.
+Memory Usage: 20.4 MB, less than 52.46% of C++ online submissions for 3Sum.*/
+    
+//     vector<vector<int>> threeSum(vector<int>& nums) {
+//         vector<vector<int>> result;
+        
+//         int n = nums.size();
+//         if (n < 3) {
+//             return result;
+//         }
+        
+//         sort(nums.begin(), nums.end());
+        
+//         for (int i = 0; i < n - 2; i++) {
+//             if (nums[i] > 0) {
+//                 break;
+//             }
+//             if (i > 0 && nums[i - 1] == nums[i]) {
+//                 continue;
+//             }
+            
+//             int j = i + 1;
+//             int k = n - 1;
+            
+//             while (j < k) {
+//                 int sum = nums[i] + nums[j] + nums[k];
+                
+//                 if (sum < 0) {
+//                     j++;
+//                 } else if (sum > 0) {
+//                     k--;
+//                 } else {
+//                     result.push_back({nums[i], nums[j], nums[k]});
+                    
+//                     while (j < k && nums[j] == nums[j + 1]) {
+//                         j++;
+//                     }
+//                     j++;
+                    
+//                     while (j < k && nums[k - 1] == nums[k]) {
+//                         k--;
+//                     }
+//                     k--;
+//                 }
+//             }
+//         }
+        
+//         return result;
+//     }
+};
+/*Runtime: 136 ms, faster than 59.32% of C++ online submissions for 3Sum.
+Memory Usage: 19.8 MB, less than 98.25% of C++ online submissions for 3Sum.*/
+
+
 //200. Number of Islands
 class Solution {
 public:
