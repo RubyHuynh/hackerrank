@@ -1,3 +1,38 @@
+//94. Binary Tree Inorder Traversal
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> rs;
+        stack<TreeNode*> stack;
+        
+        TreeNode* cur = root;
+        while (cur || stack.size()) {
+            while (cur) {
+                stack.push(cur);
+                cur = cur->left;
+            }
+            
+            cur = stack.top();
+            stack.pop();
+            rs.push_back(cur->val);
+            cur = cur->right;
+        }
+        return rs;
+    }
+};
+
+
 //590. N-ary Tree Postorder Traversal
 /*
 // Definition for a Node.
