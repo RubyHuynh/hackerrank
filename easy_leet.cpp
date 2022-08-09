@@ -1,3 +1,49 @@
+// 589. N-ary Tree Preorder Traversal
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> children;
+
+    Node() {}
+
+    Node(int _val) {
+        val = _val;
+    }
+
+    Node(int _val, vector<Node*> _children) {
+        val = _val;
+        children = _children;
+    }
+};
+*/
+
+class Solution {
+public:
+    vector<int> preorder(Node* root) {
+        std::vector<int> rs;
+        std::stack<Node*> stack;
+        Node* cur = root;
+        
+        if (!root) return rs;
+        
+        stack.push(cur);
+        while (stack.size()) {
+            cur = stack.top();
+            stack.pop();
+            rs.push_back(cur->val);
+            std::reverse(cur->children.begin(), cur->children.end());
+            for (auto it : cur->children) {
+                stack.push(it);
+            }
+        }
+        return rs;
+    }
+};
+/*Runtime: 36 ms, faster than 51.52% of C++ online submissions for N-ary Tree Preorder Traversal.
+Memory Usage: 10.9 MB, less than 98.76% of C++ online submissions for N-ary Tree Preorder Traversal.*/
+
 //94. Binary Tree Inorder Traversal
 /**
  * Definition for a binary tree node.
