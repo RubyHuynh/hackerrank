@@ -1,3 +1,52 @@
+//617. Merge Two Binary Trees
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* mergeTrees(TreeNode* t1, TreeNode* t2) {
+        if(t2==NULL) return t1;
+        if(t1==NULL) return t2;
+        TreeNode* res=t1;
+        stack<TreeNode*> s1, s2;
+        s1.push(t1), s2.push(t2);
+        while(!s1.empty()) {
+            TreeNode* c1=s1.top();
+            TreeNode* c2=s2.top();
+            s1.pop(), s2.pop();
+            c1->val+=c2->val;
+            if(c1->right==NULL&&c2->right!=NULL) c1->right=c2->right;
+            else if(c1->right!=NULL&&c2->right!=NULL) s1.push(c1->right), s2.push(c2->right);
+            if(c1->left==NULL&&c2->left!=NULL) c1->left=c2->left;
+            else if(c1->left!=NULL&&c2->left!=NULL) s1.push(c1->left), s2.push(c2->left);
+        }
+        return res;
+    }
+    /*Runtime: 66 ms, faster than 44.35% of C++ online submissions for Merge Two Binary Trees.
+Memory Usage: 32.7 MB, less than 43.28% of C++ online submissions for Merge Two Binary Trees.*/
+    
+//     TreeNode* mergeTrees(TreeNode* root1, TreeNode* root2) {
+//         if (!root1) return root2;
+//         if (!root2) return root1;
+        
+//         root1->val += root2->val;
+//         root1->left = mergeTrees(root1->left, root2->left);
+//         root1->right = mergeTrees(root1->right, root2->right);
+//         return root1;
+//     }
+};
+/*Runtime: 49 ms, faster than 76.52% of C++ online submissions for Merge Two Binary Trees.
+Memory Usage: 32.3 MB, less than 87.32% of C++ online submissions for Merge Two Binary Trees.*/
+
+
 // 589. N-ary Tree Preorder Traversal
 /*
 // Definition for a Node.
