@@ -1,3 +1,31 @@
+//226. Invert Binary Tree
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* invertTree(TreeNode* root) {
+        if (!root) return NULL;
+        
+        TreeNode* left = invertTree(root->left);
+        TreeNode* right = invertTree(root->right);
+        
+        root->left = right;
+        root->right = left;
+        return root;
+    }
+};
+/*Runtime: 7 ms, faster than 24.94% of C++ online submissions for Invert Binary Tree.
+Memory Usage: 9.6 MB, less than 97.32% of C++ online submissions for Invert Binary Tree.*/
+
 //617. Merge Two Binary Trees
 /**
  * Definition for a binary tree node.
