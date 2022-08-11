@@ -1,3 +1,75 @@
+//9. Palindrome Number
+// class Solution {
+// public:
+// //     bool isPalindrome(int x) {
+// //         char* l = (char*) &x;
+// //         char* r = (char*) &x;
+// //         int tmp = x;
+        
+// //         while (tmp) {
+// //             tmp = tmp >> 1;
+// //             r++;
+// //         }
+        
+// //         while (r && l && r > l) {
+// //             if (r[0] != l[0]) return false;
+// //             r--;
+// //             l++;
+// //         }
+// //         return true;
+// //     }
+//     // bool isPalindrome(int x) {
+//     //     if(x<0|| (x!=0 &&x%10==0)) return false;
+//     //     int sum=0;
+//     //     while(x>sum)
+//     //     {
+//     //         sum = sum*10+x%10;
+//     //         x = x/10;
+//     //     }
+//     //     return (x==sum)||(x==sum/10);
+//     // }
+// };
+
+// Solution I:
+// Convert the number to a string, revert it and compare.
+
+class Solution1 {
+public:
+    bool isPalindrome(int x) {
+        string rev = to_string(x);
+        reverse(rev.begin(), rev.end());
+        return to_string(x) == rev;
+    }
+};
+// Solution II:
+// Convert the number to a string, then use two pointers at beginning and end to check if it's a palindrome.
+
+class Solution2 {
+public:
+    bool isPalindrome(int x) {
+        string s = to_string(x);
+        int i = 0, j = s.size()-1;
+        while (i <= j) if (s[i++] != s[j--]) return false;
+        return true;
+    }
+};
+// Solution III:
+// Reverse the second half of the number and then compare.
+
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        if (x < 0 || (x % 10 == 0 && x != 0)) return false;
+        int rev = 0;
+        while (rev < x) {
+            rev = rev * 10 + x % 10;
+            x /= 10;
+        }
+        
+        return x == rev || x == rev / 10;
+    }
+};
+
 //226. Invert Binary Tree
 /**
  * Definition for a binary tree node.
