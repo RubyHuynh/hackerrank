@@ -1,3 +1,32 @@
+//191. Number of 1 Bits
+class Solution {
+public:
+    int hammingWeight(uint32_t n) {
+        int rs = 0;
+        while (n) {
+            rs++;
+            n &= (n-1); // erase right most 1 bit
+        }
+        return rs;
+    }
+    /*Runtime: 2 ms, faster than 62.71% of C++ online submissions for Number of 1 Bits.
+Memory Usage: 5.8 MB, less than 79.07% of C++ online submissions for Number of 1 Bits.*/
+    
+    int hammingWeight1(uint32_t n) {
+        int rs = 0;
+        while (n) {
+            if (n &1) {
+                rs++;
+            }
+            n >>= 1;
+        }
+        return rs;
+    }
+    /*Runtime: 3 ms, faster than 59.20% of C++ online submissions for Number of 1 Bits.
+Memory Usage: 6 MB, less than 47.87% of C++ online submissions for Number of 1 Bits.*/
+};
+
+
 //72. Edit Distance
 class Solution {
 public:
