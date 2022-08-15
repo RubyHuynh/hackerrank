@@ -1,7 +1,7 @@
 //55. Jump Game
 class Solution {
 public:
-    bool canJump(vector<int>& nums) {
+    bool canJump1(vector<int>& nums) {
         int n = nums.size();
         int goal = n-1, i;
         for (int i = n; i--;)
@@ -9,6 +9,35 @@ public:
                 goal = i;
         return !goal;
     }
+     bool canJump2(vector<int>& nums) {
+        int n = nums.size();
+        int reachable = 0;
+        
+        for (int i = 0; i < n; i++) {
+            if (i > reachable) {
+                return false;
+            }
+            reachable = max(reachable, i + nums[i]);
+            if (reachable >= n - 1) {
+                break;
+            }
+        }
+        
+        return true;
+    }
+    
+     bool canJump(vector<int>& nums) {
+        int size=nums.size();
+        int step=nums[0];
+        for(int i=1;i<size;++i){
+            step--;
+            if(step<0)
+               return false;
+            if(nums[i]>step)
+               step=nums[i];
+        }
+        return true;
+    
 };
 
 //9. Palindrome Number
