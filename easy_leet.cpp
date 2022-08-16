@@ -1,3 +1,62 @@
+//112. Path Sum
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        if (!root) return false;
+        if (!root->left && !root->right && root->val == targetSum) return true;
+        
+        return hasPathSum(root->left, targetSum - root->val) 
+            || hasPathSum(root->right, targetSum - root->val);
+    }
+    /*Runtime: 14 ms, faster than 72.86% of C++ online submissions for Path Sum.
+Memory Usage: 21.2 MB, less than 92.08% of C++ online submissions for Path Sum.*/
+    
+    
+    bool hasPathSum1(TreeNode* root, int targetSum) {
+        stack<TreeNode*> nodes;
+        stack<int> sums;
+        
+        if (!root) return false;
+        
+        nodes.push(root);
+        sums.push(targetSum - root->val);
+        while (sums.size()) {
+            TreeNode* cur = nodes.top();
+            int curSum = sums.top();
+            nodes.pop();
+            sums.pop();
+            
+            if (!cur->left && !cur->right && curSum == 0) {
+                return true;
+            }
+            if (cur->left) {
+                nodes.push(cur->left);
+                sums.push(curSum - cur->left->val);
+            }
+            if (cur->right) {
+                nodes.push(cur->right);
+                sums.push(curSum - cur->right->val);
+            }
+        }
+        return false;
+    }
+};
+
+/*Runtime: 10 ms, faster than 89.13% of C++ online submissions for Path Sum.
+Memory Usage: 21.6 MB, less than 39.41% of C++ online submissions for Path Sum.*/
+
+
 //101. Symmetric Tree
 /**
  * Definition for a binary tree node.
