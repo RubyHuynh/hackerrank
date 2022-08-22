@@ -452,6 +452,33 @@ Below, we use localMaxFreq to record the maximum frequency seen so far in the cu
 
 class Solution {
 public:
+
+ int characterReplacement(string s, int k) {
+        vector<int> count(26);
+        int maxCount = 0;
+        
+        int i = 0;
+        int j = 0;
+        
+        int result = 0;
+        
+        while (j < s.size()) {
+            count[s[j] - 'A']++;
+            maxCount = max(maxCount, count[s[j] - 'A']);
+            if (j - i + 1 - maxCount > k) {
+                count[s[i] - 'A']--;
+                i++;
+            }
+            result = max(result, j - i + 1);
+            j++;
+        }
+        
+        return result;
+    }
+    /*Runtime: 13 ms, faster than 69.75% of C++ online submissions for Longest Repeating Character Replacement.
+Memory Usage: 6.9 MB, less than 85.18% of C++ online submissions for Longest Repeating Character Replacement.*/
+
+
     int characterReplacement(string s, int k) {
         int size = s.size(); int ret = 0;
         vector<int> count(26, 0);
