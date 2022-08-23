@@ -4,6 +4,38 @@
 #include<limits.h>
 using namespace std;
 
+
+//347. Top K Frequent Elements
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        int n = nums.size();
+        unordered_map<int, int> map;
+        
+        for (int i = 0; i <n; i++) {
+            map[nums[i]]++;
+        }
+        
+        vector<vector<int>> buckets(n+1);
+        for (auto it = map.begin(); it != map.end(); it++) {
+            buckets[it->second].push_back(it->first);
+        }
+        
+        vector<int> result;
+        
+        for (int i = n; i >= 0; i--) {
+            if (result.size() >= k) {
+                break;
+            }
+            if (!buckets[i].empty()) {
+                result.insert(result.end(), buckets[i].begin(), buckets[i].end());
+            }
+        }
+        return result;
+    }
+};
+/*Runtime: 23 ms, faster than 63.92% of C++ online submissions for Top K Frequent Elements.
+Memory Usage: 15.4 MB, less than 6.80% of C++ online submissions for Top K Frequent Elements.*/
 //17. Letter Combinations of a Phone Number
 class Solution {
 private:
