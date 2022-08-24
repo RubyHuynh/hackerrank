@@ -5,6 +5,31 @@
 using namespace std;
 
 
+//238. Product of Array Except Self
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> ret(n, 1);
+        
+        int pre = 1;
+        for (int i = 0; i < n; i++) {
+            ret[i] = pre;
+            pre *= nums[i];
+        }
+        
+        int pos = 1;
+        for (int i = n - 1; i >= 0; i--) {
+            ret[i] = ret[i] * pos;
+            pos *= nums[i];
+        }
+        return ret;
+    }
+};
+/*Runtime: 16 ms, faster than 99.46% of C++ online submissions for Product of Array Except Self.
+Memory Usage: 24.1 MB, less than 63.84% of C++ online submissions for Product of Array Except Self.
+*/
+
 //347. Top K Frequent Elements
 class Solution {
 public:
