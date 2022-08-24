@@ -4,6 +4,33 @@
 #include<limits.h>
 using namespace std;
 
+//90. Subsets II
+class Solution {
+private:
+    void dfs(vector<int> &nums, int start, vector<int> & cur, vector<vector<int>> &ret) {
+        ret.push_back(cur);
+        
+        for (int i = start; i < nums.size(); i++) {
+            if (i > start && nums[i] == nums[i-1]) {
+                continue;        
+            }
+            cur.push_back(nums[i]);
+            dfs(nums, i+1, cur, ret);
+            cur.pop_back();
+        }
+    }
+public:
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        vector<int> cur;
+        vector<vector<int>> ret;
+        
+        sort(nums.begin(), nums.end());
+        dfs(nums, 0, cur, ret);
+        return ret;
+    }
+};
+/*Runtime: 5 ms, faster than 57.72% of C++ online submissions for Subsets II.
+Memory Usage: 7.5 MB, less than 89.01% of C++ online submissions for Subsets II.*/
 
 //238. Product of Array Except Self
 class Solution {
