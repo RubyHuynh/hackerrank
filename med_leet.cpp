@@ -4,6 +4,43 @@
 #include<limits.h>
 using namespace std;
 
+//1143. Longest Common Subsequence
+class Solution {
+public:
+    int longestCommonSubsequencrrre(string text1, string text2) {
+        int m = text1.size();
+        int n = text2.size();
+        
+        vector<vector<int>> dp(m + 1, vector<int>(n + 1));
+        
+        for (int i = m - 1; i >= 0; i--) {
+            for (int j = n - 1; j >= 0; j--) {
+                if (text1[i] == text2[j]) {
+                    dp[i][j] = 1 + dp[i + 1][j + 1];
+                } else {
+                    dp[i][j] = max(dp[i + 1][j], dp[i][j + 1]);
+                }
+            }
+        }
+        
+        return dp[0][0];
+    }
+};
+
+int longestCommonSubsequence(string text1, string text2) {
+    int n = text1.size();
+    int m = text2.size();
+    vector<int> prev(m+1,0), curr(m+1,0);
+
+    for(int i=1;i<=n;i++)
+    {
+        for(int j=1;j<=m;j++)
+            curr[j] = text1[i-1]==text2[j-1] ? prev[j-1] + 1 : max(prev[j],curr[j-1]);
+        
+        prev = curr;
+    }
+    return prev[m];
+}
 //62. Unique Paths
 class Solution {
 public:
