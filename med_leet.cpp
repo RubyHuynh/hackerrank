@@ -4,6 +4,26 @@
 #include<limits.h>
 using namespace std;
 
+//78. Subsets
+class Solution {
+public:
+
+    void dfs(vector<int> &nums, vector<vector<int>> &ret, vector<int> &cur, int i) {
+        ret.push_back(cur);
+        for (int j = i; j < nums.size(); j++) {
+            cur.push_back(nums[j]);
+            dfs(nums, ret, cur, j+1);
+            cur.pop_back();
+        }
+    }
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<int> cur;
+        vector<vector<int>> ret;
+        dfs(nums, ret, cur, 0);
+        return ret;
+    }
+};
+
 //1143. Longest Common Subsequence
 class Solution {
 public:
