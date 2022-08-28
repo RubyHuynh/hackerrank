@@ -1,3 +1,33 @@
+
+//329. Longest Increasing Path in a Matrix
+class Solution {
+    int dfs(vector<vector<int>> &matrix, vector<vector<int>> &dp, int i, int j, int prev) {
+        if (i < 0 || i >= matrix.size() || j < 0 || j >= matrix[0].size() || matrix[i][j] <= prev) {
+            return 0;
+        }
+        
+        if (dp[i][j]) return dp[i][j];
+        
+        return dp[i][j] = 1 + std::max(dfs(matrix, dp, i + 1, j, matrix[i][j]),
+                       std::max(dfs(matrix, dp, i - 1, j, matrix[i][j]),
+                       std::max(dfs(matrix, dp, i, j + 1, matrix[i][j]),
+                       dfs(matrix, dp, i, j - 1, matrix[i][j]))));
+        
+    }
+public:
+    int longestIncreasingPath(vector<vector<int>>& matrix) {
+        vector<vector<int>> dp(matrix.size(), vector<int>(matrix[0].size(), 0));
+        int ret = 0;
+        
+        for (int i = 0; i < matrix.size(); i++) {
+            for (int j = 0; j < matrix[0].size(); j++) {
+                ret = max(ret, dfs(matrix, dp, i, j, -1));       
+            }
+        }
+        return ret;
+    }
+};
+
 //191. Number of 1 Bits
 class Solution {
 public:
