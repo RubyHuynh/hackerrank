@@ -4,6 +4,94 @@
 #include<limits.h>
 using namespace std;
 
+//133. Clone Graph
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> neighbors;
+    Node() {
+        val = 0;
+        neighbors = vector<Node*>();
+    }
+    Node(int _val) {
+        val = _val;
+        neighbors = vector<Node*>();
+    }
+    Node(int _val, vector<Node*> _neighbors) {
+        val = _val;
+        neighbors = _neighbors;
+    }
+};
+*/
+
+class Solution {
+public:
+    Node* cloneGraph(Node* node) {
+        if (node == NULL) {
+            return NULL;
+        }
+        
+        Node* copy = new Node(node->val);
+        std::vector<Node*> check(101, NULL);
+        
+        queue<Node*> q;
+        q.push(node);
+        check[node->val] = copy;
+        
+        while (!q.empty()) {
+            Node* curr = q.front();
+            q.pop();
+            
+            for (int i = 0; i < curr->neighbors.size(); i++) {
+                Node* neighbor = curr->neighbors[i];
+                
+                if (!check[neighbor->val]) {
+                    check[neighbor->val] = new Node(neighbor->val);
+                    q.push(neighbor);
+                }
+                
+                check[curr->val]->neighbors.push_back(check[neighbor->val]);
+            }
+        }
+        
+        return copy;
+    }
+    
+    Node* cloneGraph1(Node* node) {
+        if (node == NULL) {
+            return NULL;
+        }
+        
+        Node* copy = new Node(node->val);
+        m[node] = copy;
+        
+        queue<Node*> q;
+        q.push(node);
+        
+        while (!q.empty()) {
+            Node* curr = q.front();
+            q.pop();
+            
+            for (int i = 0; i < curr->neighbors.size(); i++) {
+                Node* neighbor = curr->neighbors[i];
+                
+                if (m.find(neighbor) == m.end()) {
+                    m[neighbor] = new Node(neighbor->val);
+                    q.push(neighbor);
+                }
+                
+                m[curr]->neighbors.push_back(m[neighbor]);
+            }
+        }
+        
+        return copy;
+    }
+private:
+    unordered_map<Node*, Node*> m;
+};
+
 
 //309. Best Time to Buy and Sell Stock with Cooldown
 class Solution {
