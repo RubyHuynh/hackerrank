@@ -4,6 +4,36 @@
 #include<limits.h>
 using namespace std;
 
+
+//40. Combination Sum II
+class Solution {
+    void dfs(vector<int>& nums, int target, int idx, vector<int>& cur, vector<vector<int>> &ret) {
+        if (target == 0) {
+            ret.push_back(cur);
+            return;
+        }
+        
+        for (int i = idx; i < nums.size(); i++) {
+            if (i > idx && nums[i] == nums[i - 1]) { //hmm
+                continue;
+            }
+            if (nums[i] <= target) {
+                cur.push_back(nums[i]);
+                dfs(nums, target - nums[i], i + 1, cur, ret);
+                cur.pop_back();
+            }
+        }
+    }
+public:
+    vector<vector<int>> combinationSum2(vector<int>& nums, int target) {
+        vector<vector<int>> ret;
+        vector<int> cur;
+        sort(nums.begin(), nums.end());
+        dfs(nums, target, 0, cur, ret);
+        return ret;
+    }
+};
+
 //133. Clone Graph
 /*
 // Definition for a Node.
