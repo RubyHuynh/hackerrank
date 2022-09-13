@@ -1,3 +1,35 @@
+//20. Valid Parentheses
+class Solution {
+public:
+    bool isValid(string s) {
+        stack<char> pipe;
+        
+        
+        for (auto it : s) {
+            if (it == '(' || it == '{' || it == '[') {
+                pipe.push(it);
+            }
+            else {
+                if (pipe.empty() 
+                    || (pipe.top() == '(' && it != ')')
+                    || (pipe.top() == '{' && it != '}')
+                    || (pipe.top() == '[' && it != ']')){
+                    return false;
+                }
+                else {
+                    pipe.pop();
+                }
+            }
+        }
+        
+        return pipe.empty();
+    }
+};
+/*Runtime: 3 ms, faster than 47.07% of C++ online submissions for Valid Parentheses.
+Memory Usage: 6.3 MB, less than 50.99% of C++ online submissions for Valid Parentheses.
+*/
+
+
 //112. Path Sum
 /**
  * Definition for a binary tree node.
