@@ -5,6 +5,89 @@
 using namespace std;
 
 
+//74. Search a 2D Matrix
+class Solution {
+public:
+    bool searchMatrix3(vector<vector<int>>& matrix, int target) {
+        int n = matrix.size();
+        int m = matrix[0].size();
+        
+		// if matrix have 0 rows or 0 colums
+        if(n == 0 || m == 0)
+            return false;
+        
+		// treating matrix as array just taking care of endices
+		// [0..n*m]
+        int start = 0, end = m*n - 1;
+        
+        while(start <= end)
+        {
+            int mid = start + (end - start) / 2;
+			// a[x] : matrix[x / m][x % m] formulae
+            int ind = matrix[mid/m][mid%m];
+            if (target == ind)
+                return true;
+			// left half
+            else if(target < ind)
+                end = mid - 1;
+            else
+			// right half
+                start = mid + 1;       
+        }
+        return false;
+    }
+    bool searchMatrix2(vector<vector<int>>& matrix, int target) {
+        int rows = matrix.size(),
+			cols = matrix[0].size(),
+            row = 0, col = cols - 1;
+			
+        while (row < rows && col > -1) {
+            int cur = matrix[row][col];
+            if (cur == target) return true;
+            if (target > cur) row++;
+            else col--;
+        }
+        
+        return false;
+    }
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int lowRow = 0;
+        int highRow = matrix.size() - 1;
+        
+        while (lowRow < highRow) {
+            int mid = lowRow + (highRow - lowRow) / 2;
+            if (matrix[mid][0] == target) {
+                return true;
+            }
+            if (matrix[mid][0] < target && target < matrix[mid + 1][0]) {
+                lowRow = mid;
+                break;
+            }
+            if (matrix[mid][0] < target) {
+                lowRow = mid + 1;
+            } else {
+                highRow = mid - 1;
+            }
+        }
+        
+        int lowCol = 0;
+        int highCol = matrix[0].size() - 1;
+        
+        while (lowCol <= highCol) {
+            int mid = lowCol + (highCol - lowCol) / 2;
+            if (matrix[lowRow][mid] == target) {
+                return true;
+            }
+            if (matrix[lowRow][mid] < target) {
+                lowCol = mid + 1;
+            } else {
+                highCol = mid - 1;
+            }
+        }
+        
+        return false;
+    }
+};
 //155. Min Stack
 class MinStack {
 public:
