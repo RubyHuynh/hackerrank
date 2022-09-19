@@ -4,6 +4,96 @@
 #include<limits.h>
 using namespace std;
 
+//208. Implement Trie (Prefix Tree)
+class Trie {
+    Trie* next[26] = {};
+    bool isWord = false;
+    
+public:
+    Trie() {};
+    
+    void insert(string word) {
+        Trie* node = this;
+        for (char c : word) {
+            c -= 'a';
+            if (!node->next[c]) {
+                node->next[c] = new Trie();
+            }
+            node = node->next[c];
+        }
+        node->isWord = true;
+    }
+    
+    bool search(string word) {
+        Trie *node = this;
+        
+        for (char c : word) {
+            c -= 'a';
+            if (!node->next[c]) {
+                return false;
+            }
+            node = node->next[c];
+        }
+        return node->isWord;
+    }
+
+    bool startsWith(string preFix) {
+        Trie* node = this;
+        for (char c : preFix) {
+            c -= 'a';
+            if (!node->next[c]) {
+                return false;
+            }
+            node = node->next[c];
+        }
+        return true;
+    }
+
+};
+
+class Trie2 {
+public:
+    Trie2() {}
+
+    void insert(string word) {
+        Trie2* node = this;
+        for (char ch : word) {
+            if (!node->next.count(ch)) { node->next[ch] = new Trie2(); }
+            node = node->next[ch];
+        }
+        node->isword = true;
+    }
+
+    bool search(string word) {
+        Trie2* node = this;
+        for (char ch : word) {
+            if (!node->next.count(ch)) { return false; }
+            node = node->next[ch];
+        }
+        return node->isword;
+    }
+
+    bool startsWith(string prefix) {
+        Trie2* node = this;
+        for (char ch : prefix) {
+            if (!node->next.count(ch)) { return false; }
+            node = node->next[ch];
+        }
+        return true;
+    }
+
+private:
+    map<char, Trie2*> next = {};
+    bool isword = false;
+};
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie* obj = new Trie();
+ * obj->insert(word);
+ * bool param_2 = obj->search(word);
+ * bool param_3 = obj->startsWith(prefix);
+ */
 
 //74. Search a 2D Matrix
 class Solution {
