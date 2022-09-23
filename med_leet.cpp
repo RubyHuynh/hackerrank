@@ -4,6 +4,35 @@
 #include<limits.h>
 using namespace std;
 
+//53. Maximum Subarray
+class Solution {
+public:
+    int maxSubArray1(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> dp(n);
+        dp[0] = nums[0];
+        int max = dp[0];
+        
+        for (int i = 1; i< n; i++) {
+            dp[i] = nums[i] + (dp[i-1] > 0 ? dp[i-1] : 0);
+            max = std::max(max, dp[i]);
+        }
+        return max;
+    }
+    
+    int maxSubArray(vector<int>& nums) {
+        int curr = nums[0];
+        int result = nums[0];
+        
+        for (int i = 1; i < nums.size(); i++) {
+            curr = max(curr + nums[i], nums[i]);
+            result = max(result, curr);
+        }
+        
+        return result;
+    }
+};
+
 //5. Longest Palindromic Substring
 class Solution {
 public:
