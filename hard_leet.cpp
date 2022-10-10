@@ -1,3 +1,65 @@
+//312. Burst Balloons
+/*Runtime: 1357 ms, faster than 5.21% of C++ online submissions for Burst Balloons.
+Memory Usage: 10.4 MB, less than 19.50% of C++ online submissions for Burst Balloons.*/
+class Solution1 {
+public:
+    int maxCoins(vector<int>& nums) {
+        // add 1 before & after nums
+        nums.insert(nums.begin(), 1);
+        nums.insert(nums.end(), 1);
+        int n = nums.size();
+        
+        // cache results of dp
+        vector<vector<int>> memo(n, vector<int>(n, 0));
+        
+        // 1 & n - 2 since we can't burst our fake balloons
+        return dp(nums, memo, 1, n - 2);
+    }
+private:
+    int dp(vector<int>& nums, vector<vector<int>>& memo, int left, int right) {
+        // base case interval is empty, yields 0 coins
+        if (right - left < 0) {
+            return 0;
+        }
+        
+        // we've already seen this, return from cache
+        if (memo[left][right] > 0) {
+            return memo[left][right];
+        }
+        
+        // find the last burst in nums[left]...nums[right]
+        int result = 0;
+        for (int i = left; i <= right; i++) {
+            // nums[i] is the last burst
+            int curr = nums[left - 1] * nums[i] * nums[right + 1];
+            // nums[i] is fixed, recursively call left & right sides
+            int remaining = dp(nums, memo, left, i - 1) + dp(nums, memo, i + 1, right);
+            result = max(result, curr + remaining);
+        }
+        // add to cache
+        memo[left][right] = result;
+        return result;
+    }
+};
+
+/*Runtime: 1290 ms, faster than 10.72% of C++ online submissions for Burst Balloons.
+Memory Usage: 10.4 MB, less than 19.50% of C++ online submissions for Burst Balloons.*/
+class Solution {
+public:
+    int maxCoins(vector<int>& nums) {
+        nums.push_back(1);
+        nums.insert(nums.begin(), 1);
+        vector<vector<int> > dp(nums.size(), vector<int>(nums.size(), 0));
+        for (int i = nums.size() - 3; i >= 0; i --) {
+            for (int j = i + 2; j < nums.size();j ++) {
+                for (int k = i + 1; k < j; k ++)
+                    dp[i][j] = max(dp[i][j], dp[i][k] + dp[k][j] + nums[i] * nums[k] * nums[j]);
+            }
+        }
+        return dp[0][nums.size() - 1];
+    }
+};
+
 //76. Minimum Window Substring
 /*
     Given 2 strings s & t, return min window substring
