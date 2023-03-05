@@ -4,6 +4,34 @@
 #include<limits.h>
 using namespace std;
 
+
+//28. Find the Index of the First Occurrence in a String
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        int szH = haystack.size();
+        int szN = needle.size();
+        int j = 0;
+
+        if (szH == 0) 
+            return 0;
+        for (int i = 0; i < szH; i++) {
+            if (haystack[i] == needle[j]) {
+                j++;
+            }
+            else {
+		// reset the index of haystack by the current window's size
+                i -= j; 
+                j = 0;
+            }
+            if (j == szN) {
+                return i - j + 1;
+            }
+        }
+        return -1;
+    }
+};
+
 //994. Rotting Oranges
 class Solution {
 public:
