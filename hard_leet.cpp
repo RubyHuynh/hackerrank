@@ -1,3 +1,51 @@
+//1345. Jump Game IV
+//Runtime 232 ms Beats 68.51% Memory 76.1 MB
+class Solution {
+public:
+
+    int minJumps(vector<int>& arr) {
+        int n = arr.size();
+        if (n == 1) return 0;
+
+        // creating a map each value
+        std::unordered_map<int, std::vector<int>> indices;
+        for (int i = 0; i < n; i++) {
+            indices[arr[i]].push_back(i);
+        }
+
+        // BFS
+        std::queue<int> storedIndex;
+        std::vector<bool> visited(n); // fixed size
+        int ret = 0;
+
+        storedIndex.push(0);
+        visited[0] = true;
+        while (!storedIndex.empty()) {
+            int sz = storedIndex.size();
+            while (sz--) {
+                int curIdx = storedIndex.front();
+                storedIndex.pop();
+                if (curIdx == n-1) {
+                    return ret;
+                }
+                std::vector<int>& jumpIndices = indices[arr[curIdx]];
+                jumpIndices.push_back(curIdx - 1);
+                jumpIndices.push_back(curIdx + 1);
+                for (int nextIdx : jumpIndices) {
+                    if (nextIdx >= 0 && nextIdx < n && !visited[nextIdx]) {
+                        storedIndex.push(nextIdx);
+                        visited[nextIdx] = true;
+                    }
+                }
+                jumpIndices.clear();
+            }
+            ret++;
+        }
+        return -1;
+    }
+};
+
+
 //312. Burst Balloons
 /*Runtime: 1357 ms, faster than 5.21% of C++ online submissions for Burst Balloons.
 Memory Usage: 10.4 MB, less than 19.50% of C++ online submissions for Burst Balloons.*/
