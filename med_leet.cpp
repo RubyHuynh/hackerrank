@@ -5,6 +5,74 @@
 using namespace std;
 
 
+// 1396. Design Underground System
+class UndergroundSystem {
+    unordered_map<int, pair<string, int>> checkInStation;
+    unordered_map<string, pair<int, int>> checkOutStation;
+public:
+    UndergroundSystem() {
+        
+    }
+    
+    void checkIn(int id, string stationName, int t) {
+        checkInStation[id] = {stationName, t};
+    }
+    
+    void checkOut(int id, string stationName, int t) {
+        auto ci = checkInStation[id];
+        checkInStation.erase(id);
+        auto route = ci.first + "-" + stationName;
+        checkOutStation[route].first += t - ci.second;
+        checkOutStation[route].second += 1;
+    }
+    
+    double getAverageTime(string startStation, string endStation) {
+        auto route = startStation + "-" + endStation;
+        auto time = checkOutStation[route];
+        return (double)time.first/time.second;
+    }
+};
+
+/**
+ * Your UndergroundSystem object will be instantiated and called as such:
+ * UndergroundSystem* obj = new UndergroundSystem();
+ * obj->checkIn(id,stationName,t);
+ * obj->checkOut(id,stationName,t);
+ * double param_3 = obj->getAverageTime(startStation,endStation);
+ */
+/* PYTHON 3  VERSION
+class UndergroundSystem:
+
+    def __init__(self):
+        self.travel_times = {}
+        self.check_ins = {}
+        
+    def checkIn(self, id: int, stationName: str, t: int) -> None:
+        self.check_ins[id] = (stationName, t)
+        
+    def checkOut(self, id: int, stationName: str, t: int) -> None:
+        start_station, t1 = self.check_ins.pop(id)
+        route = (start_station, stationName)
+        t2 = t - t1
+        if route in self.travel_times:
+            total_time, count = self.travel_times[route]
+            self.travel_times[route] = (total_time + t2, count + 1)
+        else:
+            self.travel_times[route] = (t2, 1)
+
+    def getAverageTime(self, startStation: str, endStation: str) -> float:
+        route = (startStation, endStation)
+        total_time, count = self.travel_times[route]
+        return total_time/count
+
+*/
+
+
+
+
+
+
+
 //28. Find the Index of the First Occurrence in a String
 class Solution {
 public:
