@@ -5,6 +5,80 @@
 using namespace std;
 
 
+
+//1091. Shortest Path in Binary Matrix
+class Solution {
+public:
+    int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
+        queue<pair<pair<int, int>, int>> q;
+        q.push({{0, 0}, 1});
+
+        if (grid[0][0] == 1) return -1;
+
+        if (grid[0][0] == 0 && grid.size() ==1 && grid[0].size() == 1) return 1;
+
+        vector<vector<bool>> visited(grid.size(), vector<bool>(grid.size(), false));
+        visited[0][0] = true;
+
+        while (!q.empty()) {
+            auto p = q.front().first;
+            int x = p.first;
+            int y = p.second;
+            int lengthOfPath = q.front().second;
+            q.pop();
+
+            vector<pair<int, int>> neighbors = {
+                    {0, 1}, {0, -1}
+                    ,{1, 0}, {-1, 0}
+                    ,{1, 1}, {-1, -1}
+                    ,{-1, 1}, {1, -1}
+                };
+            for (auto neighbor : neighbors) {
+                int newX = neighbor.first + x;
+                int newY = neighbor.second + y;
+                
+                if (newX >=0 && newY >=0 && newX < grid.size() && newY <grid[0].size()
+                    && grid[newX][newY] == 0 && !visited[newX][newY]) {
+                        q.push({{newX, newY}, lengthOfPath+1});
+                        visited[newX][newY] = true;
+
+                        if (newX == grid.size() - 1  && newY == grid[0].size() -1) {
+                            return lengthOfPath + 1;
+                        }
+                    }
+            }
+        }
+        return -1;
+    }
+};
+
+/*
+class Solution:
+    def shortestPathBinaryMatrix(self, grid: List[List[int]]) -> int:
+        n = len(grid)
+        if grid[0][0] or grid[n-1][n-1] :
+            return -1
+
+        q = [(0, 0, 1)]
+        grid[0][0] = 1
+
+        for i, j, d in q:
+            if i == n-1 and j == n-1:
+                return d
+            directions = [
+                (i - 1, j - 1), (i - 1, j), (i - 1, j + 1),
+                (i, j - 1), (i, j + 1),
+                (i + 1, j - 1), (i + 1, j), (i + 1, j + 1)
+            ]
+            for x, y in directions :
+                if 0 <= x < n and 0 <= y <n and not grid[x][y]:
+                    grid[x][y] = 1
+                    q.append((x, y, d +1))
+        return -1
+
+
+*/
+
 // 1396. Design Underground System
 class UndergroundSystem {
     unordered_map<int, pair<string, int>> checkInStation;
