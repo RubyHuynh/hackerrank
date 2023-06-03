@@ -6,6 +6,86 @@ using namespace std;
 
 
 
+//2101. Detonate the Maximum Bombs
+
+#define ll long long int
+
+class Solution {
+public:
+    void dfs(vector<vector<int>> &gr, vector<bool> &visited, int &c, int &i) {
+        visited[i] = true;
+        c++;
+        for (int j = 0; j < gr[i].size(); j++) {
+            if (!visited[gr[i][j]]) {
+                dfs (gr, visited, c, gr[i][j]);
+            }
+        }
+    }
+
+    int maximumDetonation(vector<vector<int>>& bombs) {
+        int n = bombs.size();
+        vector<vector<int>> gr(n);
+
+        // d^2 = x^2 + y^2
+        for (int i = 0; i < n; i++) {
+            ll x1 = bombs[i][0];
+            ll y1 = bombs[i][1];
+            ll r1 = bombs[i][2];
+
+            for (int j = 0; j < n; j++) {
+                ll x,y;
+                x = abs(x1 - bombs[j][0]);
+                y = abs(y1 - bombs[j][1]);
+                if (x * x + y * y <= r1 * r1)
+                    gr[i].push_back(j);
+            }
+        }
+            
+        int res = INT_MIN;
+        for (int i = 0; i < n; i++) {
+            int c = 0;
+            vector<bool> visited (n, false);
+            dfs (gr, visited, c, i);
+            res = max(res, c);
+        }
+        return res;
+    }
+};
+/*
+class Solution:
+    def maximumDetonation(self, bombs: List[List[int]]) -> int:
+        adj = collections.defaultdict(list)
+
+        for i in range(len(bombs)) :
+            for j in range (i+1, len(bombs)) :
+                x1, y1, r1 = bombs[i]
+                x2, y2, r2 = bombs[j]
+
+                d = sqrt ((x1 - x2)**2 + (y1 -y2)**2)
+
+                if d <= r1 :
+                    adj[i].append(j)
+                if d <= r2 :
+                    adj[j].append(i)
+
+        def dfs(i, visit) :
+            if i in visit :
+                return 0
+            visit.add(i)
+
+            for neighbor in adj[i]:
+                dfs(neighbor, visit)
+            return len(visit)
+
+
+        res = 0
+
+        for i in range(len(bombs)) :
+            res = max(res, dfs(i, set()))
+        return res
+
+*/
+
 //1091. Shortest Path in Binary Matrix
 class Solution {
 public:
