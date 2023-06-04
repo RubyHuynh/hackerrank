@@ -6,6 +6,52 @@ using namespace std;
 
 
 
+//1376. Time Needed to Inform All Employees
+class Solution {
+public:
+    int maxTime = INT_MIN;
+
+    void dfs (vector<int> subordinates[], vector<int>& informTime, int curID, int time) {
+        this->maxTime = max(this->maxTime, time);
+
+        for (auto sub : subordinates[curID]) {
+            dfs (subordinates, informTime, sub, time + informTime[curID]);
+        }
+    }
+    int numOfMinutes(int n, int headID, vector<int>& manager, vector<int>& informTime) {
+        vector<int> subordinates[n];
+
+        for (int i = 0; i <n; i++) {
+            if (manager[i] != -1) {
+                subordinates[manager[i]].push_back(i);
+            }
+        }
+
+        dfs(subordinates, informTime, headID, 0);
+        return this->maxTime;
+    }
+};
+class Solution:
+    def dfs (self, managerID, informTime, adjList) :
+        maxTime = 0
+        for subordinate in adjList[managerID]:
+            maxTime = max (maxTime, self.dfs(subordinate, informTime, adjList))
+        return maxTime + informTime[managerID]
+
+
+    def numOfMinutes(self, n: int, headID: int, manager: List[int], informTime: List[int]) -> int:
+        adjList = defaultdict(list)
+        for i in range(n):
+            if manager[i] != -1:
+                adjList[manager[i]].append(i)
+        return self.dfs(headID, informTime, adjList)
+
+			
+			
+			
+			
+			
+			
 //2101. Detonate the Maximum Bombs
 
 #define ll long long int
