@@ -4,6 +4,51 @@
 #include<limits.h>
 using namespace std;
 
+//547. Number of Provinces
+class Solution {
+public:
+    void dfs(int node, vector<vector<int>>& isConnected, vector<bool>& visited) {
+        visited[node] = true;
+        for (int i = 0; i < isConnected.size(); i++) {
+            if (isConnected[node][i] && !visited[i]) {
+                dfs(i, isConnected, visited);
+            }
+        }
+    }
+    int findCircleNum(vector<vector<int>>& isConnected) {
+        int n = isConnected.size();
+        int numberOfComponents = 0;
+        vector<bool> visited(n);
+
+        for (int i = 0; i < n; i++) {
+            if (!visited[i]) {
+                numberOfComponents++;
+                dfs (i, isConnected, visited);
+            }
+        }
+        return numberOfComponents;
+    }
+};
+class Solution:
+    def findCircleNum(self, isConnected: List[List[int]]) -> int:
+        n = len(isConnected)
+        provinces = 0
+        visited = [False] * n
+
+        def dfs(node) :
+            visited[node] = True
+            for neighbor in range(n) :
+                if isConnected[neighbor][node] == 1 and not visited[neighbor] :
+                    dfs(neighbor)
+        
+        for i in range(n) :
+            if not visited[i] :
+                provinces += 1
+                dfs(i)
+
+        return provinces
+        
+
 
 
 //1376. Time Needed to Inform All Employees
