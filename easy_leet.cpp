@@ -1,3 +1,66 @@
+//1502. Can Make Arithmetic Progression From Sequence
+class Solution {
+public:
+    bool canMakeArithmeticProgression(vector<int>& arr) {
+        sort (arr.begin(), arr.end());
+        int diff = arr[1] - arr[0];
+        for (int i = 2; i < arr.size(); i++) {
+            if (arr[i] - arr[i-1] != diff) {
+                return false;
+            }
+        }
+        return true;
+    }
+};
+
+class Solution:
+    def canMakeArithmeticProgression(self, arr: List[int]) -> bool:
+        arr.sort()
+        diff = arr[1] - arr[0]
+        for i in range(2, len(arr)) :
+            if arr[i] - arr[i-1] != diff :
+                return False
+        return True
+        
+
+
+
+
+//1232. Check If It Is a Straight Line
+class Solution {
+public:
+    bool checkStraightLine(vector<vector<int>>& coordinates) {
+        int dx = coordinates[1][0] - coordinates[0][0];
+        int dy = coordinates[1][1] - coordinates[0][1];
+
+        /*
+                dy1/dx1 = dy2/dx2
+            <-> dy1*dx2 = dy2*dx1
+            
+        */
+        for (int i = 2; i < coordinates.size(); i++) {
+            if (dx * (coordinates[i][1] - coordinates[0][1]) 
+                != dy * (coordinates[i][0] - coordinates[0][0])) {
+                    return false;
+            }
+        }
+        return true;
+    }
+};
+
+
+class Solution:
+    def checkStraightLine(self, coordinates: List[List[int]]) -> bool:
+        dx = coordinates[1][0] - coordinates[0][0]
+        dy = coordinates[1][1] - coordinates[0][1]
+
+        for i in coordinates : 
+            if (dx * (i[1] - coordinates[0][1])) != (dy * (i[0] - coordinates[0][0])) :
+                return False
+        return True
+	
+
+
 //704. Binary Search
 class Solution {
 public:
