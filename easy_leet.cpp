@@ -1,3 +1,58 @@
+//1351. Count Negative Numbers in a Sorted Matrix
+
+class Solution {
+public:
+    int countNegatives(vector<vector<int>>& grid) {
+        int ret = 0;
+        int m = grid.size();
+        int n = grid[0].size();
+        for (int i = m-1 ; i >=0; i--) {
+            for (int j = n-1; j >=0; j--) {
+                if (grid[i][j] >= 0) break;
+                ret++;
+            }
+        }
+        return ret;
+    }
+};
+
+class Solution1:
+    def countNegatives(self, grid: List[List[int]]) -> int:
+        i = 0
+        j = len(grid[0]) - 1
+        ret = 0
+
+        while i < len(grid) and j >= 0 :
+            if grid[i][j] < 0 :
+                ret += len(grid) - i
+                j -= 1
+            else:
+                i += 1
+        return ret
+
+class Solution:
+    def countNegatives(self, grid: List[List[int]]) -> int:
+        ret = 0
+        n = len(grid[0])
+
+        for row in grid :
+            left, right = 0, n - 1
+            while left <= right :
+                mid = (left + right) // 2
+                if row[mid] < 0 :
+                    right = mid - 1
+                else :
+                    left = mid + 1
+            ret += n - left
+        
+        return ret
+
+
+
+
+
+
+
 //1502. Can Make Arithmetic Progression From Sequence
 class Solution {
 public:
