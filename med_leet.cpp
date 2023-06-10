@@ -5,6 +5,52 @@
 using namespace std;
 
 
+//1802. Maximum Value at a Given Index in a Bounded Array
+class Solution {
+public:
+    long calc(long n) {
+        return (n*(n+1)) / 2;
+    }
+
+    long getSum (int totalLen, int val) {
+        long totalSum = 0;
+        int descLen = val;
+
+        if (totalLen >= descLen) {
+            long curSum = calc(val);
+            int remainSum = totalLen - descLen;
+            totalSum = curSum + remainSum;
+        }
+        else {
+            long lastVal = descLen - totalLen;
+            totalSum = calc(val) - calc(lastVal);
+        }
+        return totalSum;
+    }
+
+    int maxValue(int n, int index, int maxSum) {
+        int low = 1, high = maxSum;
+        int leftCount = index, rightCount = n - index - 1;
+        int ret = -1;
+
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            long leftSum = getSum(leftCount, mid - 1);
+            long rightSum = getSum(rightCount, mid - 1);
+            long totalSum = leftSum + mid + rightSum;
+            if (totalSum > maxSum) {
+                high = mid -1;
+            }
+            else {
+                ret = mid;
+                low = mid + 1;
+            }
+        }
+        return ret;
+    }
+};
+
+
 //1318. Minimum Flips to Make a OR b Equal to c
 class Solution {
 public:
