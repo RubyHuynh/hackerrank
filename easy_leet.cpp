@@ -1,3 +1,43 @@
+//228. Summary Ranges
+class Solution {
+public:
+    vector<string> summaryRanges(vector<int>& nums) {
+        vector<string> ret;
+
+        for (int i = 0; i <nums.size(); i++) {
+            int start = nums[i];
+            while (i + 1 < nums.size() 
+                && nums[i] + 1 == nums[i+1]) {
+                    i++;
+            }
+            if (start != nums[i]) {
+                ret.push_back(to_string(start) + "->" + to_string(nums[i]));
+            }
+            else {
+                ret.push_back(to_string(start));
+            }
+        }
+        return ret;
+    }
+};
+
+ class Solution:
+    def summaryRanges(self, nums: List[int]) -> List[str]:
+        ranges = []
+        i = 0
+
+        while i < len(nums) :
+            start = nums[i]
+            while i + 1 < len(nums) and nums[i] + 1 == nums[i+1] :
+                i += 1
+
+            if start != nums[i] :
+                ranges.append(str(start) + "->" + str(nums[i]))
+            else :
+                ranges.append(str(start))
+            i += 1
+        return ranges
+
 //744. Find Smallest Letter Greater Than Target
 class Solution {
 public:
