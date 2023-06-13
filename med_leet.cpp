@@ -5,6 +5,27 @@
 using namespace std;
 
 //2352. Equal Row and Column Pairs
+class Solution {
+public:
+    int equalPairs(vector<vector<int>>& grid) {
+        map <vector<int>, int> hashmap;
+        int ret = 0;
+        int rowNb = grid.size();
+        int colNb = grid[0].size();
+        for (int i = 0; i < rowNb; i++) {
+            hashmap[grid[i]]++;
+        }
+        for (int j = 0; j < colNb; j++) {
+            vector<int> cur;
+            for (int i = 0; i < rowNb; i++) {
+                cur.emplace_back(grid[i][j]);
+            }
+            ret += hashmap[cur];
+        }
+        return ret;
+    }
+};
+
 class TrieNode:
     def __init__(self):
         self.count = 0
