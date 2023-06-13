@@ -4,6 +4,75 @@
 #include<limits.h>
 using namespace std;
 
+//2352. Equal Row and Column Pairs
+class TrieNode:
+    def __init__(self):
+        self.count = 0
+        self.children = {}
+
+class Trie:
+    def __init__(self):
+        self.trie = TrieNode()
+    
+    def insert (self, array) :
+        myTrie = self.trie
+        for a in array :
+            if a not in myTrie.children :
+                myTrie.children[a] = TrieNode()
+            myTrie = myTrie.children[a]
+            myTrie.count += 1
+
+    def search (self, array):
+        myTrie = self.trie
+        for a in array:
+            if a in myTrie.children:
+                myTrie = myTrie.children[a]
+            else :
+                return 0
+        return myTrie.count
+
+class Solution:
+    def equalPairs(self, grid: List[List[int]]) -> int:
+        myTrie = Trie()
+        count = 0
+        n  = len(grid)
+
+        for r in grid:
+            myTrie.insert(r)
+
+        for c in range(n):
+            colArr = [grid[i][c] for i in range(n)]
+            count += myTrie.search(colArr)
+        return count
+
+class Solution2:
+    def equalPairs(self, grid: List[List[int]]) -> int:
+        count = 0
+        n = len(grid)
+
+        rowCounter = collections.Counter(tuple(row) for row in grid)
+
+        for c in range(n) :
+            col = [grid[i][c] for i in range(n)]
+            count += rowCounter[tuple(col)]
+        return count
+
+
+class Solution1:
+    def equalPairs(self, grid: List[List[int]]) -> int:
+        count = 0
+        n = len(grid)
+
+        for r in range (n) : 
+            for c in range (n):
+                match = True
+
+                for i in range (n) :
+                    if grid[r][i] != grid [i][c] :
+                        match = False
+                        break
+                count += int(match)
+        return count
 
 //1146. Snapshot Array
 class SnapshotArray {
