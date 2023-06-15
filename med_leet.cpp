@@ -4,6 +4,73 @@
 #include<limits.h>
 using namespace std;
 
+//1161. Maximum Level Sum of a Binary Tree
+
+class Solution {
+public:
+    void dfs(TreeNode* node, int level, vector<int>& sumLvl) {
+        if (!node) return;
+
+        if (sumLvl.size() == level) {
+            sumLvl.push_back(node->val);
+        }
+        else {
+            sumLvl[level] += node->val;
+        }
+        dfs(node->left, level+1, sumLvl);
+        dfs(node->right, level+1, sumLvl);
+    }
+
+    int maxLevelSum(TreeNode* root) {
+        vector<int> sumLvl;
+        dfs(root, 0, sumLvl);
+
+        int maxSum = INT_MIN;
+        int ret = 0;
+
+        for (int i = 0; i < sumLvl.size(); i++) {
+            if (maxSum < sumLvl[i]) {
+                maxSum = sumLvl[i];
+                ret = i+1;
+            }
+        }
+
+        return ret;
+    }
+};
+class Solution1 {
+public:
+    int maxLevelSum(TreeNode* root) {
+        int maxSum = INT_MIN;
+        int ret = 0;
+        int level = 0;
+
+        queue<TreeNode*> q;
+        q.push(root);
+
+        while (!q.empty()) {
+            level++;
+            int sumAtCurLvl = 0;
+
+            for (int sz = q.size(); sz > 0; sz--) {
+                TreeNode* node = q.front();
+                q.pop();
+                sumAtCurLvl += node->val;
+                if (node->left) {
+                    q.push(node->left);
+                }
+                if (node->right) {
+                    q.push(node->right);
+                }
+            }
+            if (maxSum < sumAtCurLvl) {
+                maxSum = sumAtCurLvl;
+                ret = level;
+            }
+        }
+        return ret;
+    }
+};
 //2352. Equal Row and Column Pairs
 class Solution {
 public:
