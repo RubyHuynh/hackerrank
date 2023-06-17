@@ -1,3 +1,49 @@
+//1187. Make Array Strictly Increasing
+
+class Solution {
+    int check(int cur, int left, vector<int>& arr1, vector<int>& arr2, vector<unordered_map<int, int>> &dp) {
+        if (cur == arr1.size()) {
+            return 0;
+        }
+
+        if (dp[cur].find(left) != dp[cur].end()) {
+            return dp[cur][left];
+        }
+
+        int exclude, include;
+        if (arr1[cur] > left) {
+            exclude = check(cur+1, arr1[cur], arr1, arr2, dp);
+        }
+        else {
+            exclude = INT_MAX;
+        }
+        int rep = upper_bound(arr2.begin(), arr2.end(), left) - arr2.begin();
+        if (rep == arr2.size()) {
+            include = INT_MAX;
+        }
+        else {
+            include = check(cur+1, arr2[rep], arr1, arr2, dp);
+        }
+        
+        if (include == INT_MAX) {
+            dp[cur][left] = exclude;
+        }
+        else {
+            dp[cur][left] = min(exclude,include+1);
+        }
+        return dp[cur][left];
+    }
+
+public:
+    int makeArrayIncreasing(vector<int>& arr1, vector<int>& arr2) {
+        sort(arr2.begin(), arr2.end());
+        vector<unordered_map<int, int>> dp (2001);
+
+        int val = check(0, INT_MIN, arr1, arr2, dp);
+        return (val == INT_MAX) ? -1 : val;
+    }
+};
+
 //1569. Number of Ways to Reorder Array to Get Same BST
 
 class Solution {
