@@ -1,3 +1,38 @@
+//2328. Number of Increasing Paths in a Grid
+
+class Solution {
+public:
+    int BIG = 1e9 + 7;
+    int dfs(int i, int j, int prev, vector<vector<int>> & dp, vector<vector<int>> & grid) {
+        int n = grid.size();
+        int m = grid[0].size();
+
+        if (i < 0 || j < 0 || i >= n || j >= m || grid[i][j] <= prev) {
+            return 0;
+        }
+        if (dp[i][j] != -1) {
+            return dp[i][j];
+        }
+        return dp[i][j] = (1 
+                            + dfs(i+1, j, grid[i][j], dp, grid)
+                            + dfs(i-1, j, grid[i][j], dp, grid)
+                            + dfs(i, j+1, grid[i][j], dp, grid)
+                            + dfs(i, j-1, grid[i][j], dp, grid)) % BIG;
+    }
+
+    int countPaths(vector<vector<int>>& grid) {
+        int i, j, n = grid.size(), m = grid[0].size(), ret = 0;
+        vector<vector<int>> dp(n, vector<int>(m, -1));
+
+        for (i = 0; i < n; i++) {
+            for (j = 0; j < m; j++) {
+                ret = (ret + dfs(i, j, -1, dp, grid)) % BIG;
+            }
+        }
+        return ret;
+    }
+};
+
 //1187. Make Array Strictly Increasing
 
 class Solution {
