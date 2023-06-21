@@ -1,3 +1,89 @@
+//2448. Minimum Cost to Make Array Equal
+class Solution {
+public:
+    long long minCost(vector<int>& nums, vector<int>& cost) {
+        
+        int n = nums.size();
+        
+        vector<vector<int>> nums_cost(n,vector<int>(2));
+        
+        for(int i=0;i<n;i++){
+            
+            nums_cost[i][0] = nums[i];
+            nums_cost[i][1] = cost[i];
+            
+        }
+        sort(nums_cost.begin(),nums_cost.end());
+        int left_index = 0, right_index = n-1;
+        
+        long long left_total_cost = 0, right_total_cost = 0;
+        
+        long left_cost_unit = nums_cost[left_index][1], right_cost_unit = nums_cost[right_index][1];
+        
+        long difference;
+        
+        while(right_index - left_index > 0){
+           
+            if(left_cost_unit<right_cost_unit){
+        
+                difference = (nums_cost[left_index+1][0] - nums_cost[left_index][0]);
+                
+                left_total_cost += (difference * left_cost_unit);
+                
+                left_cost_unit += nums_cost[left_index+1][1];
+                
+                left_index += 1;
+                
+            }
+            else{
+                
+                 difference = (nums_cost[right_index][0] - nums_cost[right_index-1][0]);
+
+                right_total_cost += (difference * right_cost_unit);
+
+                right_cost_unit += nums_cost[right_index-1][1];
+                
+                right_index -= 1;
+                
+            }
+        }
+        
+        return left_total_cost + right_total_cost;
+        
+    }
+};
+
+class Solution:
+    def minCost(self, nums: List[int], cost: List[int]) -> int:
+        size = len(nums)
+        nums_costs = sorted([(nums[i], cost[i]) for i in range(size)], key=itemgetter(0))
+        #nums_costs.item = (num, cost) sorted by num low to high
+        
+        left_index = 0
+        left_cost_accrued = 0
+        left_per_unit_cost = nums_costs[left_index][1]
+        right_index = size - 1
+        right_cost_accrued = 0
+        right_per_unit_cost = nums_costs[right_index][1]
+
+        while right_index - left_index > 0:
+            if left_per_unit_cost < right_per_unit_cost:
+                low_value = nums_costs[left_index][0]
+                next_lowest_value = nums_costs[left_index + 1][0]
+                left_cost_accrued += (next_lowest_value - low_value) * left_per_unit_cost
+                left_per_unit_cost += nums_costs[left_index + 1][1]
+                left_index += 1
+            else:
+                high_value = nums_costs[right_index][0]
+                next_highest_value = nums_costs[right_index - 1][0]
+                right_cost_accrued += (high_value - next_highest_value) * right_per_unit_cost
+                right_per_unit_cost += nums_costs[right_index - 1][1]
+                right_index -= 1
+        
+        total_cost = left_cost_accrued + right_cost_accrued
+        return total_cost
+
+
 //2328. Number of Increasing Paths in a Grid
 
 class Solution {
