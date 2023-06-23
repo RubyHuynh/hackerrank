@@ -4,6 +4,45 @@
 #include<limits.h>
 using namespace std;
 
+//1027. Longest Arithmetic Subsequence
+
+class Solution {
+public:
+    int longestArithSeqLength(vector<int>& nums) {
+        int n  = nums.size();
+        if (n <=2) {
+            return n;
+        }
+        int longest = 2;
+        vector<unordered_map<int, int>> dp(n);
+
+        for (int i = 0; i < n; i++) {
+            for (int j =0; j < i; j++) {
+                int diff = nums[i] - nums[j];
+                dp[i][diff] = dp[j].count(diff) ? dp[j][diff] + 1 : 2;
+                longest = max(longest, dp[i][diff]);
+            }
+        }
+        return longest;
+    }
+}; 
+
+class Solution:
+    def longestArithSeqLength(self, nums: List[int]) -> int:
+        n = len(nums)
+        if n <= 2:
+            return n
+
+        longest = 2
+        dp = [{} for _ in range(n)]
+
+        for i in range(n):
+            for j in range(i):
+                diff = nums[i] - nums[j]
+                dp[i][diff] = dp[j].get(diff, 1) + 1
+                longest = max(longest, dp[i][diff])
+
+        return longest
 //1161. Maximum Level Sum of a Binary Tree
 
 class Solution {
