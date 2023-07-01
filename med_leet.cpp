@@ -4,6 +4,38 @@
 #include<limits.h>
 using namespace std;
 
+//2305. Fair Distribution of Cookies
+
+class Solution {
+public:
+    int distributeCookies(vector<int>& cookies, int k) {
+        vector<int> distributes(k, 0);
+
+        return dfs(0, distributes, cookies, k, k);
+    }
+
+    int dfs(int i, vector<int>& distributes, vector<int>& cookies, int k, int zeroCount) {
+        if (cookies.size() - i < zeroCount) {
+            return INT_MAX;
+        }
+
+        if (i == cookies.size()) {
+            return *max_element(distributes.begin(), distributes.end());
+        }
+
+        int ret = INT_MAX;
+        for (int j = 0; j < k; ++j) {
+            zeroCount -= distributes[j] == 0 ? 1 : 0;
+            distributes[j] += cookies[i];
+            ret = min(ret, dfs(i+1, distributes, cookies, k, zeroCount));
+            distributes[j] -= cookies[i];
+            zeroCount += distributes[j] == 0 ? 1 : 0;
+        }
+        return ret;
+    }
+};
+
+
 //1027. Longest Arithmetic Subsequence
 
 class Solution {
