@@ -1,3 +1,70 @@
+//1601. Maximum Number of Achievable Transfer Requests
+class Solution {
+public:
+    int maximumRequests(int n, vector<vector<int>>& requests) {
+        int ret = 0;
+        for (int mask = 0; mask < (1<< requests.size()); mask++) {
+            vector<int> indegree(n, 0);
+            int pos = requests.size() - 1;
+
+            int bitCount = __builtin_popcount(mask);
+
+            if (bitCount <= ret) {
+                continue;
+            }
+
+            for (int cur = mask; cur > 0; cur >>=1, pos--) {
+                if (cur & 1) {
+                    indegree[requests[pos][0]]--;
+                    indegree[requests[pos][1]]++;
+                }
+            }
+            int flag = 1;
+            for (int i = 0; i < n; i++) {
+                if (indegree[i]) {
+                    flag = 0;
+                    break;
+                }
+            }
+            if (flag) {
+                ret = bitCount;
+            }
+        }
+        
+        return ret;
+    }
+};
+
+class Solution1 {
+public:
+    int ret = 0;
+
+    int maximumRequests(int n, vector<vector<int>>& requests) {
+        vector<int> indregree(n, 0);
+        util(requests, indregree, n, 0, 0);
+        return ret;
+    }
+
+    void util(vector<vector<int>>& requests, vector<int> & indegree, int n, int index, int count) {
+        if (index == requests.size()) {
+            for (int i = 0; i <n; i++) {
+                if (indegree[i]) {
+                    return;
+                }
+            }
+            ret = max(ret, count);
+            return;
+        }
+        indegree[requests[index][0]]--;
+        indegree[requests[index][1]]++;
+        util(requests, indegree, n, index+1, count+1);
+        indegree[requests[index][0]]++;
+        indegree[requests[index][1]]--;
+        util(requests, indegree, n, index+1, count);
+    }
+};
+
+
 //1575. Count All Possible Routes
 class Solution {
 public:
