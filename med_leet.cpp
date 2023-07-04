@@ -4,6 +4,23 @@
 #include<limits.h>
 using namespace std;
 
+
+//137. Single Number II
+
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int ones = 0;
+        int twos = 0;
+
+        for (int num : nums) {
+            ones ^= (num & ~twos);
+            twos ^= (num & ~ones);
+        }
+        return ones;
+    }
+};
+
 //2305. Fair Distribution of Cookies
 
 class Solution {
