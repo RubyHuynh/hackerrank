@@ -4,7 +4,26 @@
 #include<limits.h>
 using namespace std;
 
+//1493. Longest Subarray of 1's After Deleting One Element
 
+class Solution {
+public:
+    int longestSubarray(vector<int>& nums) {
+        int zeroCount = 0;
+        int ret = 0;
+        int start = 0;
+
+        for (int i = 0; i < nums.size(); i++) {
+            zeroCount += (nums[i] == 0);
+            while (zeroCount > 1) {
+                zeroCount -= (nums[start] == 0);
+                start++;
+            }
+            ret = max(ret, i - start);
+        }
+        return ret;
+    }
+};
 //137. Single Number II
 
 class Solution {
