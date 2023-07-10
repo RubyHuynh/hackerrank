@@ -1,3 +1,47 @@
+//111. Minimum Depth of Binary Tree
+
+class Solution {
+public:
+    int minDepth(TreeNode* root) {
+        if (!root)      return 0;
+
+        int depth = 1;
+        queue<TreeNode*> q;
+        q.push(root);
+        
+        while (!q.empty()) {
+            int sz = q.size();
+
+            while (sz--) {
+                TreeNode* node = q.front();
+                q.pop();
+                if (!node) continue;
+                if (!node->left && !node->right)        return depth; 
+                q.push(node->left);
+                q.push(node->right);
+            }
+            depth++;
+        }
+        return depth;
+    }
+};
+
+class Solution1 {
+public:
+    int dfs(TreeNode* root) {
+        if (!root)              return 0;
+
+        if (!root->left)        return 1 + dfs(root->right);
+        else if (!root->right)  return 1 + dfs(root->left);
+
+        return 1 + min(dfs(root->left), dfs(root->right));
+    }
+
+    int minDepth(TreeNode* root) {
+        return dfs(root);
+    }
+};
+
 //859. Buddy Strings
 
 class Solution {
