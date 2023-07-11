@@ -4,6 +4,63 @@
 #include<limits.h>
 using namespace std;
 
+
+//863. All Nodes Distance K in Binary Tree
+
+class Solution {
+public:
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        vector<int> ret;
+        unordered_map<int, TreeNode*> parent;
+        queue<TreeNode*> q;
+
+        q.push(root);
+        while (!q.empty()) {
+            int sz = q.size();
+            for (int i = 0; i < sz; i++) {
+                auto top = q.front();
+                q.pop();
+
+                if (top->left) {
+                    parent[top->left->val] = top;
+                    q.push(top->left);
+                }
+                if (top->right) {
+                    parent[top->right->val] = top;
+                    q.push(top->right);
+                }
+            }
+        }
+
+        unordered_map<int, int> visited;
+        q.push(target);
+        while (k-- && !q.empty()) {
+            int sz = q.size();
+            for (int i = 0; i < sz; i++) {
+                auto top = q.front();
+                q.pop();
+
+                visited[top->val] = 1;
+                if (top->left && !visited[top->left->val]) {
+                    q.push(top->left);
+                }
+                if (top->right && !visited[top->right->val]) {
+                    q.push(top->right);
+                }
+                
+                if (parent[top->val] && !visited[parent[top->val]->val]) {
+                    q.push(parent[top->val]);
+                }
+            }
+        }
+
+        while (!q.empty()) {
+            ret.push_back(q.front()->val);
+            q.pop();
+        }
+        return ret;
+    }
+};
 //1493. Longest Subarray of 1's After Deleting One Element
 
 class Solution {
