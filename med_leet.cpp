@@ -4,6 +4,92 @@
 #include<limits.h>
 using namespace std;
 
+//802. Find Eventual Safe States
+//Kahn'
+class Solution {
+public:
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        int n=graph.size();
+        vector<int> vis(n,0);
+        vector<int> dis(n,0);
+        vector<int> adj[n];
+        for(int i=0;i<n;i++){
+            for(auto &x:graph[i]){
+                adj[x].push_back(i);
+                dis[i]++;
+            }
+        }
+        queue<int> q;
+        for(int i=0;i<n;i++){
+            if(dis[i]==0){
+                q.push(i);
+            }
+        }
+        vector<int> ans;
+        while(!q.empty()){
+            int node=q.front();
+            ans.push_back(node);
+            q.pop();
+            for(auto x:adj[node]){
+                dis[x]--;
+                if(dis[x]==0){
+                    q.push(x);
+                }
+            }
+        }
+        sort(ans.begin(),ans.end());
+        return ans;
+    }
+};
+
+class Solution1 {
+public:
+    bool dfs(int node, vector<vector<int>>& adj, vector<bool>& visit, vector<bool>& inStack) {
+        // If the node is already in the stack, we have a cycle.
+        if (inStack[node]) {
+            return true;
+        }
+        if (visit[node]) {
+            return false;
+        }
+        // Mark the current node as visited and part of current recursion stack.
+        visit[node] = true;
+        inStack[node] = true;
+        for (auto neighbor : adj[node]) {
+            if (dfs(neighbor, adj, visit, inStack)) {
+                return true;
+            }
+        }
+        // Remove the node from the stack.
+        inStack[node] = false;
+        return false;
+    }
+
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        int n = graph.size();
+        vector<vector<int>> adj(n);
+
+        for (int i = 0; i < n; i++) {
+            for (auto node : graph[i]) {
+                adj[i].push_back(node);
+            }
+        }
+
+        vector<bool> visit(n), inStack(n);
+
+        for (int i = 0; i < n; i++) {
+            dfs(i, adj, visit, inStack);
+        }
+
+        vector<int> safeNodes;
+        for (int i = 0; i < n; i++) {
+            if (!inStack[i]) {
+                safeNodes.push_back(i);
+            }
+        }
+        return safeNodes;
+    }
+};
 
 //863. All Nodes Distance K in Binary Tree
 
