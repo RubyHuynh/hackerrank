@@ -4,6 +4,23 @@
 #include<limits.h>
 using namespace std;
 
+
+//1218. Longest Arithmetic Subsequence of Given Difference
+
+class Solution {
+public:
+    int longestSubsequence(vector<int>& arr, int difference) {
+        unordered_map<int, int> dp;
+        int ret = 1;
+
+        for (int a : arr) {
+            int beforeA = dp.count(a-difference) ? dp[a-difference] : 0;
+            dp[a] = beforeA + 1;
+            ret = max(ret, dp[a]);
+        }
+        return ret;
+    }
+};
 //802. Find Eventual Safe States
 //Kahn'
 class Solution {
