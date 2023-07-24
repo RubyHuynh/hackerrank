@@ -4,6 +4,63 @@
 #include<limits.h>
 using namespace std;
 
+
+//50. Pow(x, n)
+
+class Solution {
+public:
+ double solve(double x,int n){
+          if(n==0){
+            return 1; //power of 0 is 1;
+        }
+       double temp=myPow(x,n/2);
+        temp=temp*temp;
+        if(n%2==0){ // if even  return  just without doing nothing
+            return temp;
+        }
+        else{
+            return temp*x;//if odd multiple  return by multipling once more with given number
+        }
+    }
+    double myPow(double x, int n) {
+        double ans=solve(x,abs(n));
+        if(n<0)
+            return 1/ans;
+            return ans;
+       
+    }
+}; 
+//894. All Possible Full Binary Trees
+
+class Solution {
+public:
+    unordered_map<int, vector<TreeNode*>> memo;
+    vector<TreeNode*> allPossibleFBT(int n) {
+        if ((n % 2) == 0) {
+            return {};
+        }
+        if (n == 1) {
+            return {new TreeNode()};
+        }
+        if (memo.find(n) != memo.end()) {
+            return memo[n];
+        }
+        vector<TreeNode*> ret;
+        for (int i = 1; i < n; i+=2) {
+            vector<TreeNode*> left = allPossibleFBT(i);
+            vector<TreeNode*> right = allPossibleFBT(n - i - 1);
+
+            for (auto l : left) {
+                for(auto r : right) {
+                    TreeNode *root = new TreeNode(0, l, r);
+                    ret.push_back(root);
+                }
+            }
+        }
+        memo[n] = ret;
+        return memo[n];
+    }
+};
 //688. Knight Probability in Chessboard
 
 class Solution {
