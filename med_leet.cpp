@@ -4,6 +4,43 @@
 #include<limits.h>
 using namespace std;
 
+//1870. Minimum Speed to Arrive on Time
+
+class Solution {
+public:
+    bool possible(vector<int> & dict, int speed, double hour) {
+        double ret = 0;
+        for (int i = 0; i < dict.size(); i++) {
+            double cost = dict[i]*1.0 /speed;
+            if (i != dict.size() -1) {
+                ret += ceil(cost);
+            }
+            else {
+                ret += cost;
+            }
+            if (ret > hour) return false;
+        }
+        return (ret <= hour);
+    }
+
+    int minSpeedOnTime(vector<int>& dist, double hour) {
+        int i = 1;
+        int j = 1e7;
+        int minSpeed = -1;
+
+        while (i <= j){
+            int midSpeed = i + (j-i)/2;
+            if (possible(dist, midSpeed, hour)) {
+                minSpeed = midSpeed;
+                j= midSpeed -1;
+            }
+            else {
+                i = midSpeed + 1;
+            }
+        }
+        return minSpeed;
+    }
+};
 
 //50. Pow(x, n)
 
