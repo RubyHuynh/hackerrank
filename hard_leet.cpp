@@ -1,3 +1,42 @@
+//2141. Maximum Running Time of N Computers
+class Solution {
+public:
+    bool possible(int n, vector<int> & batteries, long long hours) {
+        long long int time = 0;
+        for (int i = 0;  i<batteries.size(); i++) {
+            time += batteries[i];
+            if (time >= hours) {
+                time -= hours;
+                n--;
+            }
+            if (n == 0) return true;
+        }
+        return false;
+    }
+    long long maxRunTime(int n, vector<int>& batteries) {
+        long long int l = 1; 
+        long long int r = 0;
+
+        for (int i = 0; i < batteries.size(); i++)  {
+            r += batteries[i];
+        }
+        r/=n;
+        sort(batteries.begin(), batteries.end());
+
+        while (l < r) {
+            long long int m = l + (r-l+1)/2;
+            if (possible(n, batteries, m)) {
+                l = m;
+            }
+            else {
+                r = m -1;
+            }
+        }
+        return l;
+    }
+}; 
+
+
 //1601. Maximum Number of Achievable Transfer Requests
 class Solution {
 public:
