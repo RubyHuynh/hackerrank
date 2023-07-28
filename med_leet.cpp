@@ -4,6 +4,36 @@
 #include<limits.h>
 using namespace std;
 
+
+//486. Predict the Winner
+
+class Solution {
+public:
+    int solve (vector<vector<int>>&dp, vector<int> &nums, int i, int j, int k) {
+        if (i > j) return 0;
+        if (dp[i][j] != -1) return dp[i][j];
+        int first = 0, last = 0, ret = 0;
+        if (k %2 == 0) {
+            first = nums[i] + solve(dp, nums, i+1, j, k+1);
+            last = nums[j] + solve(dp, nums, i, j-1, k+1);
+            ret = max(first, last);
+        }
+        else {
+            first = -nums[i] + solve(dp, nums, i+1, j, k+1);
+            last = -nums[j] + solve(dp, nums, i, j-1, k+1);
+            ret = min(first, last);
+        }
+        return dp[i][j] = ret;
+    }
+
+    bool PredictTheWinner(vector<int>& nums) {
+        int i = 0;
+        int n = nums.size();
+
+        vector<vector<int>> dp(n, vector<int>(n, -1));
+        return solve(dp, nums, 0, n-1, 0) >= 0;
+    }
+};
 //1870. Minimum Speed to Arrive on Time
 
 class Solution {
