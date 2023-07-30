@@ -1,3 +1,51 @@
+//664. Strange Printer
+
+class Solution {
+public:
+    int strangePrinter(string s) {
+        int n = s.size();
+        vector dp(n, vector<int>(n, n));
+        for (int length = 1; length <= n; length++) {
+            for (int left = 0; left <= n - length; left++) {
+                int right = left + length - 1;
+                int j = -1;
+                for (int i = left; i < right; i++) {
+                    if (s[i] != s[right] && j == -1) {
+                        j = i;
+                    }
+                    if (j != -1) {
+                        dp[left][right] = min(dp[left][right], 1 + dp[j][i] + dp[i + 1][right]);
+                    }
+                }
+                
+                if (j == -1) {
+                    dp[left][right] = 0;
+                }
+            }
+        }
+        
+        return dp[0][n - 1] + 1;
+    }
+};
+class Solution11{
+public:
+    int solve(string s, vector<vector<int>> &dp, int i, int j) {
+        if (i == j) return 1;
+
+        if (dp[i][j] != -1) return dp[i][j];
+        int minCut = 1e9;
+        for (int k = i; k < j; k++) {
+            minCut = min(minCut, (solve(s, dp, i, k) + solve(s, dp, k+1, j)));
+        }
+        return dp[i][j] = s[i] == s[j] ? minCut - 1 : minCut;
+    }
+    int strangePrinter(string s) {
+        int n = s.length();
+        vector<vector<int>> dp (n+1, vector<int>(n+1, -1));
+        return solve(s, dp, 0, n-1);
+    }
+};
+
 //2141. Maximum Running Time of N Computers
 class Solution {
 public:
