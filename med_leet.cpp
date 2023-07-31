@@ -3,7 +3,66 @@
 #include<string.h>
 #include<limits.h>
 using namespace std;
+//712. Minimum ASCII Delete Sum for Two Strings
 
+class Solution {
+public:
+    int minimumDeleteSum(string s1, string s2) {
+        vector<vector<int>> dp(s1.size() + 1, vector<int>(s2.size() + 1, 0));
+
+        for (int i = 1; i <= s1.size(); i++)
+            dp[i][0] = dp[i - 1][0] + s1[i - 1];
+
+        for (int j = 1; j <= s2.size(); j++)
+            dp[0][j] = dp[0][j - 1] + s2[j - 1];
+
+        for (int i = 1; i <= s1.size(); i++) {
+            for (int j = 1; j <= s2.size(); j++) {
+                if (s1[i - 1] == s2[j - 1]) {
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else {
+                    dp[i][j] = min(dp[i - 1][j] + s1[i - 1], dp[i][j - 1] + s2[j - 1]);
+                }
+            }
+        }
+        
+        return dp[s1.size()][s2.size()];
+    }
+};
+class Solution1 {
+public:
+    long long solve(string s1, string s2, vector<vector<int>>&dp, int i, int j) {
+        if (i == s1.size() && j == s2.size()) return 0;
+        if (i == s1.size()) {
+            int d = 0;
+            for (int k = j; k < s2.size(); k++) {
+                d += (int)s2[k];
+            }
+            return d;
+        }
+        if (j == s2.size()) {
+            int d = 0;
+            for (int k = i; k < s1.size(); k++) {
+                d += (int)s1[k];
+            }
+            return d;
+        }
+        if (dp[i][j] != -1) return dp[i][j];
+        long long ret = 1e9;
+        if (s1[i] == s2[j]) {
+            ret = solve(s1,s2, dp, i+1, j+1);
+        }
+        else {
+            ret = min(ret, s1[i] + solve(s1, s2, dp, i+1, j));
+            ret = min(ret, s2[j] + solve(s1, s2, dp, i, j+1));
+        }
+        return dp[i][j] = ret;
+    }
+    int minimumDeleteSum(string s1, string s2) {
+        vector<vector<int>> dp(s1.size(), vector<int>(s2.size(), -1));
+        return solve(s1, s2, dp, 0, 0);
+    }
+};
 
 //486. Predict the Winner
 
