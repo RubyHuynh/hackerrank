@@ -4,7 +4,30 @@
 #include<limits.h>
 using namespace std;
 
+//17. Letter Combinations of a Phone Number
 
+class Solution {
+public:
+    vector<string> _ret;
+    void solve(string digits, string *arr, int i, string com) {
+        if (i == digits.size()) {
+            _ret.push_back(com);
+            return;
+        }
+        char c = digits[i];
+        string a = arr[c - '0'];
+        for (int k = 0; k <a.size(); k++) {
+            solve(digits, arr, i+1, com+a[k]);
+        }
+    }
+    vector<string> letterCombinations(string digits) {
+        vector<string> a;
+        if (digits.size() == 0) return a;
+        string arr[] = {"0","0", "abc", "def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+        solve(digits, arr, 0, "");
+        return _ret;
+    }
+};
 //77. Combinations
 
 class Solution {
