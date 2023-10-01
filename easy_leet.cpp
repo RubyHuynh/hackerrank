@@ -1,3 +1,57 @@
+
+//557. Reverse Words in a String III
+class Solution {
+public:
+    string reverseWords1(string s) {
+        string ret;
+        stack<char> temp;
+
+        for (auto it : s) {
+            if (it != ' ') {
+                temp.push(it);
+            }
+            else {
+                while (!temp.empty()) {
+                    ret += temp.top();
+                    temp.pop();
+                }
+                ret += ' ';
+            }
+        }
+        while (!temp.empty()) {
+            ret += temp.top();
+            temp.pop();
+        }
+        return ret;
+        
+    }
+    string reverseWords(string s) {
+        string ret;
+        int l = 0, r = -1;
+
+        for (int i = 0; i < s.size(); i++) {
+            if (s[i] != ' ') {
+                r++;
+            }
+            else {
+                while (r >= l) {
+                    ret += s[r];
+                    r--;
+                }
+                l = r = i + 1;
+            }
+        }
+        while (r >= l) {
+            if (r == s.size()) ret += " ";
+            else ret += s[r];
+            r--;
+        }
+        return ret;
+        
+    }
+};
+
+
 //111. Minimum Depth of Binary Tree
 
 class Solution {
