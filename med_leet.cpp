@@ -4,6 +4,35 @@
 #include<limits.h>
 using namespace std;
 
+//1498. Number of Subsequences That Satisfy the Given Sum Condition
+class Solution {
+public:
+    int numSubseq(vector<int>& nums, int target) {
+        int ret = 0;
+        int n = nums.size();
+        int mod = 1e9 +7;
+        sort(nums.begin(), nums.end());
+        int l = 0, r = n - 1;
+        vector<int> pows(n, 1);
+
+        for (int i = 1 ; i < n; i++) {
+            pows[i] = (pows[i-1] << 1) % mod;
+        }
+        while (l <= r) {
+            if (nums[l] + nums[r] <= target) {
+                ret = (ret + pows[r-l]) % mod;
+                l++;
+            }
+            else {
+                r--;
+            }
+        }
+        return ret;
+    }
+};
+
+
+
 //17. Letter Combinations of a Phone Number
 
 class Solution {
