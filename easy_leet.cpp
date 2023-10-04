@@ -1,4 +1,20 @@
 
+//1572. Matrix Diagonal Sum
+class Solution {
+public:
+    int diagonalSum(vector<vector<int>>& mat) {
+        int ret = 0;
+        int n = mat.size();
+        for (int i = 0; i < n; i++) {
+            ret += mat[i][i];
+            ret += mat[i][n-i-1];
+        }
+        if (n % 2) ret -= mat[n/2][n/2];
+        return ret;
+    }
+};
+
+
 //557. Reverse Words in a String III
 class Solution {
 public:
