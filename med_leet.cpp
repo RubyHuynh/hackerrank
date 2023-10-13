@@ -4,6 +4,41 @@
 #include<limits.h>
 using namespace std;
 
+
+//2130. Maximum Twin Sum of a Linked List
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+
+        
+        class Solution {
+public:
+    int pairSum(ListNode* head) {
+        ListNode* slow = head, *fast = head;
+        stack<int> ret;
+        while (fast && fast->next) {
+            ret.push(slow->val);
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        int m = 0;
+        //slow = head;
+        while (ret.size()) {
+            m = max(m, ret.top() + slow->val);
+            ret.pop();
+            slow = slow->next;
+        }
+        return m;
+    }
+};
+
 //1035. Uncrossed Lines
 class Solution {
 public:
