@@ -5,6 +5,26 @@
 using namespace std;
 
 
+//1557. Minimum Number of Vertices to Reach All Nodes
+class Solution {
+public:
+    vector<int> findSmallestSetOfVertices(int n, vector<vector<int>>& edges) {
+        vector<bool> maps(n, 0);
+        vector<int> ret;
+
+        for (int i = 0; i < edges.size(); i++) {
+            maps[edges[i][1]] = true;
+        }
+        
+        for (int i = 0; i < maps.size(); i++) {
+            if (!maps[i]) {
+                ret.push_back(i);
+            }
+        }
+        return ret;
+    }
+};
+
 //2130. Maximum Twin Sum of a Linked List
 /**
  * Definition for singly-linked list.
