@@ -5,6 +5,40 @@
 using namespace std;
 
 
+
+//785. Is Graph Bipartite?
+class Solution {
+public:
+    bool isBipartite(vector<vector<int>>& graph) {
+        vector<int> colors(graph.size(), -1);
+        queue<pair<int,int>> q;
+        for (int i = 0; i < graph.size(); i++) {
+            if (colors[i] == -1) {
+                q.push({i, 0});
+                colors[i] = 0;
+
+                while (q.size()) {
+                    pair<int, int> p = q.front();
+                    q.pop();
+
+                    int v = p.first;
+                    int c = p.second;
+
+                    for (int j : graph[v]) {
+                        if (colors[j] == c) return false;
+                        if (colors[j] == -1) {
+                            if (c == 0) colors[j] = 1;
+                            else colors[j] = 0;
+                            q.push({j, colors[j]});
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+};
+
 //1557. Minimum Number of Vertices to Reach All Nodes
 class Solution {
 public:
