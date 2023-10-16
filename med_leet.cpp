@@ -4,6 +4,44 @@
 #include<limits.h>
 using namespace std;
 
+//399. Evaluate Division
+class Solution {
+public:
+    vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {
+        unordered_map<string, unordered_map<string, double>> graph = {};
+        for (int i = 0; i < equations.size(); i++) {
+            graph[equations[i][0]][equations[i][1]] = values[i];
+            graph[equations[i][1]][equations[i][0]] = 1/values[i];
+        }
+
+        vector<double> ret = {};
+        for (auto query : queries) {
+            string a = query[0];
+            string b = query[1];
+            if (graph.count(a) == 0 || graph.count(b) == 0) {
+                ret.push_back(-1.0);
+            }
+            else {
+                unordered_map<string, bool> visited = {};
+                ret.push_back(dfs(a, b, graph, visited));
+            }
+        }
+        return ret;
+    }
+
+    double dfs(string a, string b, unordered_map<string, unordered_map<string, double>> &graph, unordered_map<string, bool> &visited) {
+        if (a == b) return 1.0;
+        double val = 1.0;
+        for (auto item : graph[a]) {
+            if (visited.count(item.first) == 0) {
+                visited[item.first] = true;
+                val = item.second * dfs(item.first, b, graph, visited);
+                if (val > 0) return val;
+            }
+        }
+        return -1;
+    }
+};
 
 
 //785. Is Graph Bipartite?
