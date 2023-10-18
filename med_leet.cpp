@@ -4,6 +4,76 @@
 #include<limits.h>
 using namespace std;
 
+
+
+//934. Shortest Bridge
+class Solution {
+public:
+    int n, m;
+    const int dx[4] = {-1, 1, 0, 0};
+    const int dy[4] = { 0, 0, 1, -1};
+
+    bool isValid( int i, int j) {
+        return i < n && i >= 0 && j < m && j >=0;
+    }
+    void dfs(queue<pair<int, int>> &q, vector<vector<int>> &grid, int i, int j) {
+        if (!isValid(i, j) || grid[i][j] != 1) return;
+        q.push({i,j});
+        grid[i][j] = -1;
+
+        dfs(q, grid, i+1, j);
+        dfs(q, grid, i-1, j);
+        dfs(q, grid, i, j+1);
+        dfs(q, grid, i, j-1);
+    }
+
+    int shortestBridge(vector<vector<int>>& grid) {
+        queue<pair<int, int>> q;
+        n = grid.size();
+        m = grid[0].size();
+        int foundFirstIsland = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (grid[i][j] == 1) {
+                    dfs(q, grid, i, j);
+                    foundFirstIsland = 1;
+                    goto _flip;
+                }
+            }
+        }
+
+_flip:
+        int level = 0;
+        while (q.size()) {
+            int sz = q.size();
+            level++;
+            for (int i = 0; i < sz; i++) {
+                pair<int, int> p = q.front();
+                q.pop();
+
+                for (int x = 0; x < 4; x++) {
+                    int nr = p.first + dx[x];
+                    int nc = p.second + dy[x];
+                    if (isValid(nr, nc)) {
+                        switch (grid[nr][nc]) {
+                            case 0:
+                                grid[nr][nc] = -1;
+                                q.push({nr,nc});
+                                break;
+                            case 1:
+                                return level - 1;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+};
+
+
 //399. Evaluate Division
 class Solution {
 public:
