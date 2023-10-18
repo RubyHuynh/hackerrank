@@ -1,3 +1,62 @@
+//1547. Minimum Cost to Cut a Stick
+
+class Solution {
+public:
+   int minCost1(int len, vector<int>& cuts) {
+       cuts.push_back(0);
+       cuts.push_back(len);
+       sort(cuts.begin(), cuts.end());
+       int n = cuts.size();
+       vector<vector<int>> dp(n+1, vector<int>(n+1));
+
+       for (int i = n - 2; i >= 1; i--) {
+           for (int j = i; j <= n - 2; j++) {
+               int cost = INT_MAX;
+               for (int k = i; k <= j; k++) {
+                   cost = min (cost, cuts[j+1] - cuts[i -1] + dp[i][k-1] + dp[k+1][j]);
+               }
+               dp[i][j]= cost;
+           }
+       }
+        return dp[1][n-2];
+   }
+
+int solve(int i, int j, vector<int> &cuts, vector<vector<int>> &dp)
+{
+
+    if (i > j)
+        return 0;
+
+    if (dp[i][j] != -1)
+        return dp[i][j];
+
+    int minm = INT_MAX;
+
+    for (int ind = i; ind <= j; ind++)
+    {
+
+        int cost = cuts[j + 1] - cuts[i - 1] + solve(i, ind - 1, cuts, dp) + solve(ind + 1, j, cuts, dp);
+        minm = min(minm, cost);
+    }
+
+    return dp[i][j] = minm;
+}
+
+int minCost(int n, vector<int> &cuts)
+{
+
+    int c = cuts.size();
+    cuts.push_back(0);
+    cuts.push_back(n);
+
+    sort(cuts.begin(), cuts.end());
+    vector<vector<int>> dp(c + 1, vector<int>(c + 1, -1));
+
+    return solve(1, c, cuts, dp);
+}
+};
+
+
 //1799. Maximize Score After N Operations
 class Solution {
 public:
