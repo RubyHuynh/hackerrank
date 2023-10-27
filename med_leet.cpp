@@ -4,6 +4,32 @@
 #include<limits.h>
 using namespace std;
 
+
+
+//877. Stone Game
+class Solution {
+public:
+    bool stoneGame1(vector<int>& piles) {
+        return true;
+    }
+    int dfs(vector<int>& piles,int i,int j,vector<vector<int>> &dp){
+        bool aliceTurn = (j -i) % 2;
+        if(i>j)
+            return 0;
+        if(dp[i][j]!=-1)
+            return dp[i][j];
+        if(aliceTurn)
+            return dp[i][j]= max(piles[i]+dfs(piles,i+1,j,dp), piles[j]+dfs(piles,i,j-1,dp));
+        
+        return dp[i][j]=min(dfs(piles,i+1,j,dp)-piles[i],dfs(piles,i,j-1,dp)-piles[j]);
+    }
+    bool stoneGame(vector<int>& piles) {
+        int n = piles.size();
+        vector<vector<int>> dp(n,vector<int>(n,-1));
+        return dfs(piles, 0, n-1, dp) >0;
+    }
+};
+
 //2542. Maximum Subsequence Score
 class Solution {
 public:
