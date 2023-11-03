@@ -1,3 +1,10 @@
+//292. Nim Game
+class Solution {
+public:
+    bool canWinNim(int n) {
+        return n%4 != 0;
+    }
+};
 
 //1572. Matrix Diagonal Sum
 class Solution {
