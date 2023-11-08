@@ -1,3 +1,37 @@
+
+//121. Best Time to Buy and Sell Stock
+class Solution {
+public:
+    int maxProfit1(vector<int>& prices) {
+        int n = prices.size();
+        int ret = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = n -1; j > i; j--) {
+                ret = max(ret, prices[j]-prices[i]);
+            }
+        }
+        return ret;
+    }
+
+    int maxProfit(vector<int>& prices) {
+        int l = 0;
+        int r = 0;
+        int n = prices.size();
+        int ret = 0;
+        
+        while (++r < n) {
+            if (prices[r] > prices[l]) {
+                ret = max(ret, prices[r]-prices[l]);
+            }
+            else if (prices[r] < prices[l]) {
+                l = r; // l will always try to jump to the smallest 
+                // and the result is counted already with each "min" assumption.
+            }
+        }
+        return ret;
+    }
+};
+
 //292. Nim Game
 class Solution {
 public:
