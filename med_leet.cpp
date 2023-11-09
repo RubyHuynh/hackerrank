@@ -5,6 +5,33 @@
 using namespace std;
 
 
+//47. Permutations II
+class Solution {
+public:
+    void help(vector<int> &nums, set<vector<int>> &s, vector<int> cur, int idx) {
+        if (idx == nums.size()) {
+            s.insert(cur);
+            return;
+        }
+        for (int i = idx; i < cur.size(); i++) {
+            swap(cur[idx], cur[i]);
+            help(nums, s, cur, idx+1);
+        }
+    }
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        vector<vector<int>> ret;
+        vector<int> cur = nums;
+        sort(cur.begin(), cur.end());
+
+        set<vector<int>> s;
+        help(nums, s, cur, 0);
+        for (auto it : s) {
+            ret.push_back(it);
+        }
+        return ret;
+    }
+};
+
 //1140. Stone game II
 class Solution {
 public:
