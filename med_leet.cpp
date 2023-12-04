@@ -5,6 +5,29 @@
 using namespace std;
 
 
+//11. Container With Most Water
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int l = 0;
+        int r = height.size() - 1;
+        int ret = 0;
+
+        while (l < r) {
+            int w = r - l;
+            int h = min(height[l], height[r]);
+            int capa = w * h;
+            ret = max(ret, capa);
+            if (height[l] < height[r]) {
+                l++;
+            }
+            else {
+                r--;
+            }
+        }
+        return ret;
+    }
+};
 
 //43. Multiply Strings
 class Solution {
