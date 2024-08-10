@@ -1,3 +1,30 @@
+//27. Remove Element 
+class Solution {
+public:
+    int removeElement2(vector<int>& nums, int val) {
+        int ret = 0;
+        for (int i = 0; i < nums.size(); i++) {
+            if (nums[i] != val) {
+                nums[ret] = nums[i];
+                ret++;
+            }
+        }
+
+        return ret;
+    }
+
+    int removeElement(vector<int>& nums, int val) {
+        for (auto it = nums.begin(); it != nums.end(); ) {
+            if (*it == val) {
+                it = nums.erase(it);
+            } else {
+                it++;
+            }
+        }
+        return nums.size();
+    }
+};
+
 //35. Search Insert Position
 class Solution {
 public:
