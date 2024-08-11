@@ -4,6 +4,44 @@
 #include<limits.h>
 using namespace std;
 
+//24. Swap Nodes in Pairs
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        int cnt = 0;
+        if (!head) return NULL;
+        if (!head->next) return head;
+
+        ListNode* prev, *cur, *tmp;
+        cur = head;
+        head = head->next;
+        while (cur && cur->next) {
+            tmp = cur->next;
+            cur->next = tmp->next;
+            tmp->next = cur;
+            if (cnt == 1) {
+                prev->next = tmp;
+            }
+            prev = cur;
+            if (cur->next) {
+                cur = cur->next;
+            }
+            cnt = 1;
+        }
+        return head;
+    }
+};
+
 //36. Valid Sudoku
 class Solution1{
 public:
