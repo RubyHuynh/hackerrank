@@ -33,9 +33,7 @@ public:
                 prev->next = tmp;
             }
             prev = cur;
-            if (cur->next) {
-                cur = cur->next;
-            }
+            cur = cur->next;
             cnt = 1;
         }
         return head;
