@@ -1,3 +1,24 @@
+//154. Find Minimum in Rotated Sorted Array II
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        int l = 0, h = nums.size() - 1;
+        while (l < h) {
+            int m = (h+l)/2;
+            if (nums[m] > nums[h]) {
+                l = m + 1;
+            }
+            else if (nums[l] < nums[m]) {
+                h = m -1;
+            }
+            else {
+                h--;
+            }
+        }
+        return nums[l];
+    }
+};
+
 //871. Minimum Number of Refueling Stops
 class Solution {
 public:
