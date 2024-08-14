@@ -8,8 +8,8 @@ public:
             if (nums[m] > nums[h]) {
                 l = m + 1;
             }
-            else if (nums[l] < nums[m]) {
-                h = m -1;
+            else if (nums[m] < nums[h]) {
+                h = m;
             }
             else {
                 h--;
@@ -18,7 +18,6 @@ public:
         return nums[l];
     }
 };
-
 //871. Minimum Number of Refueling Stops
 class Solution {
 public:
