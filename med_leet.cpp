@@ -4,6 +4,40 @@
 #include<limits.h>
 using namespace std;
 
+
+
+//151. Reverse Words in a String
+class Solution {
+public:
+    string reverseWords(string s) {
+        stack<string> st;
+        string tmp = "";
+        string ret ="";
+
+        for (int i =0; i < s.size(); i++) {
+            if (s[i] == ' ' && tmp != "") {
+                st.push(tmp);
+                tmp = "";
+            }
+            else if (s[i] != ' ') {
+                tmp += s[i];
+            }
+        }
+
+        if (tmp != "") st.push(tmp);
+
+        while (!st.empty()) {
+            ret += st.top();
+            st.pop();
+            if (!st.empty()) {
+                ret += " ";
+            }
+        }
+        return ret;
+    }
+};
+
+
 //114. Flatten Binary Tree to Linked List
 /**
  * Definition for a binary tree node.
