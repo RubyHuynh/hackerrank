@@ -4,7 +4,35 @@
 #include<limits.h>
 using namespace std;
 
+//16. 3Sum Closest
+class Solution {
+public:
+    int threeSumClosest(vector<int>& nums, int target) {
+        sort(nums.begin(), nums.end());
+        int ret = INT_MAX/2; // /2 to avoid overflow
 
+        for (int i = 0; i < nums.size() - 2; i++) {
+            int l = i+1;
+            int r = nums.size() - 1;
+            while (l < r) {
+                int cur = nums[i] + nums[l] + nums[r];
+                if (abs(cur-target) < abs(ret-target)) {
+                    ret = cur;
+                }
+                if (cur < target) {
+                    l++;
+                }
+                else if (cur > target) {
+                    r--;
+                }
+                else {
+                    return ret;
+                }
+            }
+        }
+        return ret;
+    }
+};
 
 //151. Reverse Words in a String
 class Solution {
