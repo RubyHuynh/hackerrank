@@ -1,3 +1,22 @@
+//14. Longest Common Prefix
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        string ret;
+        sort(strs.begin(), strs.end());
+        int n = strs.size();
+        string first = strs[0], last = strs[n-1];
+        for (int i = 0; i < min(first.size(), last.size()); i++)  {
+            if (first[i] != last[i]) {
+                return ret;
+            }
+            ret += first[i];
+        }
+        return ret;
+    }
+};
+
+
 //83. Remove Duplicates from Sorted List
 /**
  * Definition for singly-linked list.
