@@ -1,3 +1,22 @@
+//58. Length of Last Word
+class Solution {
+public:
+    int lengthOfLastWord(string s) {
+        int ret = 0;
+        bool found = false;
+        for (int i = s.size() -1 ; i >=0; i--) {
+            if (s[i] != ' ') {
+                found = true;
+                ret++;
+            }
+            else if (found) {
+                break;
+            }
+        }
+        return ret;
+    }
+};
+
 //26. Remove Duplicates from Sorted Array
 class Solution {
 public:
