@@ -3,6 +3,37 @@
 #include<string.h>
 #include<limits.h>
 using namespace std;
+
+
+//57. Insert Interval
+class Solution {
+public:
+    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
+        int n = intervals.size();
+        int i = 0;
+        vector<vector<int>> ret;
+
+        while (i < n && newInterval[0] > intervals[i][1]) {
+            ret.push_back(intervals[i]);
+            i++;
+        }
+
+        while (i < n && newInterval[1] >= intervals[i][0]) {
+            newInterval[0] = min(newInterval[0], intervals[i][0]);
+            newInterval[1] = max(newInterval[1], intervals[i][1]);
+            i++;
+        }
+        ret.push_back(newInterval);
+
+        while (i < n) {
+            ret.push_back(intervals[i]);
+            i++;
+        }
+        return ret;
+    }
+};
+
+
 //56. Merge Intervals
 class Solution {
 public:
