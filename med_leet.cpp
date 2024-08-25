@@ -4,6 +4,43 @@
 #include<limits.h>
 using namespace std;
 
+//18. 4Sum
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        int n = nums.size();
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> ret;
+
+        for (int i = 0; i< n -3; i++) {
+            for (int j = i+1; j < n-2; j++) {
+                long long remain = (long long)target 
+                    - (long long) nums[i] 
+                    - (long long) nums[j];
+                int low = j + 1, high = n - 1;
+                while (low < high) {
+                    if (nums[low] + nums[high] < remain) {
+                        low++;
+                    }
+                    else if (nums[low] + nums[high] > remain) {
+                        high--;
+                    }
+                    else {
+                        ret.push_back({nums[i], nums[j], nums[low], nums[high]});
+                        int tmp1 = low, tmp2 = high;
+                        // skip duplicate
+                        while (low < high && nums[low] == nums[tmp1]) low++;
+                        while (low < high && nums[high] == nums[tmp2]) high--;
+                    }
+                }
+                while (j+1 < n && nums[j] == nums[j+1]) j++;
+            }
+            while (i+1 < n && nums[i] == nums[i+1]) i++;
+        }
+        return ret;
+    }
+};
+
 
 //57. Insert Interval
 class Solution {
