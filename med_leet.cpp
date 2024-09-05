@@ -4,6 +4,37 @@
 #include<limits.h>
 using namespace std;
 
+//96. Unique Binary Search Trees
+class Solution {
+public:
+    int numTrees1(int n) {
+        if (n <= 1) return 1;
+
+        int ret = 0;
+        for (int i = 1; i <= n; i++) {
+            ret += numTrees(i-1) * numTrees(n-i);
+        }
+        return ret;
+    }
+
+    int solveMem(int n, vector<int> &dp) {
+        if (n <=1) return 1;
+
+        if (dp[n] != -1) return dp[n];
+
+        int ret = 0;
+        for (int i = 1; i <=n; i++) {
+            ret += solveMem(i-1, dp) * solveMem(n-i, dp);
+        }
+        return dp[n] = ret;
+    }
+
+
+    int numTrees(int n) {
+        vector<int> dp(n+1, -1);
+        return solveMem(n, dp);
+    }
+};
 
 //29. Divide Two Integers
 class Solution {
