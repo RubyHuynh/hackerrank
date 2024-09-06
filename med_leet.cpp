@@ -4,6 +4,40 @@
 #include<limits.h>
 using namespace std;
 
+
+//116. Populating Next Right Pointers in Each Node
+class Solution {
+public:
+    Node* connectDFS(Node* root) {
+        if (!root) return nullptr;
+        auto L = root->left, R = root->right, N = root->next;
+        if (L) {
+            L->next = R;
+            if (N) R->next = N->left;
+            connect(L);
+            connect(R);
+        }
+        return root;
+    }
+    Node* connect(Node* root) {
+        if (!root) return nullptr;
+        Node* cur = root, *L = cur->left;
+        while (L) {
+            cur->left->next = cur->right;
+            if (cur->next) {
+                cur->right->next = cur->next->left;
+                cur = cur->next;
+            }
+            else {
+                cur = L;
+                L = cur->left; //descend!
+            }
+            
+        }
+        return root;
+    }
+};
+
 //96. Unique Binary Search Trees
 class Solution {
 public:
