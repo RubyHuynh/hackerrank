@@ -5,6 +5,51 @@
 using namespace std;
 
 
+//134. Gas Station
+class Solution {
+public:
+    int canCompleteCircuit1(vector<int>& gas, vector<int>& cost) {
+        for (int i = 0 ; i < gas.size(); i++) {
+            cost[i] = gas[i] - cost[i];
+        }
+        int state = 0;
+        for (int i = 0; i < cost.size(); i++) {
+            state += cost[i];
+        }
+        if (state < 0) return -1;
+        state = 0;
+        int idx = 0;
+        for (int i = 0; i < cost.size(); i++) {
+            state += cost[i];
+            if (state < 0) {
+                idx = i + 1;
+                state = 0;
+            }
+        }
+        return idx;
+    }
+
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int n = gas.size();
+        int ret = 0;
+        int curGas = 0;
+        int totalGas = 0;
+        int totalCost = 0;
+
+        for (int i = 0; i < n; i++) {
+            totalGas += gas[i];
+            totalCost += cost[i];
+            curGas += gas[i] - cost[i];
+            if (curGas < 0) {
+                ret = i+1;
+                curGas = 0;
+            }
+        }
+        if (totalGas < totalCost) return -1;
+        return ret;
+    }
+};
+
 //116. Populating Next Right Pointers in Each Node
 class Solution {
 public:
