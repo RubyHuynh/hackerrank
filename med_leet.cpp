@@ -4,6 +4,19 @@
 #include<limits.h>
 using namespace std;
 
+//98. Validate Binary Search Tree
+class Solution {
+    bool help(TreeNode* node, long min, long max) {
+        if (!node) return true;
+        if (!(node->val > min && node->val < max)) return false;
+        return help(node->left, min, node->val) 
+                && help(node->right, node->val, max);
+    }
+public:
+    bool isValidBST(TreeNode* root) {
+        return help(root, LONG_MIN, LONG_MAX);
+    }
+};
 
 //97. Interleaving String
 class Solution {
