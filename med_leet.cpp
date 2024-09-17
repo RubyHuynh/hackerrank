@@ -4,6 +4,39 @@
 #include<limits.h>
 using namespace std;
 
+
+//99. Recover Binary Search Tree (cleaner)
+class Solution {
+public:
+        TreeNode* prev = nullptr;
+        TreeNode* num1 = nullptr;
+        TreeNode* num2 = nullptr;
+
+    void inorder(TreeNode* root) {
+        if (!root) return;
+        inorder(root->left);
+
+        // init
+        if (prev) {
+            if (prev->val > root->val) {
+                if (!num1) {
+                    num1 = prev;
+                }
+                num2 = root;
+            }
+        }
+        prev = root;
+        inorder(root->right);
+    }
+    void recoverTree(TreeNode* root) {
+        inorder(root);
+
+        int tmp = num1->val;
+        num1->val = num2->val;
+        num2->val = tmp;
+    }
+};
+
 //99. Recover Binary Search Tree
 class Solution {
 public:
