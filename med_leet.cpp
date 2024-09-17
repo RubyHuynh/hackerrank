@@ -4,6 +4,32 @@
 #include<limits.h>
 using namespace std;
 
+//92. Reverse Linked List II
+class Solution {
+public:
+    ListNode* reverseBetween(ListNode* head, int left, int right) {
+        if (!head || left == right) return head;
+
+        ListNode* tmp = new ListNode(0);
+        tmp->next = head;
+        ListNode* prev = tmp;
+
+        for (int i = 1; i < left; i++) {
+            prev = prev->next;
+        }
+
+        ListNode* start = prev->next;
+        ListNode* end = start->next;
+
+        for (int i = 0; i < right - left; i++) {
+            start->next = end->next;
+            end->next = prev->next;
+            prev->next = end;
+            end = start->next;
+        }
+        return tmp->next;
+    }
+};
 
 //99. Recover Binary Search Tree (cleaner)
 class Solution {
