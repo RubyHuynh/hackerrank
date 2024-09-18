@@ -4,6 +4,31 @@
 #include<limits.h>
 using namespace std;
 
+
+//91. Decode Ways
+class Solution {
+public:
+    int help(string s, int i, vector<int>& dp) {
+        if (s[i] == '0') return 0;
+        if (i == s.size()) return 1;
+        if (dp[i] != -1) return dp[i];
+
+        int twoDigit = -1;
+        if (i+1 != s.size() || s[i] == '0') {
+            twoDigit = ((s[i] - '0')*10) + (s[i+1] - '0');
+        }
+        if (twoDigit != -1 && twoDigit <= 26) {
+            return dp[i] = help(s, i+2, dp) + help(s, i+1, dp);
+        }
+        return dp[i] = help(s, i+1, dp);
+    }
+    int numDecodings(string s) {
+        if (s[0] == '0') return 0;
+        vector<int> dp(s.size() + 1, -1);
+        return help(s, 0, dp);
+    }
+};
+
 //92. Reverse Linked List II
 class Solution {
 public:
