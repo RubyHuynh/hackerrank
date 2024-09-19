@@ -4,6 +4,18 @@
 #include<limits.h>
 using namespace std;
 
+//89. Gray Code
+class Solution {
+public:
+    vector<int> grayCode(int n) {
+        vector<int> grey;
+        for (int i = 0; i <pow(2, n); i++) {
+            grey.push_back(i^(i>>1));
+        }
+        return grey;
+    }
+};
+
 
 //91. Decode Ways
 class Solution {
