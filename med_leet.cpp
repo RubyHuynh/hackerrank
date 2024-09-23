@@ -145,7 +145,7 @@ public:
 };
 
 //97. Interleaving String
-class Solution {
+class Solution1 {
 public:
     bool isInterleave(string s1, string s2, string s3) {
         int m = s1.length();
@@ -168,6 +168,37 @@ public:
         }
         return dp[n];
     }
+
+};
+
+class Solution {
+public:
+    int dp[101][101];
+    bool help(string s1, string s2, string s3, int p1, int p2, int p3) {
+        if (p1 == s1.size() && p2 == s2.size() && p3 == s3.size()) 
+            return true;
+        if (p3 == s3.size())
+            return false;
+        if (dp[p1][p2] != -1)
+            return dp[p1][p2];
+        
+        bool path1 = false;
+        bool path2 = false;
+        if (s1[p1] == s3[p3]) {
+            path1 = dp[p1][p2] = help(s1, s2, s3, p1+1, p2, p3+1);
+        }
+        if (s2[p2] == s3[p3]) {
+            path2 = dp[p1][p2] = help(s1, s2, s3, p1, p2+1, p3+1);
+        }
+        return path1 || path2;
+        
+    }
+
+    bool isInterleave(string s1, string s2, string s3) {
+        memset(dp, -1, sizeof(dp));
+        return help(s1, s2, s3, 0, 0, 0);
+    }
+
 };
 
 //130. Surrounded Regions
