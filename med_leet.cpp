@@ -5,6 +5,37 @@
 using namespace std;
 
 
+//103. Binary Tree Zigzag Level Order Traversal
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        if (!root) return {};
+
+        vector<vector<int>> ret;
+        queue<TreeNode*> q;
+        q.push(root);
+        bool odd = true;
+
+        while (!q.empty()) {
+            int sz = q.size();
+            vector<int> cur(sz);
+
+            for (int i = 0; i < sz; i++) {
+                TreeNode* front = q.front();
+                q.pop();
+
+                int idx = odd ? i : (sz - i -1);
+                cur[idx] = front->val;
+                if (front->left) q.push(front->left);
+                if (front->right) q.push(front->right);
+            }
+
+            ret.push_back(cur);
+            odd = !odd;
+        }
+        return ret;
+    }
+};
 //129. Sum Root to Leaf Numbers
 class Solution {
     int dfs(TreeNode* root, int cur) {
