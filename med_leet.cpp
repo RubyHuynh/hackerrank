@@ -4,6 +4,41 @@
 #include<limits.h>
 using namespace std;
 
+//34. Find First and Last Position of Element in Sorted Array
+class Solution {
+public:
+    int help(vector<int>& nums, int target, bool lower) {
+        int l = 0;
+        int r = nums.size() - 1;
+        int ret = -1;
+        if (!nums.size()) return ret;
+
+        while (l <= r) {
+            int m = l + (r-l)/2;
+            if (nums[m] == target) {
+                ret = m;
+                if (lower) r = m -1;
+                else l = m + 1;
+            }
+            else if (nums[m] < target) {
+                l = m + 1;
+            }
+            else {
+                r = m - 1;
+            }
+        }
+        return ret;
+    }
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int l = 0;
+        int r = nums.size() - 1;
+        vector<int> ret(2, -1);
+        if (!nums.size()) return ret;
+        ret[0] = help(nums, target, true);
+        ret[1] = help(nums, target, false);
+        return ret;
+    }
+};
 
 //103. Binary Tree Zigzag Level Order Traversal
 class Solution {
