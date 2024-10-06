@@ -1,3 +1,109 @@
+//68. Text Justification
+class Solution {
+public:
+    string buildline(vector<string>& curr, int maxWidth, int &currlen){
+        int spaces = maxWidth - currlen;
+
+        for(int i=0;i<spaces;i++){
+            if(curr.size()==1)
+                curr[0]+=" ";
+            else
+                curr[i%(curr.size()-1)]+=" ";
+        }
+
+        string finl = accumulate(curr.begin(),curr.end(),string(""));
+        curr.clear();
+        currlen = 0;
+        return finl;
+    }
+    vector<string> fullJustify(vector<string>& words, int maxWidth) {
+        vector<string> curr;
+        vector<string> res;
+        int currlen = 0;
+        for(int i=0;i<words.size();i++){
+            if(words[i].length() + currlen + curr.size() > maxWidth){
+                res.push_back(buildline(curr,maxWidth,currlen));
+            }
+            curr.push_back(words[i]);
+            currlen+=words[i].length();
+        }
+
+        // to take care the last line of series
+        string finl;
+        for(auto it : curr)
+            finl+=it+" ";
+        finl.pop_back();
+        for(int i = finl.length();i<maxWidth;i++)
+            finl+=" ";
+        res.push_back(finl);
+        return res;
+    }
+};
+
+class Solution1 {
+public:
+    vector<string> fullJustify1(vector<string>& words, int maxWidth) {
+        vector<string> ret;
+        int cur = 0, alen = 0;
+        vector<string> aux;
+        for (string s : words) {
+            int l = s.size();
+            if (maxWidth - cur > l) {
+                cur += s.size() + 1;
+                alen += s.size();
+                aux.push_back(s);
+            }
+            else if (maxWidth - cur == l) {
+                cur += s.size();
+                alen += s.size();
+                aux.push_back(s);
+            }
+            else {
+                cur = 0;
+                string help;
+                int totalSpaces = maxWidth - alen;
+                alen = 0;
+                int pos = aux.size() - 1;
+                for (string x : aux) {
+                    int spaces = 0;
+                    if (pos) {
+                        spaces = (ceil)(totalSpaces*1.00/pos);
+                    }
+                    string sp;
+                    for (int i = 0; i < spaces; i++) {
+                        sp += " ";
+                    }
+                    help += x + sp;
+                    totalSpaces -= spaces;
+                    pos--;
+                }
+                aux.clear();
+                help = help.substr(0, maxWidth);
+                int extra = maxWidth - help.size();
+                for (int i = 0; i < extra; i++) {
+                    help += " ";
+                }
+                ret.push_back(help);
+                aux.push_back(s);
+                cur += s.size() + 1;
+                alen += s.size();
+            }
+        }
+        string help;
+        for (string x : aux) {
+            help += x + " ";
+        }
+        int spaces = maxWidth - help.size();
+        for (int i = 0; i < spaces; i++) {
+            help += " ";
+        }
+        help = help.substr(0, maxWidth);
+        ret.push_back(help);
+        return ret;
+    }
+};
+
+
 //154. Find Minimum in Rotated Sorted Array II
 class Solution {
 public:
