@@ -4,6 +4,32 @@
 #include<limits.h>
 using namespace std;
 
+
+//86. Partition List
+class Solution {
+public:
+    ListNode* partition(ListNode* head, int x) {
+        ListNode before(0), after(0);
+        ListNode* pB = &before;
+        ListNode* pA = &after;
+
+        while (head) {
+            if (head->val < x) {
+                pB->next = head;
+                pB = head;
+            }
+            else {
+                pA->next = head;
+                pA = head;
+            }
+            head = head->next;
+        }
+        pA->next = nullptr;
+        pB->next = after.next;
+        return before.next;
+    }
+};
+
 //34. Find First and Last Position of Element in Sorted Array
 class Solution {
 public:
