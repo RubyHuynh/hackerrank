@@ -5,6 +5,28 @@
 using namespace std;
 
 
+//19. Remove Nth Node From End of List
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode* tmp = new ListNode(0);
+        tmp->next = head;
+        ListNode* fast = tmp;
+        ListNode* slow = tmp;
+        for (int i = 0; i <=n; i++) {
+            fast = fast->next;
+        }
+        while (fast) {
+            fast = fast->next;
+            slow = slow->next;
+        }
+        ListNode* rm = slow->next;
+        slow->next = slow->next->next;
+        delete rm;
+        return tmp->next;
+    }
+};
+
 //86. Partition List
 class Solution {
 public:
