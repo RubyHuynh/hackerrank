@@ -4,6 +4,40 @@
 #include<limits.h>
 using namespace std;
 
+
+////173. Binary Search Tree Iterator
+class BSTIterator {
+    stack<TreeNode*> st;
+    void crawl(TreeNode* root) {
+        while (root) {
+            st.push(root);
+            root = root->left;
+        }
+    }
+public:
+    BSTIterator(TreeNode* root) {
+        crawl(root);
+    }
+    
+    int next() {
+        TreeNode* cur = st.top();
+        st.pop();
+        crawl(cur->right);
+        return cur->val;
+    }
+    
+    bool hasNext() {
+        return !st.empty();
+    }
+};
+
+/**
+ * Your BSTIterator object will be instantiated and called as such:
+ * BSTIterator* obj = new BSTIterator(root);
+ * int param_1 = obj->next();
+ * bool param_2 = obj->hasNext();
+ */
+
 //235. Lowest Common Ancestor of a Binary Search Tree
 class Solution {
 public:
