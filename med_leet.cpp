@@ -4,6 +4,18 @@
 #include<limits.h>
 using namespace std;
 
+//172. Factorial Trailing Zeroes
+class Solution {
+public:
+    int trailingZeroes(int n) {
+        int ret = 0;
+        while (n) {
+            ret += n/5;
+            n /= 5;
+        }
+        return ret;
+    }
+};
 
 ////173. Binary Search Tree Iterator
 class BSTIterator {
