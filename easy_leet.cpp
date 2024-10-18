@@ -1,3 +1,25 @@
+
+///203. Remove Linked List Elements
+class Solution {
+public:
+    ListNode* removeElements(ListNode* head, int val) {
+        ListNode tmp(51);
+        tmp.next = head;
+        ListNode* cur = &tmp;
+        ListNode* prev = cur;
+        while (cur) {
+            if (cur->val == val) {
+                prev->next = cur->next;
+            }
+            else {
+                prev = cur;
+            }
+            cur = cur->next;
+        }
+        return tmp.next;
+    }
+};
+
 //110. Balanced Binary Tree (max diff = 1 only)
 class Solution {
     int height(TreeNode* root) {
