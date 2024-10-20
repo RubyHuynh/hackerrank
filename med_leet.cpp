@@ -4,6 +4,28 @@
 #include<limits.h>
 using namespace std;
 
+
+//230. Kth Smallest Element in a BST
+class Solution {
+    int ret;
+    int i = 0;
+    void inorder(TreeNode* root, int k) {
+        if (!root) return;
+        inorder(root->left, k);
+        i++;
+        if (i == k) {
+            ret = root->val;
+            return;
+        }
+        inorder(root->right, k);
+    }
+public:
+    int kthSmallest(TreeNode* root, int k) {
+        inorder(root, k);
+        return ret;
+    }
+};
+
 //172. Factorial Trailing Zeroes
 class Solution {
 public:
