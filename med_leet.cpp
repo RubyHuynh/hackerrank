@@ -5,6 +5,26 @@
 using namespace std;
 
 
+//204. Count Primes
+class Solution {
+public:
+    int countPrimes(int n) {
+        int ret = 0;
+        vector<bool> eratosthenes(n+1, true);
+        eratosthenes[0] = eratosthenes[1] = false;
+        for (int i = 2; i < n; i++) {
+            if (eratosthenes[i]) {
+                ret++;
+                for (int j = i*2; j < n; j = j+i) {
+                    // *2, *3, *5, *7 cover all
+                    eratosthenes[j] = false;
+                }
+            }
+        }
+        return ret;
+    }
+};
+
 //230. Kth Smallest Element in a BST
 class Solution {
     int ret;
