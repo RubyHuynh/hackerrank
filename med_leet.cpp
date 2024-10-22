@@ -4,6 +4,21 @@
 #include<limits.h>
 using namespace std;
 
+//236. Lowest Common Ancestor of a Binary Tree
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if (!root || root == p || root == q) return root;
+
+        auto L = lowestCommonAncestor(root->left, p, q);
+        auto R = lowestCommonAncestor(root->right, p, q);
+        if (L && R) return root;
+        return L ? L : R;
+    }
+};
+
+
+
 
 //204. Count Primes
 class Solution {
@@ -84,13 +99,6 @@ public:
         return !st.empty();
     }
 };
-
-/**
- * Your BSTIterator object will be instantiated and called as such:
- * BSTIterator* obj = new BSTIterator(root);
- * int param_1 = obj->next();
- * bool param_2 = obj->hasNext();
- */
 
 //235. Lowest Common Ancestor of a Binary Search Tree
 class Solution {
