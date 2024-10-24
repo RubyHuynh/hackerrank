@@ -4,6 +4,26 @@
 #include<limits.h>
 using namespace std;
 
+
+//229. Majority Element II
+class Solution {
+public:
+    vector<int> majorityElement(vector<int>& nums) {
+        unordered_map<int, int> m;
+        for (int i = 0; i < nums.size(); i++) {
+            m[nums[i]]++;
+        }
+        vector<int> ret;
+        int threshold = nums.size() / 3;
+        for (auto item : m) {
+            if (item.second > threshold) {
+                ret.push_back(item.first);
+            }
+        }
+        return ret;
+    }
+};
+
 //236. Lowest Common Ancestor of a Binary Tree
 class Solution {
 public:
