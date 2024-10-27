@@ -4,6 +4,27 @@
 #include<limits.h>
 using namespace std;
 
+//654. Maximum Binary Tree
+class Solution {
+    TreeNode* help(vector<int>& nums, int l, int r) {
+        if (l > r) return nullptr;
+        int p = l;
+        for (int i = p+1; i<= r; i++) {
+            if (nums[i] > nums[p]) {
+                p = i;
+            }
+        }
+        TreeNode* ret = new TreeNode(nums[p]);
+        ret->left = help(nums, l, p-1);
+        ret->right = help(nums, p+1, r);
+        return ret;
+    }
+public:
+    TreeNode* constructMaximumBinaryTree(vector<int>& nums) {
+        return help(nums, 0, nums.size() - 1);
+    }
+};
+
 //649. Dota2 Senate
 class Solution {
 public:
