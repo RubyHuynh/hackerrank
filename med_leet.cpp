@@ -4,6 +4,28 @@
 #include<limits.h>
 using namespace std;
 
+
+//655. Print Binary Tree
+class Solution {
+    int height(TreeNode* root) {
+        return root ? max(height(root->left), height(root->right)) + 1 : 0;
+    }
+    void dfs(TreeNode* root, int h, int r, int c, vector<vector<string>>& ret) {
+        if (!root) return;
+        ret[r][c] = to_string(root->val);
+        int tmp = pow(2, h-r-2);
+        dfs(root->left, h, r+1, c-tmp, ret);
+        dfs(root->right, h, r+1, c+tmp, ret);
+    }
+public:
+    vector<vector<string>> printTree(TreeNode* root) {
+        int h = height(root);
+        int n = h, m = pow(2,h) -1;
+        vector<vector<string>> ret(n, vector<string>(m, ""));
+        dfs(root, n, 0, m/2, ret);
+        return ret;
+    }
+};
 //654. Maximum Binary Tree
 class Solution {
     TreeNode* help(vector<int>& nums, int l, int r) {
