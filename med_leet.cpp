@@ -4,6 +4,31 @@
 #include<limits.h>
 using namespace std;
 
+//402. Remove K Digits
+class Solution {
+public:
+    string removeKdigits(string num, int k) {
+        deque<char> q;
+
+        for(int i = 0; i < num.size(); i++) {
+            while (!q.empty() && q.back() > num[i] && k >0) {
+                k--;
+                q.pop_back();
+            }
+            q.push_back(num[i]);
+        }
+
+        while (k-- > 0) {
+            q.pop_back();
+        }
+        while (!q.empty() && q.front() == '0') {
+            q.pop_front();
+        }
+        string ret;
+        copy(q.begin(), q.end(), back_inserter(ret));
+        return ret.size() ? ret : "0";
+    }
+};
 
 //655. Print Binary Tree
 class Solution {
