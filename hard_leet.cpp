@@ -1,3 +1,37 @@
+//403. Frog Jump
+class Solution {
+    map<pair<int, int>, bool> t;
+    unordered_set<int> s;
+    
+    bool help(int lastStone, int curStone, int k) {
+        if (curStone == lastStone) return true;
+        if (t.find(make_pair(curStone, k)) != t.end()) {
+            return t[make_pair(curStone, k)];
+        }
+        bool ret = false;
+        if (k-1 > 0 && s.find(curStone+k-1) != s.end()) {
+            ret = ret| help(lastStone, curStone + k-1, k-1);
+        }
+        if (s.find(curStone+k) != s.end()) {
+            ret = ret| help(lastStone, curStone + k, k);
+        }
+        if (s.find(curStone+k+1) != s.end()) {
+            ret = ret| help(lastStone, curStone + k+1, k+1);
+        }
+        t[make_pair(curStone, k)] = ret;
+        return ret;
+    }
+public:
+    bool canCross(vector<int>& stones) {
+        if (stones[1] - stones[0] != 1) return false;
+        int lastStone = stones[stones.size()-1];
+        for (int i : stones) {
+            s.insert(i);
+        }
+        return help(lastStone, stones[1], 1);
+    }
+};
+
 //68. Text Justification
 class Solution {
 public:
