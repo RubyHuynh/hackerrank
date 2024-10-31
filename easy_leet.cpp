@@ -1,3 +1,16 @@
+//404. Sum of Left Leaves
+class Solution {
+    int help(TreeNode* root, bool isLeft) {
+        if (!root) return 0;
+        if (!root->left && !root->right && isLeft) return root->val;
+        return help(root->left, true) + help(root->right, false);
+    }
+public:
+    int sumOfLeftLeaves(TreeNode* root) {
+        return help(root, false);
+    }
+};
+
 //232. Implement Queue using Stacks
 class MyQueue {
     stack<int> st;
