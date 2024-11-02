@@ -4,6 +4,22 @@
 #include<limits.h>
 using namespace std;
 
+
+//406. Queue Reconstruction by Height
+class Solution {
+public:
+    vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
+        sort(people.begin(), people.end(), [](const vector<int> &a, const vector<int> b) {
+            return a[0] > b[0] || (a[0] == b[0] && a[1] < b[1]);
+        });
+        vector<vector<int>> ret;
+        for (auto person : people) {
+            ret.insert(ret.begin() + person[1], person);
+        }
+        return ret;
+    }
+};
+
 //402. Remove K Digits
 class Solution {
 public:
