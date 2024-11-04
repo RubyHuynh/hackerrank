@@ -1,3 +1,26 @@
+//409. Longest Palindrome
+class Solution {
+public:
+    int longestPalindrome(string s) {
+        int n = s.size();
+        unordered_map<char, int> m;
+        int even = 0;
+        int odd = 0;
+        for (int i = 0; i < n; i++) {
+            m[s[i]]++;
+            if (m[s[i]] % 2 == 0) even+=2;
+        }
+        for (int i = 0; i < n; i++) {
+            if (m[s[i]] % 2 == 1) {
+                odd++;
+                break;// can only 1 odd at the middle
+            }
+        }
+        return odd + even;
+        
+    }
+};
+
 //405. Convert a Number to Hexadecimal
 class Solution {
     unordered_map<int, char> mp;
