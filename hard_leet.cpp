@@ -1,3 +1,43 @@
+//410. Split Array Largest Sum
+class Solution {
+     int help(vector<int>& nums, int maxSum) {
+        int ret = 1;
+        long long sum = 0;
+        for (int i =0; i< nums.size(); i++) {
+            if (sum + nums[i] <= maxSum) {
+                sum += nums[i];
+            }
+            else {
+                ret++;
+                sum =nums[i];
+            }
+        }
+        return ret;
+     }
+public:
+    int splitArray(vector<int>& nums, int k) {
+        int n = nums.size();
+        int h = 0;
+        int l = 0;
+        for (int i = 0; i < n; i++) {
+            h += nums[i];
+            l = max(l, nums[i]);
+        }
+
+        while (l <= h) {
+            int m = (l + h) /2;
+            int count = help(nums, m);
+            if (count > k) {
+                l = m + 1;
+            }
+            else {
+                h = m - 1;
+            }
+        }
+        return l;
+    }
+};
+
 //403. Frog Jump
 class Solution {
     map<pair<int, int>, bool> t;
