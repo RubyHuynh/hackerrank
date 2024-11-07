@@ -4,6 +4,25 @@
 #include<limits.h>
 using namespace std;
 
+//413. Arithmetic Slices
+class Solution {
+public:
+    int numberOfArithmeticSlices(vector<int>& nums) {
+        int n = nums.size();
+        if (n < 3) return 0;
+
+        int len = 0, ret = 0;
+        for (int i = 2; i < n; i++) {
+            if (nums[i-1] - nums[i-2] == nums[i] - nums[i-1]) {
+                len++;
+                ret += len;
+            }
+            else len = 0;
+        }
+        
+        return ret;
+    }
+};
 
 //406. Queue Reconstruction by Height
 class Solution {
