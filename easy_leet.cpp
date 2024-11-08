@@ -1,3 +1,25 @@
+//414. Third Maximum Number
+class Solution {
+public:
+    int thirdMax(vector<int>& nums) {
+        int *fmax = nullptr, *smax = nullptr, *tmax = nullptr;
+        for(int i = 0;i < nums.size();i++) {
+            int x = nums[i];
+            if(!fmax || x > *fmax) {
+                tmax = smax;
+                smax = fmax;
+                fmax = &nums[i];
+            } else if((!smax || x > *smax) && (fmax && x != *fmax)) {
+                tmax = smax;
+                smax = &nums[i];
+            } else if((!tmax || x > *tmax) && (smax && x != *smax) && (fmax && x != *fmax)) {
+                tmax = &nums[i];
+            }
+        }
+        return(tmax == nullptr ? *fmax : *tmax);
+    }
+};
+
 //412. Fizz Buzz
 class Solution {
 public:
