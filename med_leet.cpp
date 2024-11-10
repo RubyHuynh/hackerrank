@@ -4,6 +4,30 @@
 #include<limits.h>
 using namespace std;
 
+
+//416. Partition Equal Subset Sum
+class Solution {
+public:
+    vector<int> arr;
+    int n, s;
+    int dp[201][20002];
+    int rec(int i, int sum) {
+        if (i>n) return 0;
+        if (i ==n) {
+            return (sum == (s-sum)) ? 1 : 0;
+        }
+        if (dp[i][sum] != -1) return dp[i][sum];
+        return dp[i][sum] = rec(i+1, sum+arr[i]) | rec(i+1, sum); //take | not take
+    }
+    bool canPartition(vector<int>& nums) {
+        arr = nums;
+        n = nums.size();
+        memset(dp, -1, sizeof(dp));
+        s = accumulate(arr.begin(), arr.end(), 0ll);
+        return rec(0, 0);
+    }
+};
+
 //413. Arithmetic Slices
 class Solution {
 public:
