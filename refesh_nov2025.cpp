@@ -11,7 +11,7 @@ public:
         }
         return false;
     }
-    // O(logn)
+    // O(n)
     bool hasDuplicate2(vector<int>& nums) {
         std::unordered_map<int, int> m;
         for (int i = 0; i < nums.size(); i++) {
@@ -22,6 +22,7 @@ public:
         }
         return false;
     }
+    // O(n)
     bool hasDuplicate(vector<int>& nums) {
         std::unordered_set<int> m;
         for (int i = 0; i < nums.size(); i++) {
