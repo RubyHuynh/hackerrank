@@ -1,3 +1,122 @@
+//medium
+class Solution {
+public:
+    // O(n^2)
+    vector<int> productExceptSelf1(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> ret;
+        
+        for (int i = 0; i <n; i++) {
+            int tmp = 1;
+            for (int j = 0; j <n; j++) {
+                if (i !=j) {
+                    tmp*= nums[j];
+                }
+            }
+            ret.push_back(tmp);
+        }
+        return ret;
+    }
+
+    //O(n) O(1)
+    vector<int> productExceptSelf2(vector<int>& nums) {
+        int total =1;
+        int zeroCnt = 0;
+        for (int num : nums) {
+            if (num != 0) {
+                total *= num;
+            }
+            else {
+                zeroCnt++;
+            }
+        }
+        if (zeroCnt > 1) {
+            return vector<int>(nums.size(), 0);
+        }
+        vector<int> ret;
+        for (auto num : nums) {
+            if (zeroCnt == 1) {
+                if (num == 0) ret.push_back(total);
+                else ret.push_back(0);
+            }
+            else {
+                ret.push_back(total/num);
+            }
+        }
+        return ret;
+    }
+
+    //O(n) O(n)
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> ret(n);
+        vector<int> ltr(n);
+        vector<int> rtl(n);
+
+        ltr[0] = 1;
+        rtl[n-1] = 1;
+        for (int i = 1; i < n; i++) {
+            ltr[i] = nums[i-1] * ltr[i-1];
+        }
+        for (int i = n-2; i >=0; i--) {
+            rtl[i] = nums[i+1] * rtl[i+1];
+        }
+        for (int i = 0; i < n; i++) {
+            ret[i] = ltr[i] * rtl[i];
+        }
+        return ret;
+    }
+
+    // O(n)
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> ret(n, 1);
+
+        for (int i = 1; i < n; i++) { 
+            ret[i] = ret[i-1] * nums[i-1];
+        }
+        int r = 1;
+        for (int i = n-1; i >= 0; i--) {
+            ret[i] *= r;
+            r *= nums[i];
+        }
+    }
+};
+
+
+//medium
+class Solution {
+public:
+
+    // O(n)
+    string encode(vector<string>& strs) {
+        string ret;
+        for (auto s : strs) {
+            ret+= to_string(s.size()) + "#" + s;
+        }
+        return ret;
+    }
+
+    // O(n)
+    vector<string> decode(string s) {
+        vector<string> ret;
+        int i = 0;
+        while (i < s.size()) {
+            int j = i;
+            while (s[j] != '#') {
+                j++;
+            }
+            int sz = stoi(s.substr(i,j-i));
+            i = j+1;
+            j = i + sz;
+            ret.push_back(s.substr(i, sz));
+            i = j;
+        }
+        return ret;
+    }
+};
+
+
 //medium 
 class Solution {
 public:
