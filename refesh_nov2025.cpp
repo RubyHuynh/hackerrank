@@ -1,3 +1,136 @@
+
+//medium
+class Solution {
+public:
+    // bruceforce O(n^2) O(n)
+    bool isValidSudoku1(vector<vector<char>>& board) {
+        for (int row = 0; row <9; row++) {
+            unordered_set<char> seen;
+            for (int i = 0; i < 9; i++) {
+                auto item = board[row][i];
+                if (item == '.') continue;
+                if (seen.count(item)) return false;
+                seen.insert(item);
+            }
+        }
+        for (int col = 0; col < 9; col++) {
+            unordered_set<char> seen;
+            for (int i = 0; i < 9; i++) {
+                auto item = board[i][col];
+                if (item == '.') continue;
+                if (seen.count(item)) return false;
+                seen.insert(item);
+            }
+        }
+
+        for (int square = 0; square <9; square++) {
+            unordered_set<char> seen;
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j <3; j++) {
+                    int row = (square/3)*3 + i;
+                    int col = (square%3)*3 + j;
+                    auto item = board[row][col];
+                    if (item == '.') continue;
+                    if (seen.count(item)) return false;
+                    seen.insert(item);
+                }
+            }
+        }
+        return true;
+    }
+
+
+    // O(n^2) O(n^2)
+     bool isValidSudoku2(vector<vector<char>>& board) {
+        unordered_map<int, unordered_set<char>> rows, cols;
+        map<pair<int,int>, unordered_set<char>> squares;
+
+        for (int r = 0; r < 9;  r++) {
+            for (int c = 0; c < 9; c++) {
+                char item = board[r][c];
+                if (item == '.') continue;
+
+                pair<int, int> key = {r/3, c/3};
+                if (rows[r].count(item) ||
+                    cols[c].count(item) ||
+                    squares[key].count(item)) {
+                        return false;
+                }
+                rows[r].insert(item);
+                cols[c].insert(item);
+                squares[key].insert(item);
+            }
+        }
+        return true;
+     }
+
+
+        //O(n^2) O(n)
+     bool isValidSudoku3(vector<vector<char>>& board) {
+        for (int row = 0; row <9; row++) {
+            unordered_set<char> seen;
+            for (int i = 0; i < 9; i++) {
+                auto item = board[row][i];
+                if (item == '.') continue;
+                if (seen.count(item)) return false;
+                seen.insert(item);
+            }
+        }
+        for (int col = 0; col < 9; col++) {
+            unordered_set<char> seen;
+            for (int i = 0; i < 9; i++) {
+                auto item = board[i][col];
+                if (item == '.') continue;
+                if (seen.count(item)) return false;
+                seen.insert(item);
+            }
+        }
+        vector<vector<int>> starts = {{0,0}, {0,3}, {0,6},
+                                      {3,0}, {3,3}, {3,6},
+                                      {6,0}, {6,3}, {6,6}
+                                    };
+        for (auto& start : starts) {
+            unordered_set<char> seen;
+            for (int r = start[0]; r < start[0] + 3; r++) {
+                for (int c = start[1]; c < start[1] + 3; c++) {
+                    int item = board[r][c];
+                    if (item == '.') continue;
+                    if (seen.count(item)) return false;
+                    seen.insert(item);
+                }
+            }
+        }
+        return true;
+     }
+
+
+        bool isValidSudoku(vector<vector<char>>& board) {
+            int rows[9] = {0};
+            int cols[9] = {0};
+            int squares[9] = {0};
+
+            for (int r = 0; r < 9; ++r) {
+                for (int c = 0; c < 9; ++c) {
+                    if (board[r][c] == '.') continue;
+
+                    int val = board[r][c] - '1';
+
+                    if ((rows[r] & (1 << val)) || (cols[c] & (1 << val)) ||
+                        (squares[(r / 3) * 3 + (c / 3)] & (1 << val))) {
+                        return false;
+                    }
+
+                    rows[r] |= (1 << val);
+                    cols[c] |= (1 << val);
+                    squares[(r / 3) * 3 + (c / 3)] |= (1 << val);
+                }
+            }
+            return true;
+        }
+};
+
+
+
 //medium
 class Solution {
 public:
