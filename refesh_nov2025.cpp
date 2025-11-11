@@ -1,3 +1,78 @@
+// medium
+class Solution {
+public:
+    // O(n^2) O(n)
+    int longestConsecutive1(vector<int>& nums) {
+        int ret = 0;
+        unordered_set<int> m(nums.begin(), nums.end());
+
+        for (int num : nums) {
+            int streak = 0, cur = num;
+            while (m.find(cur) != m.end()) {
+                streak++;
+                cur++;
+            }
+            ret = max(ret, streak);
+        }
+        return ret;
+    }
+
+    // O(nlogn) O(1)
+    int longestConsecutive2(vector<int>& nums) {
+        if (nums.empty()) return 0;
+        sort(nums.begin(), nums.end());
+        
+        int ret = 0, streak = 1;
+        for (int i = 1; i < nums.size(); i++) {
+            if (nums[i] == nums[i-1]) continue;
+
+            if (nums[i] == nums[i-1] + 1) {
+                streak++;
+            }
+            else {
+                
+                streak = 1;
+            }
+            ret = max(ret, streak);
+        }
+        return ret;
+    }
+
+    // O(n)
+    int longestConsecutive3(vector<int>& nums) {
+        unordered_set<int> m(nums.begin(), nums.end());
+        int ret = 0;
+
+        for (int num : nums) {
+            if (m.find(num-1) == m.end()) {
+                int streak = 1;
+                while (m.find(num+streak) != m.end()) {
+                    streak++;
+                }
+                ret = max(ret, streak);
+            }
+        }
+        return ret;
+
+    }
+    // O(n)  O(n)
+    int longestConsecutive(vector<int>& nums) {
+        unordered_map<int, int> m;
+        int ret = 0;
+
+        for (int num : nums) {
+            if (!m[num]) {
+                m[num] = m[num-1] + m[num+1] + 1;
+                m[num - m[num-1]] = m[num];
+                m[num + m[num+1]] = m[num];
+                ret = max(ret, m[num]);
+            }
+        }
+        return ret;
+
+    }
+
+};
 
 //medium
 class Solution {
