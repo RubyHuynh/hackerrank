@@ -1,3 +1,35 @@
+// easy
+class Solution {
+public:
+    bool isValidChar(char c) {
+        return ((c >= 'A' && c <= 'Z') 
+            || (c >= 'a' && c <= 'z')
+            || (c >= '0' && c <= '9'));
+    }
+
+    // O(n) O(1)
+    bool isPalindrome(string s) {
+        if (!s.size()) return true;
+
+        int r = s.size() -1;
+        int l = 0;
+
+        while (l < r) {
+            while (l <r && !isValidChar(s[l])) {
+                l++;
+            }
+            while (l < r && !isValidChar(s[r])) {
+                r--;
+            }
+            if (tolower(s[l]) != tolower(s[r])) return false;
+            l++;
+            r--;
+        }
+        return true;
+    }
+};
+
+
 // medium
 class Solution {
 public:
