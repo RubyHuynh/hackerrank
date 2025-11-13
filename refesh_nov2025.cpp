@@ -1,3 +1,41 @@
+
+// medium
+class Solution {
+public:
+    // O(n^2)
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> ret;
+        int prev;
+        for (int i = 0; i < nums.size(); i++) {
+            int l = i+1;
+            int r = nums.size()-1;
+            int cur = nums[i];
+            if (cur > 0) break;
+            if (i > 0 && cur == nums[i-1]) continue;
+
+            while (l < r) {
+                int tmp = cur + nums[l] + nums[r];
+                if (tmp == 0) {
+                    ret.push_back({cur, nums[l], nums[r]});
+                    l++;
+                    r--;
+                    while (nums[l] == nums[l-1]) l++;
+                    while (nums[r] == nums[r+1]) r--;
+                }
+                else if (tmp < 0) {
+                    l++;
+                }
+                else if (tmp > 0) {
+                    r--;
+                }
+            }
+        }
+        return ret;
+    }
+};
+
+
 class Solution {
 public:
     // O(n) O(n)
