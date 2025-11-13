@@ -1,6 +1,17 @@
 class Solution {
 public:
-
+    // O(n) O(n)
+    vector<int> twoSum1(vector<int>& numbers, int target) {
+        unordered_map<int, int> m;
+        for (int i = 0; i < numbers.size(); i++) {
+            auto item = m.find(target - numbers[i]);
+            if (item != m.end()) {
+                return {item->second + 1, i + 1};
+            }
+            m[numbers[i]] = i;
+        }
+        return {};
+    }
     // O(n) O(1)
     vector<int> twoSum(vector<int>& numbers, int target) {
         int l = 0;
@@ -19,7 +30,9 @@ public:
             }
         }
         return {};
-    }
+    }  
+
+    
 };
 
 
