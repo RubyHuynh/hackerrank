@@ -1,3 +1,26 @@
+// medium
+class Solution {
+public:
+    // O(n) O(1)
+    int maxArea(vector<int>& heights) {
+        int ret = 0;
+        int l = 0;
+        int r = heights.size() - 1;
+
+        while (l < r) {
+            int tmp = min(heights[l], heights[r]) * (r-l);
+            ret = max(ret, tmp);
+            if (heights[l] < heights[r]) {
+                l++;
+            }
+            else {
+                r--;
+            }
+        }
+        return ret;
+    }
+};
+
 
 // medium
 class Solution {
