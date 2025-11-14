@@ -1,3 +1,57 @@
+//hard
+class Solution {
+public:
+    // O(n) O(n)
+    int trap1(vector<int>& height) {
+        vector<int> maxL(height.size(), 0);
+        vector<int> maxR(height.size(), 0);
+        int tmp = 0;
+        int ret = 0;
+
+        for (int i = 1; i < height.size(); i++) {
+            tmp = max(tmp, height[i-1]);
+            maxL[i] = tmp;
+        }
+        tmp = 0;
+        for (int i = height.size() -2; i >= 0; i--) {
+            tmp = max(tmp, height[i+1]);
+            maxR[i] = tmp;
+        }
+
+        for (int i = 0; i < height.size(); i++) {
+            int potential = min(maxL[i], maxR[i]);
+            tmp = potential - height[i];
+            if (tmp > 0) {
+                ret += tmp;
+            }
+        }
+        return ret;
+    }
+
+    // O(n) O(1)
+    int trap(vector<int>& height) {
+        if (height.size() == 0) return 0;
+
+        int l = 0, r = height.size() - 1;
+        int maxL = height[l], maxR = height[r];
+        int ret = 0;
+        while (l < r) {
+            if (maxL < maxR) {
+                l++;
+                maxL = max(maxL, height[l]);
+                ret += maxL - height[l];
+            }
+            else {
+                r--;
+                maxR = max(maxR, height[r]);
+                ret += maxR - height[r];
+            }
+        }
+        return ret;
+    }
+};
+
+
 // medium
 class Solution {
 public:
