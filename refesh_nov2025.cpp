@@ -1,3 +1,41 @@
+// medium
+class Solution {
+public:
+    // O(n) O(m)
+    int lengthOfLongestSubstring1(string s) {
+        unordered_set<char> m;
+        int l = 0;
+        int ret = 0;
+
+        for (int r = 0; r < s.size(); r++) {
+            while (m.find(s[r]) != m.end()) {
+                m.erase(s[l]);
+                l++;
+            }
+            m.insert(s[r]);
+            ret = max(ret, r - l +1);
+        }
+        return ret;
+    }
+    
+    // O(n) O(m)
+    int lengthOfLongestSubstring(string s) {
+        unordered_map<char, int> m;
+        int l = 0;
+        int ret = 0;
+
+        for (int r = 0; r < s.size(); r++) {
+            if (m.find(s[r]) != m.end()) {
+                l = max(m[s[r]] + 1, l);
+            }
+            m[s[r]] = r;
+            ret = max(ret, r - l +1);
+        }
+        return ret;
+    }
+};
+
+
 //easy 
 class Solution {
 public:
