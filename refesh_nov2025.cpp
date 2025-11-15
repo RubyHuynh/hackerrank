@@ -1,3 +1,35 @@
+//easy 
+class Solution {
+public:
+    // O(n) O(1)
+    int maxProfit1(vector<int>& prices) {
+        int l =0, r = 1;
+        int ret = 0;
+        while (r < prices.size()) {
+            if (prices[l] < prices[r]) {
+                ret = max(ret, prices[r]-prices[l]);
+            }
+            else {
+                l=r;
+            }
+            r++;
+        }
+        return ret;
+    }
+
+    // O(n) O(1)
+    int maxProfit(vector<int>& prices) {
+        int ret = 0;
+        int min = prices[0];
+        for (auto price : prices) {
+            ret = max(ret, price - min);
+            min = min(min, price);
+        }
+        return ret;
+    }
+};
+
+
 //hard
 class Solution {
 public:
