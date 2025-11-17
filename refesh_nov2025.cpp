@@ -1,3 +1,36 @@
+class Solution {
+public:
+    // HARD. 76 O(n+m) O(m)
+    string minWindow(string s, string t) {
+        int n = s.size();
+        int m = t.size();
+        if (n < m) return "";
+
+        vector<int> counts(128, 0);
+        for (int i = 0; i < m; i++) {
+            counts[t[i]]++;
+        }
+
+        int l = 0, r = 0, cnt = m, w = INT_MAX, start = 0;
+        while (r < n) {
+            int idx = s[r++];
+            if (counts[idx]-- > 0) {
+                cnt--;
+            }
+            while (cnt == 0) {
+                if (r - l < w) {
+                    start = l;
+                    w = r - l;
+                }
+                if (counts[s[l++]]++ == 0) {
+                    cnt++;
+                }
+            }
+        }
+        return (w == INT_MAX) ? "" : s.substr(start, w);
+    }
+};
+
 
 //medium
 // O(n) O(1)
