@@ -1,3 +1,93 @@
+
+//medium
+// O(n) O(1)
+class Solution {
+public:
+    bool checkInclusion(string s1, string s2) {
+        int n = s1.size();
+        int l = 0, r = 0;
+        vector<int> m(26, 0);
+        
+        if (n > s2.size()) return false;
+
+        for (int i = 0; i < s1.size(); i++) {
+            m[s1[i] - 'a']++;
+        }
+
+        vector<int> tmp(26, 0);
+        while (r < s2.size()) {
+            tmp[s2[r] - 'a']++;
+            if (r - l == n -1) {
+                if (tmp == m) return true;
+            }
+            if (r - l < n -1) {
+                r++;
+            }
+            else {
+                tmp[s2[l] - 'a']--;
+                l++;
+                r++;
+            }
+        }
+        return false;
+    }
+};
+
+
+//medium
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode* ret = NULL;
+        ListNode* tmp = NULL, *prev = NULL;
+        int sum = 0;
+        while (l1 || l2 || sum) {
+            if (l1) {
+                sum += l1->val; 
+                l1 = l1->next;
+            }
+            if (l2) {
+                sum += l2->val;
+                l2 = l2->next;
+            }
+            tmp = new ListNode(sum % 10);
+            sum /= 10;
+            
+            if (!prev)  {
+                ret = tmp;
+            }
+            else {
+                prev->next = tmp;
+            }        
+            prev = tmp;
+        }
+        return ret;
+    }
+};
+
+//medium 424
+class Solution {
+public:
+    // O(n) O(26)
+    int characterReplacement(string s, int k) {
+        unordered_map<char, int> m;
+        int ret = 0;
+
+        int l =0, tmp = 0, w = 0;
+        for (int r = 0; r < s.size(); r++) {
+            m[s[r]]++;
+            tmp = max(tmp, m[s[r]]);
+            while (r - l + 1 - tmp > k) {
+                m[s[l]]--;
+                l++;
+            }
+            ret = max(ret, r - l + 1);
+        }
+        return ret;
+    }
+};
+
+
 // medium
 class Solution {
 public:
