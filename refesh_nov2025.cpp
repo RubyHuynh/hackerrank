@@ -1,6 +1,49 @@
+// hard 239.
 class Solution {
 public:
-    // HARD. 76 O(n+m) O(m)
+    // O(nlogn) O(n)
+    vector<int> maxSlidingWindow1(vector<int>& nums, int k) {
+        priority_queue<pair<int, int>> heap;
+        vector<int> ret;
+
+        for (int i = 0; i < nums.size(); i++) {
+            heap.push({nums[i], i});
+            if (i + 1 >= k) {
+                while (heap.top().second <= i - k) {
+                    heap.pop();
+                }
+                ret.push_back(heap.top().first);
+            }
+        }
+        return ret;
+    }
+
+    //O(n) O(n)
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        int n = nums.size();
+        vector<int> ret(n-k+1);
+        vector<int> dpL(n);
+        vector<int> dpR(n);
+
+        dpL[0] = nums[0];
+        dpR[n-1] = nums[n-1];
+        for (int i = 1; i < n; i++) {
+            dpL[i] = (i % k) ? max(dpL[i-1], nums[i]) : nums[i];
+            dpR[n-1-i] = (n-1-i) % k ? max(dpR[n-i], nums[n-1-i]) : nums[n-1-i];
+        }
+        for (int i = 0; i < n - k + 1; i++) {
+            ret[i] = max(dpL[k+i-1], dpR[i]);
+        }
+        return ret;
+    }
+
+};
+
+
+// HARD. 76
+class Solution {
+public:
+    //O(n+m) O(m)
     string minWindow(string s, string t) {
         int n = s.size();
         int m = t.size();
