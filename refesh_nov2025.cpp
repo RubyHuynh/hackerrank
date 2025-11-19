@@ -1,3 +1,75 @@
+// medium, 150 
+class Solution {
+public:
+    // O(n) O(n)
+    int evalRPN(vector<string>& tokens) {
+        int a, b;
+        stack<int> st;
+        #define DOIT(_op) \
+            a = st.top(); st.pop(); \
+            b = st.top(); st.pop(); \
+            st.push(b _op a);
+            
+        for (const string& str : tokens) {
+            if (str == "+") {
+                DOIT(+)
+            }
+            else if (str == "-") {
+                DOIT(-)
+            }
+            else if (str == "*") {
+                DOIT(*)
+            }
+            else if (str == "/") {
+                DOIT(/)
+            }
+            else {
+                st.push(stoi(str));
+            }
+        }
+        return st.top();
+    }
+};
+
+
+// medium 155
+class MinStack {
+private:
+    long min;
+    std::stack<long> stack;
+
+public:
+    MinStack() {}
+
+    void push(int val) {
+        if (stack.empty()) {
+            stack.push(0);
+            min = val;
+        } else {
+            stack.push(val - min);
+            if (val < min) min = val;
+        }
+    }
+
+    void pop() {
+        if (stack.empty()) return;
+
+        long pop = stack.top();
+        stack.pop();
+
+        if (pop < 0) min = min - pop;
+    }
+
+    int top() {
+        long top = stack.top();
+        return (top > 0) ? (top + min) : (int)min;
+    }
+
+    int getMin() {
+        return (int)min;
+    }
+};
+
 //easy 20.
 class Solution {
 public:
