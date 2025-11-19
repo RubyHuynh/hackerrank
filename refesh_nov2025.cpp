@@ -1,3 +1,32 @@
+//easy 20.
+class Solution {
+public:
+    // O(n) O(n)
+    bool isValid(string s) {
+        stack<char> stack;
+        unordered_map<char, char> m = {
+            {')', '('},
+            {']', '['},
+            {'}', '{'},
+        };
+        for (int i = 0; i < s.size(); i++) {
+            if (m.count(s[i])) {
+                if (!stack.empty() && stack.top() == m[s[i]]) {
+                    stack.pop();
+                }
+                else {
+                    return false;
+                }
+            }
+            else {
+                stack.push(s[i]);
+            }
+        }
+        return stack.empty();
+    }
+};
+
+
 // hard 239.
 class Solution {
 public:
