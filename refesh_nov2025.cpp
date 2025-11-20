@@ -1,3 +1,45 @@
+//739.medium
+class Solution {
+public:
+    // O(n) O(n)
+    vector<int> dailyTemperatures2(vector<int>& temperatures) {
+        vector<int> ret(temperatures.size(), 0);
+        stack<pair<int, int>> st;
+
+        for (int i = 0; i < temperatures.size(); i++) {
+            int val = temperatures[i];
+            while (!st.empty() && val > st.top().first) {
+                auto pair = st.top(); st.pop();
+                ret[pair.second] = i - pair.second;
+            }
+            st.push({val, i});
+        }
+        return ret;
+    }
+
+    // O(n) O(1)
+    vector<int> dailyTemperatures(vector<int>& temperatures) {
+        int n = temperatures.size();
+        vector<int> res(n, 0);
+
+        for (int i = n - 2; i >= 0; i--) {
+            int j = i + 1;
+            while (j < n && temperatures[j] <= temperatures[i]) {
+                if (res[j] == 0) {
+                    j = n;
+                    break;
+                }
+                j += res[j];
+            }
+
+            if (j < n) {
+                res[i] = j - i;
+            }
+        }
+        return res;
+    }
+};
+
 // medium, 150 
 class Solution {
 public:
