@@ -1,3 +1,50 @@
+
+// 74.medium
+class Solution {
+public:
+    // O(log(m*n))
+    bool searchMatrix1(vector<vector<int>>& matrix, int target) {
+        int m = matrix.size();
+        int n = matrix[0].size();
+        int l = 0, r = m * n - 1;
+
+        while (l <= r) {
+            int m = l + (r-l)/2;
+            int row = m / n, col = m % n;
+            if (matrix[row][col] == target) {
+                return true;
+            }
+            else if (matrix[row][col] > target) { 
+                r = m - 1;
+            }
+            else {
+                l = m + 1;
+            }
+        }
+        return false;
+    }
+    // O(m+n)
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int m = matrix.size();
+        int n = matrix[0].size();
+        int row = 0;
+        int col = n - 1;
+
+        while (row < m && col >= 0) {
+            if (matrix[row][col] == target) {
+                return true;
+            }
+            else if (matrix[row][col] > target) { 
+                col--;
+            }
+            else {
+                row++;
+            }
+        }
+        return false;
+    }
+};
+
 // 704 easy
 class Solution {
 public:
