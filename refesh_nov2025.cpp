@@ -1,3 +1,32 @@
+//medium 875
+class Solution {
+public:
+    int minEatingSpeed(vector<int>& piles, int h) {
+        int n = piles.size();
+        int l = 1, r = -INT_MAX;
+        for (int p : piles) {
+            r = r > p ? r : p;
+        }
+
+        int ret = r;
+        while (l <= r) {
+            int k = (r + l) / 2;
+            long long tmp = 0;
+            for (int p : piles) {
+                tmp += ceil(static_cast<double>(p)/k);
+            }
+            if (tmp <= h) {
+                ret = k;
+                r = k - 1;
+            }
+            else {
+                l = k + 1;
+            }
+        }
+        return ret;
+    }
+};
+
 
 // 74.medium
 class Solution {
