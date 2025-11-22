@@ -1,6 +1,66 @@
+// easy 70
+class Solution {
+    // O(2^n)
+    int naive(int n, int s) {
+        if (s >= n) return s == n;
+        return naive(n, s + 1) + naive(n, s + 2);
+    }
+
+    // O(n) O(n)
+    vector<int> cache;
+    int dpTopdown(int n, int s) {
+        if (s >= n) return s == n;
+        if (cache[s] != -1) return cache[s];
+        cache[s] = dpTopdown(n, s + 1) + dpTopdown(n, s + 2);
+        return cache[s];
+    }
+
+    // O(n) O(n)
+    int dpBottomUp(int n) {
+        if (n <= 2) {
+            return n;
+        }
+
+        vector<int> dp(n+1);
+        dp[1] = 1;
+        dp[2] = 2;
+        for (int i = 3; i <= n; i++) {
+            dp[i] = dp[i-1] + dp[i-2];
+        }
+        return dp[n];
+    }
+
+    // O(n) O(1)
+    int dpBottomUp2(int n) {
+        int one = 1, two = 1;
+
+        for (int i = 0; i < n - 1; i++) {
+            int temp = one;
+            one = one + two;
+            two = temp;
+        }
+        return one;
+    }
+
+public:
+    int climbStairs(int n) {
+        //return naive(n, 0);
+
+        //cache.resize(n, -1);
+        //return dpTopdown(n, 0);
+
+        //return dpBottomUp(n);
+
+        return dpBottomUp2(n);
+    }
+};
+
+
+
 //medium 875
 class Solution {
 public:
+    // O(nlogn)
     int minEatingSpeed(vector<int>& piles, int h) {
         int n = piles.size();
         int l = 1, r = -INT_MAX;
